@@ -1,0 +1,18 @@
+# ── OS / editor cruft ──
+.DS_Store
+*.swp
+Thumbs.db
+
+# ── Local machine config (Claude Code per-user permission overrides) ──
+.claude/settings.local.json
+
+# ── Source / reference material (not part of the site) ──
+uploads/
+screenshots/
+.thumbnail
+
+# ── Generated build artifact (self-contained bundle of Conrad Express.html) ──
+Conrad Express - Standalone.html
+
+# ── Dependencies (if a build step is added later) ──
+node_modules/
