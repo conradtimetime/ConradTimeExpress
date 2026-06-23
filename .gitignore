@@ -3,8 +3,8 @@
 *.swp
 Thumbs.db
 
-# ── Local machine config (Claude Code per-user permission overrides) ──
-.claude/settings.local.json
+# ── Local machine config (Claude Code per-user settings) ──
+.claude/
 
 # ── Source / reference material (not part of the site) ──
 uploads/

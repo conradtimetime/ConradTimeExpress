@@ -174,12 +174,116 @@
   .bloom-tl { background: radial-gradient(ellipse 60% 50% at 0% 0%, rgba(184,151,106,0.12) 0%, transparent 65%); }
   .bloom-br { background: radial-gradient(ellipse 50% 60% at 100% 100%, rgba(184,151,106,0.1) 0%, transparent 65%); }
   .bloom-center { background: radial-gradient(ellipse 40% 40% at 50% 50%, rgba(184,151,106,0.06) 0%, transparent 70%); }
+
+  /* ═══════════════════ RESPONSIVE LAYOUT ═══════════════════
+     Breakpoints — Mobile ≤768 · Tablet ≤1024 · Laptop ≤1440 · Desktop >1440
+     Inline component styles are overridden with !important. */
+
+  /* ── Fluid grids (classes added to inline-styled grids) ──
+     g-2/g-3/g-4 = tight equal-card grids (column count only).
+     g-split    = spacious two-column content layouts (also shrink the gap). */
+  /* Let grid items shrink below their content size (prevents long unbreakable
+     strings — e.g. Thai text — from forcing horizontal overflow). */
+  .g-2 > *, .g-3 > *, .g-4 > *, .g-split > * { min-width: 0; }
+  @media (max-width: 1024px) {
+    .g-3 { grid-template-columns: 1fr !important; }
+    .g-4 { grid-template-columns: repeat(2, 1fr) !important; }
+    .g-split { gap: 48px !important; }
+  }
+  @media (max-width: 767px) {
+    .g-2, .g-split { grid-template-columns: 1fr !important; }
+    .g-split { gap: 40px !important; }
+  }
+  @media (max-width: 560px) {
+    .g-4 { grid-template-columns: 1fr !important; }
+  }
+
+  /* ── Phone: card rows become a one-card swipe carousel (← / →) ── */
+  @media (max-width: 767px) {
+    .swipe {
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      grid-template-columns: none !important;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 12px !important;
+      padding-bottom: 14px;
+      scrollbar-width: none;
+    }
+    .swipe::-webkit-scrollbar { display: none; }
+    .swipe > * {
+      flex: 0 0 100%;
+      scroll-snap-align: center;
+    }
+  }
+
+  /* Swipe navigation (arrows + dots) — only visible while the row is a carousel */
+  .swipe-wrap { position: relative; }
+  .swipe-nav, .swipe-dots { display: none; }
+  @media (max-width: 767px) {
+    .swipe-nav {
+      display: inline-flex; align-items: center; justify-content: center;
+      position: absolute; top: 50%; transform: translateY(-50%);
+      z-index: 6; background: none; border: none; padding: 6px 8px;
+      color: var(--gold); cursor: pointer;
+      font-family: 'Cormorant Garamond', serif; font-size: 42px; line-height: 1;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .swipe-nav:active { transform: translateY(-50%) scale(0.86); }
+    .swipe-prev { left: 0; }
+    .swipe-next { right: 0; }
+    .swipe-dots {
+      display: flex; justify-content: center; align-items: center;
+      gap: 8px; margin-top: 20px;
+    }
+    .swipe-dot {
+      width: 7px; height: 7px; border-radius: 50%; padding: 0; cursor: pointer;
+      background: rgba(184,151,106,0.35); border: none; transition: all 0.3s;
+    }
+    .swipe-dot.on { background: var(--gold); width: 22px; border-radius: 4px; }
+  }
+
+  /* ── Section / footer spacing per device class (hero keeps 100vh) ── */
+  @media (max-width: 1440px) {
+    section:not(#hero) { padding: 104px 64px !important; }
+    footer { padding: 52px 64px !important; }
+  }
+  @media (max-width: 1024px) {
+    section:not(#hero) { padding: 88px 40px !important; }
+    footer { padding: 48px 40px !important; }
+  }
+  @media (max-width: 767px) {
+    section:not(#hero) { padding: 64px 22px !important; }
+    footer { padding: 40px 22px !important; }
+    .footer-inner { flex-direction: column !important; justify-content: center !important; text-align: center !important; }
+  }
+
+  /* ── Navigation: collapse to hamburger on small screens ── */
+  .nav-burger { display: none; }
+  @media (max-width: 900px) {
+    .ce-nav { padding: 0 22px !important; }
+    .nav-links { display: none !important; }
+    .nav-burger { display: inline-flex !important; }
+  }
+
+  /* ── Hero ── */
+  @media (max-width: 1024px) {
+    .hero-content { width: 70% !important; padding: 112px 48px 72px 56px !important; }
+  }
+  @media (max-width: 767px) {
+    .hero-content { width: 100% !important; padding: 104px 24px 56px 28px !important; }
+    #hero h1 { font-size: clamp(40px, 12vw, 58px) !important; }
+    .hero-aside { display: none !important; }
+  }
 </style>
 </head>
 <body>
 
 <div id="root"></div>
 
+<script src="src/data/site-data.js"></script>
 <script type="text/babel" src="tweaks-panel.jsx"></script>
 
 <script type="text/babel">
@@ -202,241 +306,7 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "language": "en"
 }/*EDITMODE-END*/;
 
-/* ── COPY ── */
-const COPY = {
-  en: {
-    nav: { services: 'Services', about: 'About', process: 'Process', packages: 'Packages', contact: 'Contact', cta: 'Request Pickup' },
-    hero: {
-      eyebrow: 'Conrad Time · Est. 2016',
-      title: 'Conrad\nExpress',
-      sub: 'Dedicated logistics for luxury timepieces\nand high-value collectibles',
-      cta1: 'Schedule a Pickup',
-      cta2: 'Learn More',
-    },
-    trust: ['Fully Insured', 'White-Glove Handling', 'Real-Time Tracking', 'Discreet Packaging'],
-    pricing: { label: 'Starting from', price: '฿1,500', unit: '/ shipment', note: 'All plans include full insurance & real-time tracking' },
-    packages: {
-      label: 'Service Packages',
-      title: 'Choose Your\nLevel of Care',
-      sub: 'Every tier includes white-glove handling, full insurance, and dedicated support.',
-      items: [
-        {
-          name: 'Silver', badge: '',
-          price: '฿1,500', unit: '/shipment',
-          desc: 'Ideal for single watches and small jewellery pieces within Bangkok.',
-          features: ['Same-day pickup', 'Full insurance up to ฿500,000', 'Real-time tracking', 'Discreet packaging', 'Digital proof of delivery'],
-          cta: 'Get Started',
-        },
-        {
-          name: 'Gold', badge: 'MOST POPULAR',
-          price: '฿4,500', unit: '/shipment',
-          desc: 'For multiple pieces or high-value shipments across Thailand.',
-          features: ['Priority scheduling', 'Full insurance up to ฿5,000,000', 'Dedicated advisor', 'Condition photography', 'Custom crating', 'White-glove unpacking'],
-          cta: 'Get Started',
-        },
-        {
-          name: 'Platinum', badge: '',
-          price: 'Custom', unit: '',
-          desc: 'Vault-to-vault, international, and ultra-high-value collections.',
-          features: ['24/7 priority line', 'Unlimited insurance value', 'Armed escort available', 'International customs support', 'Freeport & bonded transit', 'Dedicated relationship manager'],
-          cta: 'Contact Us',
-        },
-      ]
-    },
-    services: {
-      label: 'Our Services',
-      title: 'Every Shipment\nDeserves Reverence',
-      items: [
-        { title: 'Watch & Jewellery', desc: 'Purpose-built cases with precision cushioning for horological and gem-set pieces. Each item is individually documented with condition photography before dispatch.' },
-        { title: 'Art & Collectibles', desc: 'Climate-controlled transport with custom crating for sculptures, paintings, rare books, and fine art. Museum-grade care from door to door.' },
-        { title: 'International Express', desc: 'Priority courier with diplomatic discretion across 80+ countries. Full customs documentation, Carnet ATA assistance, and bonded transit where required.' },
-        { title: 'Vault-to-Vault', desc: 'Secure transfer between private vaults, banks, and freeports. Armed escort available. Zero-gap chain of custody with tamper-evident seals.' },
-      ]
-    },
-    why: {
-      label: 'Why Conrad Express',
-      title: 'Built on a Legacy\nof Precision',
-      items: [
-        { num: '08', label: 'Years of luxury logistics expertise' },
-        { num: '99.8%', label: 'On-time delivery rate' },
-        { num: '฿2B+', label: 'In high-value goods transported' },
-        { num: '80+', label: 'Countries served worldwide' },
-      ]
-    },
-    process: {
-      label: 'How It Works',
-      title: 'A Seamless\nEnd-to-End Experience',
-      steps: [
-        { n: '01', title: 'Consultation', desc: 'A dedicated advisor assesses your item, destination, and security requirements.' },
-        { n: '02', title: 'Collection', desc: 'Our white-glove team arrives at your location with custom packaging materials.' },
-        { n: '03', title: 'Transit', desc: 'Real-time GPS tracking with proactive status updates throughout the journey.' },
-        { n: '04', title: 'Delivery', desc: 'Recipient identity verified, item inspected, and handoff confirmed with digital proof.' },
-      ]
-    },
-    testimonials: {
-      label: 'Client Voices',
-      title: 'Trust Built\nOver Time',
-      items: [
-        { quote: 'Every step was handled with precision and the utmost care. Conrad Express stands entirely apart from any logistics service I have used before.', author: 'Mr. James H.', role: 'Business Executive, London' },
-        { quote: 'My jewellery was documented, wrapped, and delivered without a single concern. The condition photography before dispatch was a brilliant, reassuring touch.', author: 'Khun Arisa V.', role: 'Private Collector, Bangkok' },
-        { quote: 'Seamless vault-to-vault transfer of a significant watch portfolio. The documentation alone was worth choosing Conrad Express.', author: 'Khun Pattarapong N.', role: 'Investment Director, Singapore' },
-        { quote: 'The only service I trust for international transfers of my gallery inventory. White-glove is not a marketing term here — it is a standard.', author: 'Dr. Supaporn L.', role: 'Art Dealer, Chiang Mai' },
-        { quote: 'Conrad Express handled my Patek Philippe collection with the same reverence I have for each piece. Flawless from first call to delivery.', author: 'Khun Wanchai T.', role: 'Private Collector, Bangkok' },
-      ]
-    },
-    contact: {
-      label: 'Get In Touch',
-      title: 'Begin Your\nShipment',
-      sub: 'Our advisors are available Monday–Saturday, 9:00–18:00 ICT.\nFor urgent requests, our priority line operates 24/7.',
-      fields: { name: 'Full Name', phone: 'Phone Number', type: 'Shipment Type', message: 'Tell us about your item', cta: 'Submit Request' },
-      types: ['Watches & Jewellery', 'Art & Collectibles', 'Vault Transfer', 'International Express', 'Other'],
-    },
-    footer: {
-      tagline: 'Precision. Discretion. Delivery.',
-      links: ['Privacy Policy', 'Terms of Service', 'Insurance Policy'],
-      copy: '© 2026 Conrad Express. A Conrad Time Company.',
-      address: '546 Ratchada One Building, 10th Floor, Ratchadaphisek Rd, Chatuchak, Bangkok 10900',
-      line: '@ConradExpress',
-      tel: '+66 2 016 9950',
-    },
-    manifesto: {
-      label: 'Our Mission',
-      quote: 'Total solution for high-value logistics — encapsulating a comprehensive array of services meticulously designed to exceed the highest standards of precision, discretion, and trust.',
-      sub: 'From the moment you engage with us, expect nothing short of unparalleled sophistication and seamless execution at every touchpoint of your journey.',
-    },
-    pillars: {
-      label: 'Our Standards',
-      title: 'Four Pillars of\nExceptional Service',
-      items: [
-        { icon: '◈', title: 'Absolute Discretion', desc: 'Every shipment is handled with the utmost privacy. No markings, no disclosures, no exceptions.' },
-        { icon: '◇', title: 'Precision & Timing', desc: 'Punctuality is non-negotiable. We respect the value of your time as much as the value of your goods.' },
-        { icon: '◻', title: 'Expert Handling', desc: 'Trained specialists with deep knowledge of luxury goods, proper handling techniques, and security protocols.' },
-        { icon: '◯', title: 'Total Accountability', desc: 'Chain-of-custody documentation, condition photography, and digital proof of delivery on every shipment.' },
-      ]
-    },
-    misc: {
-      whyAbout: 'Since 2016, Conrad Time has set the benchmark for luxury watch authentication and sales. Conrad Express extends that same discipline into every shipment we handle.',
-      trustedBy: 'TRUSTED BY',
-      howItWorks: 'HOW IT WORKS',
-    }
-  },
-  th: {
-    nav: { services: 'บริการ', about: 'เกี่ยวกับเรา', process: 'ขั้นตอน', packages: 'แพ็กเกจ', contact: 'ติดต่อ', cta: 'นัดรับสินค้า' },
-    hero: {
-      eyebrow: 'Conrad Time · ก่อตั้ง 2016',
-      title: 'Conrad\nExpress',
-      sub: 'โลจิสติกส์เฉพาะทางสำหรับนาฬิกาหรูหราและของสะสมมูลค่าสูง',
-      cta1: 'นัดหมายรับสินค้า',
-      cta2: 'เรียนรู้เพิ่มเติม',
-    },
-    trust: ['ประกันเต็มมูลค่า', 'บริการ White-Glove', 'ติดตามแบบเรียลไทม์', 'บรรจุภัณฑ์ระดับพรีเมียม'],
-    pricing: { label: 'เริ่มต้นที่', price: '฿1,500', unit: '/ การจัดส่ง', note: 'ทุกแพ็กเกจรวมประกันเต็มมูลค่าและติดตามแบบเรียลไทม์' },
-    packages: {
-      label: 'แพ็กเกจบริการ',
-      title: 'เลือกระดับ\nการดูแลของคุณ',
-      sub: 'ทุกระดับรวมบริการ White-Glove การประกันภัยครบถ้วน และทีมสนับสนุนเฉพาะของคุณ',
-      items: [
-        {
-          name: 'Silver', badge: '',
-          price: '฿1,500', unit: '/การจัดส่ง',
-          desc: 'เหมาะสำหรับนาฬิกาชิ้นเดียวและเครื่องประดับชิ้นเล็กในกรุงเทพฯ',
-          features: ['รับสินค้าภายในวันเดียวกัน', 'ประกันสูงสุด ฿500,000', 'ติดตามแบบเรียลไทม์', 'บรรจุภัณฑ์เฉพาะทาง', 'หลักฐานการส่งมอบดิจิทัล'],
-          cta: 'เริ่มต้นใช้บริการ',
-        },
-        {
-          name: 'Gold', badge: 'ยอดนิยม',
-          price: '฿4,500', unit: '/การจัดส่ง',
-          desc: 'สำหรับหลายชิ้นหรือสินค้ามูลค่าสูงทั่วประเทศไทย',
-          features: ['กำหนดเวลาลำดับความสำคัญ', 'ประกันสูงสุด ฿5,000,000', 'ที่ปรึกษาเฉพาะ', 'ถ่ายภาพสภาพสินค้า', 'ลังไม้เฉพาะทาง', 'แกะกล่องแบบ White-Glove'],
-          cta: 'เริ่มต้นใช้บริการ',
-        },
-        {
-          name: 'Platinum', badge: '',
-          price: 'กำหนดเอง', unit: '',
-          desc: 'โอนย้ายระหว่างห้องนิรภัย ระหว่างประเทศ และคอลเลกชันมูลค่าสูงพิเศษ',
-          features: ['สายด่วน 24/7', 'ประกันไม่จำกัดมูลค่า', 'ผู้คุ้มกันติดอาวุธ', 'สนับสนุนศุลกากรระหว่างประเทศ', 'ฟรีพอร์ตและการขนส่งแบบ Bonded', 'ผู้จัดการความสัมพันธ์เฉพาะ'],
-          cta: 'ติดต่อเรา',
-        },
-      ]
-    },
-    services: {
-      label: 'บริการของเรา',
-      title: 'ทุกการจัดส่ง\nคู่ควรแก่ความพิถีพิถัน',
-      items: [
-        { title: 'นาฬิกาและเครื่องประดับ', desc: 'กล่องเฉพาะทางพร้อมระบบกันสั่นสะเทือนสำหรับชิ้นงานนาฬิกาและอัญมณี พร้อมบันทึกภาพสภาพทุกชิ้นก่อนจัดส่ง' },
-        { title: 'งานศิลปะและของสะสม', desc: 'ขนส่งในอุณหภูมิควบคุมพร้อมลังไม้ศิลปะสำหรับประติมากรรม ภาพวาด หนังสือหายาก และงานศิลปะชั้นสูง' },
-        { title: 'บริการด่วนระหว่างประเทศ', desc: 'ผู้ส่งสารลำดับความสำคัญด้วยความรอบคอบทางการทูตใน 80+ ประเทศ พร้อมเอกสารศุลกากรครบถ้วน' },
-        { title: 'โอนย้ายระหว่างห้องนิรภัย', desc: 'การโอนย้ายที่ปลอดภัยระหว่างห้องนิรภัยส่วนตัว ธนาคาร และฟรีพอร์ต พร้อมระบบตรวจสอบการเปิดซองบรรจุ' },
-      ]
-    },
-    why: {
-      label: 'ทำไมต้อง Conrad Express',
-      title: 'สร้างบนมรดก\nแห่งความแม่นยำ',
-      items: [
-        { num: '08', label: 'ปีแห่งความเชี่ยวชาญด้านโลจิสติกส์หรู' },
-        { num: '99.8%', label: 'อัตราส่งตรงเวลา' },
-        { num: '2B+', label: 'บาทในสินค้ามูลค่าสูงที่ขนส่งแล้ว' },
-        { num: '80+', label: 'ประเทศทั่วโลก' },
-      ]
-    },
-    process: {
-      label: 'ขั้นตอนการทำงาน',
-      title: 'ประสบการณ์\nที่ราบรื่นตลอดเส้นทาง',
-      steps: [
-        { n: '01', title: 'ปรึกษา', desc: 'ที่ปรึกษาเฉพาะของคุณประเมินสินค้า ปลายทาง และข้อกำหนดด้านความปลอดภัย' },
-        { n: '02', title: 'รับสินค้า', desc: 'ทีม White-Glove ของเราเดินทางถึงสถานที่ของคุณพร้อมวัสดุบรรจุภัณฑ์เฉพาะ' },
-        { n: '03', title: 'ขนส่ง', desc: 'ติดตาม GPS แบบเรียลไทม์พร้อมอัปเดตสถานะเชิงรุกตลอดการเดินทาง' },
-        { n: '04', title: 'ส่งมอบ', desc: 'ยืนยันตัวตนผู้รับ ตรวจสอบสินค้า และยืนยันการส่งมอบด้วยหลักฐานดิจิทัล' },
-      ]
-    },
-    testimonials: {
-      label: 'เสียงจากลูกค้า',
-      title: 'ความไว้วางใจ\nสร้างจากเวลา',
-      items: [
-        { quote: 'ทุกขั้นตอนดำเนินการด้วยความแม่นยำและความรอบคอบสูงสุด Conrad Express โดดเด่นจากทุกบริการโลจิสติกส์ที่ผมเคยใช้มา', author: 'นาย James H.', role: 'นักธุรกิจ, ลอนดอน' },
-        { quote: 'คอลเลกชันเครื่องประดับของฉันถูกบันทึก ห่อ และส่งถึงปลายทางอย่างสมบูรณ์แบบ การถ่ายภาพสภาพสินค้าก่อนจัดส่งเป็นสิ่งที่น่าประทับใจมาก', author: 'คุณอริสา ว.', role: 'นักสะสมส่วนตัว กรุงเทพฯ' },
-        { quote: 'การโอนย้ายระหว่างห้องนิรภัยของพอร์ตโฟลิโอนาฬิกาที่มีมูลค่าสำคัญ เอกสารเพียงอย่างเดียวก็คุ้มค่ากับการเลือก Conrad Express', author: 'คุณภัทรพงษ์ น.', role: 'ผู้อำนวยการฝ่ายลงทุน สิงคโปร์' },
-        { quote: 'บริการเดียวที่ฉันไว้ใจสำหรับการโอนย้ายสินค้าคลังแกลเลอรีระหว่างประเทศ White-Glove ที่นี่ไม่ใช่แค่คำโฆษณา แต่คือมาตรฐาน', author: 'ดร.สุภาพร ล.', role: 'ผู้ค้างานศิลปะ เชียงใหม่' },
-        { quote: 'Conrad Express ดูแลคอลเลกชัน Patek Philippe ของผมด้วยความรักเช่นเดียวกับที่ผมมีต่อแต่ละชิ้น ไร้ที่ติตั้งแต่โทรครั้งแรกจนถึงการส่งมอบ', author: 'คุณวันชัย ท.', role: 'นักสะสมส่วนตัว กรุงเทพฯ' },
-      ]
-    },
-    contact: {
-      label: 'ติดต่อเรา',
-      title: 'เริ่มต้น\nการจัดส่งของคุณ',
-      sub: 'ที่ปรึกษาของเราพร้อมให้บริการจันทร์–เสาร์ 9:00–18:00 น. ICT\nสำหรับคำขอเร่งด่วน สายด่วนของเราเปิดตลอด 24 ชั่วโมง',
-      fields: { name: 'ชื่อ-นามสกุล', phone: 'หมายเลขโทรศัพท์', type: 'ประเภทการจัดส่ง', message: 'บอกเราเกี่ยวกับสินค้าของคุณ', cta: 'ส่งคำขอ' },
-      types: ['นาฬิกาและเครื่องประดับ', 'งานศิลปะและของสะสม', 'โอนย้ายระหว่างห้องนิรภัย', 'ด่วนระหว่างประเทศ', 'อื่นๆ'],
-    },
-    footer: {
-      tagline: 'ความแม่นยำ · ความรอบคอบ · การส่งมอบ',
-      links: ['นโยบายความเป็นส่วนตัว', 'ข้อกำหนดการใช้บริการ', 'นโยบายประกันภัย'],
-      copy: '© 2026 Conrad Express บริษัทในเครือ Conrad Time',
-      address: '546 อาคารรัชดาวัน ชั้น 10 ถนนรัชดาภิเษก จตุจักร กรุงเทพฯ 10900',
-      line: '@ConradExpress',
-      tel: '+66 2 016 9950',
-    },
-    manifesto: {
-      label: 'พันธกิจของเรา',
-      quote: 'โซลูชันครบวงจรสำหรับโลจิสติกส์มูลค่าสูง — ครอบคลุมบริการที่ออกแบบมาเพื่อยกระดับมาตรฐานสูงสุดด้านความแม่นยำ ความรอบคอบ และความไว้วางใจ',
-      sub: 'ตั้งแต่ช่วงเวลาที่คุณเริ่มต้นกับเรา คาดหวังได้ถึงความซับซ้อนที่เหนือชั้นและการดำเนินงานที่ราบรื่นในทุกจุดสัมผัสของการเดินทาง',
-    },
-    pillars: {
-      label: 'มาตรฐานของเรา',
-      title: 'สี่เสาหลักแห่ง\nการบริการที่เป็นเลิศ',
-      items: [
-        { icon: '◈', title: 'ความรอบคอบสูงสุด', desc: 'ทุกการจัดส่งดำเนินการด้วยความเป็นส่วนตัวสูงสุด ไม่มีการระบุ ไม่มีการเปิดเผย' },
-        { icon: '◇', title: 'ความแม่นยำและเวลา', desc: 'การตรงต่อเวลาไม่สามารถต่อรองได้ เราให้ความสำคัญกับเวลาของคุณเท่ากับมูลค่าสินค้า' },
-        { icon: '◻', title: 'ความเชี่ยวชาญในการดูแล', desc: 'ผู้เชี่ยวชาญที่ผ่านการฝึกอบรมด้านสินค้าหรู เทคนิคการจัดการ และโปรโตคอลความปลอดภัย' },
-        { icon: '◯', title: 'ความรับผิดชอบครบถ้วน', desc: 'เอกสารสายโซ่การดูแล ถ่ายภาพสภาพสินค้า และหลักฐานการส่งมอบดิจิทัลทุกครั้ง' },
-      ]
-    },
-    misc: {
-      whyAbout: 'ตั้งแต่ปี 2559 Conrad Time ได้วางมาตรฐานสูงสุดในการรับรองและจำหน่ายนาฬิกาหรูหรา Conrad Express นำวินัยเดียวกันนั้นมาสู่ทุกการจัดส่ง',
-      trustedBy: 'พาร์ทเนอร์ของเรา',
-      howItWorks: 'ขั้นตอนการทำงาน',
-    }
-  }
-};
+const { COPY, REVIEW_CARDS, REVIEW_PHOTOS, SITE_CONFIG } = window.CONRAD_EXPRESS_DATA;
 
 /* ── NAV ── */
 function Nav({ c, gold, navy, scrolled, lang, setLang }) {
@@ -451,7 +321,7 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
     { en: COPY.en.nav.contact,  th: COPY.th.nav.contact,  href: '#contact' },
   ];
   return (
-    <nav style={{
+    <nav className="ce-nav" style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
       padding: '0 48px',
       height: '72px',
@@ -471,7 +341,7 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
       </a>
 
       {/* Desktop Links */}
-      <div style={{ display:'flex', alignItems:'center', gap:'36px' }}>
+      <div className="nav-links" style={{ display:'flex', alignItems:'center', gap:'36px' }}>
         {links.map(l => (
           <a key={l.href} href={l.href} style={{
             color:'rgba(255,255,255,0.75)', textDecoration:'none',
@@ -517,6 +387,47 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
           ))}
         </a>
       </div>
+
+      {/* Mobile hamburger */}
+      <button className="nav-burger" onClick={() => setMenuOpen(o => !o)} aria-label="Menu" style={{
+        background:'transparent', border:'none', cursor:'pointer',
+        flexDirection:'column', justifyContent:'center', alignItems:'center', gap:'5px',
+        width:'42px', height:'42px', padding:'8px',
+      }}>
+        <span style={{ display:'block', width:'22px', height:'1.5px', background:gold, transition:'transform 0.3s, opacity 0.3s', transform: menuOpen ? 'translateY(6.5px) rotate(45deg)' : 'none' }} />
+        <span style={{ display:'block', width:'22px', height:'1.5px', background:gold, opacity: menuOpen ? 0 : 1, transition:'opacity 0.2s' }} />
+        <span style={{ display:'block', width:'22px', height:'1.5px', background:gold, transition:'transform 0.3s, opacity 0.3s', transform: menuOpen ? 'translateY(-6.5px) rotate(-45deg)' : 'none' }} />
+      </button>
+
+      {/* Mobile menu panel */}
+      {menuOpen && (
+        <div style={{
+          position:'absolute', top:'72px', left:0, right:0,
+          background:`${navy}f7`, backdropFilter:'blur(16px) saturate(180%)',
+          borderBottom:`1px solid rgba(184,151,106,0.2)`,
+          boxShadow:'0 14px 36px rgba(0,0,0,0.45)',
+          display:'flex', flexDirection:'column', padding:'10px 22px 22px',
+        }}>
+          {links.map(l => (
+            <a key={l.href} href={l.href} onClick={() => setMenuOpen(false)} style={{
+              color:'rgba(255,255,255,0.82)', textDecoration:'none',
+              fontSize:'13px', letterSpacing:'0.14em', padding:'15px 4px',
+              borderBottom:'1px solid rgba(255,255,255,0.06)',
+            }}>{l[lang].toUpperCase()}</a>
+          ))}
+          <div style={{ display:'flex', gap:'12px', alignItems:'center', marginTop:'18px' }}>
+            <button onClick={() => setLang(lang === 'en' ? 'th' : 'en')} style={{
+              background:'transparent', border:`1px solid rgba(184,151,106,0.4)`, color:gold,
+              padding:'10px 16px', fontSize:'11px', letterSpacing:'0.1em', cursor:'pointer', fontFamily:'Jost, sans-serif',
+            }}>{lang === 'en' ? 'TH' : 'EN'}</button>
+            <a href="#contact" onClick={() => setMenuOpen(false)} style={{
+              flex:1, textAlign:'center', background:gold, color:navy,
+              padding:'13px 20px', fontSize:'11px', letterSpacing:'0.12em',
+              textDecoration:'none', fontWeight:500, fontFamily:'Jost, sans-serif',
+            }}>{COPY[lang].nav.cta.toUpperCase()}</a>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
@@ -554,7 +465,7 @@ function PhotoPlaceholder({ label, width='100%', height='100%', style={} }) {
    The image is rendered object-fit:cover so it always fills the full-screen
    hero; keep the key subject toward the RIGHT half (the left side is covered
    by the headline + a dark scrim for legibility). */
-const HERO_BG = ''; // e.g. 'brand-images/hero.jpg'  — leave '' to show the placeholder
+const HERO_BG = SITE_CONFIG.heroBackground; // e.g. 'brand-images/hero.jpg' — leave '' to show the placeholder
 
 function Hero({ c, gold, navy, layout }) {
   const isDark = layout === 'dark';
@@ -682,7 +593,7 @@ function Hero({ c, gold, navy, layout }) {
       }} />
 
       {/* ── TEXT CONTENT ── */}
-      <div style={{
+      <div className="hero-content" style={{
         position:'absolute', top:0, left:0, bottom:0,
         width:'min(640px, 55%)', zIndex:5,
         display:'flex', flexDirection:'column', justifyContent:'center',
@@ -778,7 +689,7 @@ function Hero({ c, gold, navy, layout }) {
       </div>
 
       {/* TERRAIN LABEL */}
-      <div style={{ position:'absolute', bottom:'48px', right:'48px', zIndex:5, textAlign:'right', pointerEvents:'none' }}>
+      <div className="hero-aside" style={{ position:'absolute', bottom:'48px', right:'48px', zIndex:5, textAlign:'right', pointerEvents:'none' }}>
         <div style={{ fontSize:'8px', letterSpacing:'0.28em', color:'rgba(184,151,106,0.45)', fontFamily:'Jost', marginBottom:'4px' }}>
           NO TERRAIN TOO DIFFICULT
         </div>
@@ -788,13 +699,62 @@ function Hero({ c, gold, navy, layout }) {
       </div>
 
       {/* SCROLL INDICATOR */}
-      <div style={{ position:'absolute', bottom:'32px', left:'96px', zIndex:5, display:'flex', alignItems:'center', gap:'10px', pointerEvents:'none' }}>
+      <div className="hero-aside" style={{ position:'absolute', bottom:'32px', left:'96px', zIndex:5, display:'flex', alignItems:'center', gap:'10px', pointerEvents:'none' }}>
         <div style={{ width:'1px', height:'36px', background:'linear-gradient(to bottom, transparent, rgba(184,151,106,0.8))', animation:'scrollPulse 2s ease infinite' }} />
         <span style={{ fontSize:'9px', letterSpacing:'0.25em', color:'rgba(184,151,106,0.5)', fontFamily:'Jost' }}>SCROLL</span>
       </div>
     </section>
   );
 }
+
+/* ── CARD SWIPER ──
+   Wraps a card grid. On phones (≤767, where the grid becomes a horizontal
+   scroll-snap row) it shows prev/next arrows + dots so cards are navigable by
+   click as well as touch-swipe. On larger screens the grid renders untouched
+   and the controls stay hidden via CSS. */
+function CardSwiper({ className, style, children }) {
+  const ref = useRef(null);
+  const [idx, setIdx] = useState(0);
+  const count = React.Children.count(children);
+
+  const stepWidth = () => {
+    const el = ref.current;
+    if (!el || !el.children[0]) return el ? el.clientWidth : 1;
+    const a = el.children[0].getBoundingClientRect();
+    const b = el.children[1] ? el.children[1].getBoundingClientRect() : null;
+    return b ? Math.abs(b.left - a.left) : a.width;
+  };
+  /* Navigate to card t, wrapping around both ends (infinite loop). Uses
+     scrollIntoView on the actual child — robust against snap/step rounding. */
+  const go = (i) => {
+    const el = ref.current;
+    if (!el || count === 0) return;
+    const t = ((i % count) + count) % count;
+    const child = el.children[t];
+    if (child) child.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+  };
+  const onScroll = () => {
+    const el = ref.current;
+    if (!el) return;
+    setIdx(Math.round(el.scrollLeft / (stepWidth() || 1)));
+  };
+
+  return (
+    <div className="swipe-wrap">
+      <div ref={ref} className={className} style={style} onScroll={onScroll}>
+        {children}
+      </div>
+      <button className="swipe-nav swipe-prev" onClick={() => go(idx - 1)} aria-label="Previous">‹</button>
+      <button className="swipe-nav swipe-next" onClick={() => go(idx + 1)} aria-label="Next">›</button>
+      <div className="swipe-dots">
+        {Array.from({ length: count }).map((_, i) => (
+          <button key={i} className={'swipe-dot' + (i === idx ? ' on' : '')} onClick={() => go(i)} aria-label={'Go to card ' + (i + 1)} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* ── SERVICES ── */
 function Services({ c, gold, navy }) {
   const [hovered, setHovered] = useState(null);
@@ -815,7 +775,7 @@ function Services({ c, gold, navy }) {
           }}>{c.services.title}</h2>
         </div>
 
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'2px' }}>
+        <CardSwiper className="g-2 swipe" style={{ display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'2px' }}>
           {c.services.items.map((s, i) => (
             <div key={i}
               onMouseEnter={() => setHovered(i)}
@@ -842,7 +802,7 @@ function Services({ c, gold, navy }) {
               }}>{s.desc}</p>
             </div>
           ))}
-        </div>
+        </CardSwiper>
       </div>
     </section>
   );
@@ -867,7 +827,7 @@ function WhyUs({ c, gold, navy }) {
       <div style={{ maxWidth:'1400px', margin:'0 auto', position:'relative', zIndex:2 }}>
 
         {/* ── ROW 1: Title + Stats ── */}
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'96px', alignItems:'start', marginBottom:'80px' }}>
+        <div className="g-split" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'96px', alignItems:'start', marginBottom:'80px' }}>
           <div className="reveal-left">
             <div style={{ display:'flex', alignItems:'center', gap:'16px', marginBottom:'20px' }}>
               <div style={{ width:'40px', height:'1px', background:gold }} />
@@ -921,7 +881,7 @@ function WhyUs({ c, gold, navy }) {
         </div>
 
         {/* ── ROW 2: Four Pillars ── */}
-        <div className="reveal-stagger" style={{ display:'grid', gridTemplateColumns:'repeat(4, 1fr)', gap:'2px' }}>
+        <CardSwiper className="reveal-stagger g-4 swipe" style={{ display:'grid', gridTemplateColumns:'repeat(4, 1fr)', gap:'2px' }}>
           {c.pillars.items.map((p, i) => (
             <div key={i}
               onMouseEnter={() => setHoveredPillar(i)}
@@ -957,7 +917,7 @@ function WhyUs({ c, gold, navy }) {
               }}>{p.desc}</p>
             </div>
           ))}
-        </div>
+        </CardSwiper>
 
       </div>
     </section>
@@ -983,7 +943,7 @@ function Process({ c, gold, navy }) {
           }}>{c.process.title}</h2>
         </div>
 
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'80px', alignItems:'center' }}>
+        <div className="g-split" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'80px', alignItems:'center' }}>
           {/* Steps list */}
           <div className="reveal-left" style={{ display:'flex', flexDirection:'column', gap:'0' }}>
             {c.process.steps.map((step, i) => (
@@ -1117,102 +1077,10 @@ function Testimonials({ c, gold, navy }) {
   const [activeIdx, setActiveIdx] = useState(0); // Shared index — syncs text quotes & photo cards
 
   /* ── Review data — 5 cards, EN + TH ── */
-  const reviewsEN = [
-    {
-      type: 'Review', date: 'Jul 18, 2023',
-      headline: 'The Gold Standard\nin Luxury Logistics',
-      shortQuote: 'Every step was handled with precision and care. Conrad Express stands apart from any service I have used before.',
-      tags: ['GOLD PLAN', 'INTERNATIONAL'],
-      author: 'Mr. James H.', role: 'Business Executive, London',
-      initials: 'JH', color: '#1e3a5f',
-    },
-    {
-      type: 'Review', date: 'Sep 5, 2023',
-      headline: 'Every Piece Treated\nLike Royalty',
-      shortQuote: 'My jewellery was documented, wrapped, and delivered without a single concern. Condition photography was a brilliant touch.',
-      tags: ['SILVER PLAN', 'JEWELLERY'],
-      author: 'Khun Arisa V.', role: 'Private Collector, Bangkok',
-      initials: 'AV', color: '#3d1f5c',
-    },
-    {
-      type: 'Review', date: 'Nov 20, 2023',
-      headline: 'Seamless Vault-to-Vault\nTransfer',
-      shortQuote: 'The documentation alone was worth choosing Conrad Express for my significant watch portfolio transfer.',
-      tags: ['PLATINUM PLAN', 'VAULT TRANSFER'],
-      author: 'Khun Pattarapong N.', role: 'Investment Director, Singapore',
-      initials: 'PN', color: '#1a3d2e',
-    },
-    {
-      type: 'Review', date: 'Jan 8, 2024',
-      headline: 'White-Glove Is Not\nMarketing Here',
-      shortQuote: 'The only service I trust for international transfers of my gallery inventory. White-glove is a standard, not just a term.',
-      tags: ['PLATINUM PLAN', 'ART & COLLECTIBLES'],
-      author: 'Dr. Supaporn L.', role: 'Art Dealer, Chiang Mai',
-      initials: 'SL', color: '#3d2a1a',
-    },
-    {
-      type: 'Review', date: 'Mar 12, 2024',
-      headline: 'Flawless from First Call\nto Delivery',
-      shortQuote: 'Conrad Express handled my Patek Philippe collection with the same reverence I have for each piece. Truly flawless.',
-      tags: ['GOLD PLAN', 'WATCHES'],
-      author: 'Khun Wanchai T.', role: 'Private Collector, Bangkok',
-      initials: 'WT', color: '#1e3a5f',
-    },
-  ];
-
-  const reviewsTH = [
-    {
-      type: 'รีวิว', date: '18 ก.ค. 2566',
-      headline: 'มาตรฐานทองคำใน\nโลจิสติกส์หรู',
-      shortQuote: 'ทุกขั้นตอนดำเนินการด้วยความแม่นยำ Conrad Express โดดเด่นจากทุกบริการที่ผมเคยใช้',
-      tags: ['แผน GOLD', 'ระหว่างประเทศ'],
-      author: 'นาย James H.', role: 'นักธุรกิจ, ลอนดอน',
-      initials: 'JH', color: '#1e3a5f',
-    },
-    {
-      type: 'รีวิว', date: '5 ก.ย. 2566',
-      headline: 'ดูแลทุกชิ้น\nเหมือนของล้ำค่า',
-      shortQuote: 'เครื่องประดับถูกบันทึก ห่อ และส่งถึงปลายทางอย่างสมบูรณ์แบบ การถ่ายภาพสภาพสินค้าเป็นสิ่งที่ยอดเยี่ยม',
-      tags: ['แผน SILVER', 'เครื่องประดับ'],
-      author: 'คุณอริสา ว.', role: 'นักสะสมส่วนตัว กรุงเทพฯ',
-      initials: 'AV', color: '#3d1f5c',
-    },
-    {
-      type: 'รีวิว', date: '20 พ.ย. 2566',
-      headline: 'โอนย้ายระหว่างห้องนิรภัย\nได้อย่างราบรื่น',
-      shortQuote: 'เอกสารเพียงอย่างเดียวก็คุ้มค่ากับการเลือก Conrad Express สำหรับการโอนย้ายพอร์ตโฟลิโอนาฬิกา',
-      tags: ['แผน PLATINUM', 'ห้องนิรภัย'],
-      author: 'คุณภัทรพงษ์ น.', role: 'ผู้อำนวยการฝ่ายลงทุน สิงคโปร์',
-      initials: 'PN', color: '#1a3d2e',
-    },
-    {
-      type: 'รีวิว', date: '8 ม.ค. 2567',
-      headline: 'White-Glove ที่นี่\nไม่ใช่แค่คำโฆษณา',
-      shortQuote: 'บริการเดียวที่ฉันไว้ใจสำหรับการโอนย้ายสินค้าคลังแกลเลอรีระหว่างประเทศ White-Glove คือมาตรฐาน',
-      tags: ['แผน PLATINUM', 'งานศิลปะ'],
-      author: 'ดร.สุภาพร ล.', role: 'ผู้ค้างานศิลปะ เชียงใหม่',
-      initials: 'SL', color: '#3d2a1a',
-    },
-    {
-      type: 'รีวิว', date: '12 มี.ค. 2567',
-      headline: 'ไร้ที่ติตั้งแต่โทรครั้งแรก\nจนถึงส่งมอบ',
-      shortQuote: 'Conrad Express ดูแลคอลเลกชัน Patek Philippe ด้วยความรักเช่นเดียวกับที่ผมมีต่อแต่ละชิ้น ไร้ที่ติจริงๆ',
-      tags: ['แผน GOLD', 'นาฬิกา'],
-      author: 'คุณวันชัย ท.', role: 'นักสะสมส่วนตัว กรุงเทพฯ',
-      initials: 'WT', color: '#1e3a5f',
-    },
-  ];
-
   const isTH = c.testimonials.label === 'เสียงจากลูกค้า';
-  const reviews = isTH ? reviewsTH : reviewsEN;
-  const total   = reviews.length;
-  const quoteItems = c.testimonials.items;
-
-  const HONORIFICS = ['Khun','Dr.','Mr.','Mrs.','Ms.','คุณ','ดร.','นาย','นาง'];
-  function getInitials(name) {
-    const parts = name.split(' ').filter(w => !HONORIFICS.includes(w));
-    return (parts.slice(0,2).map(w => w[0] || '').join('').toUpperCase()) || name[0].toUpperCase();
-  }
+  const reviews = isTH ? REVIEW_CARDS.th : REVIEW_CARDS.en;
+  const reviewPhotos = REVIEW_PHOTOS;
+  const total = reviews.length;
 
   /* Shared auto-advance for both carousels */
   useEffect(() => {
@@ -1227,96 +1095,19 @@ function Testimonials({ c, gold, navy }) {
     return a;
   }
 
-  /* Card dimensions */
-  const CARD_W = 400;
-  const CARD_H = 520;
-  const H_STEP = 330;
-
-  /* Partner logos */
-  const partners = [
-    'ROLEX AUTHORISED', 'PATEK PHILIPPE', 'AUDEMARS PIGUET',
-    'RICHARD MILLE', 'VACHERON CONSTANTIN', 'A. LANGE & SÖHNE',
-  ];
+  /* Card dimensions — scale to the viewport so the 3D carousel never overflows */
+  const [vw, setVw] = useState(typeof window !== 'undefined' ? window.innerWidth : 1440);
+  useEffect(() => {
+    const onResize = () => setVw(window.innerWidth);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+  const CARD_W = Math.min(400, Math.round(vw * 0.78));
+  const CARD_H = Math.round(CARD_W * 1.3);
+  const H_STEP = Math.round(CARD_W * 0.82);
 
   return (
     <>
-      {/* ══════════════════════════════════════════
-          SECTION 1 — WHITE QUOTE SECTION
-      ══════════════════════════════════════════ */}
-      <section id="testimonials" style={{
-        background: '#fff',
-        padding: '120px 96px',
-        backgroundImage: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(248,243,235,1) 0%, transparent 80%)',
-        boxShadow: 'inset 0 -1px 0 rgba(184,151,106,0.10)',
-      }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '80px', alignItems: 'start' }}>
-
-            {/* Left col: heading + dots */}
-            <div className="reveal">
-              <div style={{ display:'flex', alignItems:'center', gap:'16px', marginBottom:'20px' }}>
-                <div style={{ width:'40px', height:'1px', background:gold }} />
-                <span style={{ fontSize:'11px', letterSpacing:'0.25em', color:gold, fontFamily:'Jost' }}>
-                  {c.testimonials.label.toUpperCase()}
-                </span>
-              </div>
-              <h2 style={{
-                fontFamily:'Cormorant Garamond, serif', fontSize:'clamp(36px,4vw,56px)',
-                fontWeight:300, color:navy, lineHeight:1.1, whiteSpace:'pre-line',
-              }}>{c.testimonials.title}</h2>
-              <div style={{ display:'flex', gap:'8px', marginTop:'36px' }}>
-                {quoteItems.map((_, i) => (
-                  <button key={i} onClick={() => setActiveIdx(i)} style={{
-                    width: activeIdx===i ? '32px' : '8px', height:'2px',
-                    border:'none', cursor:'pointer', padding:0,
-                    background: activeIdx===i ? gold : 'rgba(15,30,53,0.15)',
-                    transition:'all 0.3s',
-                  }} />
-                ))}
-              </div>
-            </div>
-
-            {/* Right col: quote + author */}
-            <div className="reveal-right" style={{ paddingTop:'8px' }}>
-              <div style={{ display:'flex', gap:'3px', marginBottom:'24px' }}>
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} style={{ color:gold, fontSize:'15px', opacity:0.85 }}>★</span>
-                ))}
-              </div>
-              <div style={{ borderLeft:`2px solid ${gold}`, paddingLeft:'40px' }}>
-                <p style={{
-                  fontFamily:'Cormorant Garamond, serif', fontSize:'clamp(20px,2.5vw,28px)',
-                  fontWeight:300, color:navy, lineHeight:1.6, fontStyle:'italic', marginBottom:'32px',
-                  minHeight:'180px', display:'flex', alignItems:'flex-start',
-                }}>"{quoteItems[activeIdx].quote}"</p>
-                <div style={{ display:'flex', alignItems:'center', gap:'16px' }}>
-                  <div style={{
-                    width:'44px', height:'44px', borderRadius:'50%',
-                    background:'rgba(255,255,255,0.97)',
-                    border:`2px solid ${gold}`,
-                    boxShadow:`0 0 0 3px ${gold}22`,
-                    display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0,
-                  }}>
-                    <span style={{ fontSize:'13px', fontWeight:700, color:navy, fontFamily:'Jost', letterSpacing:'0.03em' }}>
-                      {getInitials(quoteItems[activeIdx].author)}
-                    </span>
-                  </div>
-                  <div>
-                    <div style={{ fontSize:'13px', fontWeight:500, color:navy, fontFamily:'Jost', letterSpacing:'0.05em' }}>
-                      {quoteItems[activeIdx].author}
-                    </div>
-                    <div style={{ fontSize:'12px', color:'rgba(15,30,53,0.45)', fontFamily:'Jost', marginTop:'4px' }}>
-                      {quoteItems[activeIdx].role}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ══════════════════════════════════════════
           SECTION 2 — DARK 3D PHOTO CARD CAROUSEL
       ══════════════════════════════════════════ */}
@@ -1392,7 +1183,18 @@ function Testimonials({ c, gold, navy }) {
                     : '0 8px 40px rgba(0,0,0,0.5)',
                   transition:'box-shadow 0.5s',
                 }}>
-                  <PhotoPlaceholder label={`PORTRAIT · ${rev.author.toUpperCase()}`} height="100%" />
+                  {/* Placeholder sits behind — shows if the photo is missing */}
+                  <div style={{ position:'absolute', inset:0, zIndex:0 }}>
+                    <PhotoPlaceholder label={`PORTRAIT · ${rev.author.toUpperCase()}`} height="100%" />
+                  </div>
+                  {reviewPhotos[i] && (
+                    <img
+                      src={reviewPhotos[i]}
+                      alt={rev.author}
+                      onError={(e) => { e.target.style.display = 'none'; }}
+                      style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 22%', display:'block', zIndex:1 }}
+                    />
+                  )}
 
                   {/* Inner gold inset border */}
                   <div style={{
@@ -1453,29 +1255,8 @@ function Testimonials({ c, gold, navy }) {
                       <div style={{
                         fontSize:'9px', letterSpacing:'0.14em', fontWeight:500,
                         color:`${gold}cc`, fontFamily:'Jost',
-                        marginBottom:'5px', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis',
-                      }}>{rev.tags[0]}</div>
-                      <div style={{
-                        fontSize:'13px', fontWeight:500, color:'#fff', fontFamily:'Jost',
-                        whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis', marginBottom:'2px',
-                      }}>{rev.author}</div>
-                      <div style={{
-                        fontSize:'10px', color:'rgba(255,255,255,0.48)', fontFamily:'Jost',
                         whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis',
-                      }}>{rev.role}</div>
-                    </div>
-                    {/* Avatar */}
-                    <div style={{
-                      width:'38px', height:'38px', borderRadius:'50%', flexShrink:0,
-                      background:'rgba(255,255,255,0.95)',
-                      border:`2px solid ${gold}`,
-                      boxShadow: isActive ? `0 0 12px ${gold}50` : `0 0 0 1px ${gold}40`,
-                      display:'flex', alignItems:'center', justifyContent:'center',
-                      transition:'box-shadow 0.4s',
-                    }}>
-                      <span style={{ fontSize:'11px', fontWeight:700, color:navy, fontFamily:'Jost', letterSpacing:'0.03em' }}>
-                        {rev.initials}
-                      </span>
+                      }}>{rev.tags[0]}</div>
                     </div>
                   </div>
                 </div>
@@ -1499,64 +1280,6 @@ function Testimonials({ c, gold, navy }) {
         </div>
       </section>
 
-      {/* ── PARTNERS ── */}
-      <section style={{
-        background:'var(--cream)',
-        padding:'80px 96px 100px',
-        borderTop:`1px solid rgba(184,151,106,0.12)`,
-      }}>
-        <div style={{ maxWidth:'1400px', margin:'0 auto' }}>
-          <div style={{ display:'flex', alignItems:'center', gap:'24px', marginBottom:'52px' }}>
-            <div style={{ flex:1, height:'1px', background:`linear-gradient(to right, transparent, rgba(184,151,106,0.25))` }} />
-            <span style={{ fontSize:'10px', letterSpacing:'0.3em', color:`${gold}90`, fontFamily:'Jost', whiteSpace:'nowrap' }}>
-              {c.misc.trustedBy}
-            </span>
-            <div style={{ flex:1, height:'1px', background:`linear-gradient(to left, transparent, rgba(184,151,106,0.25))` }} />
-          </div>
-
-          {/* Partner logo grid */}
-          <div className='reveal-stagger' style={{ display:'grid', gridTemplateColumns:'repeat(6, 1fr)', gap:'2px' }}>
-            {partners.map((name, i) => (
-              <div key={i} style={{
-                padding:'28px 16px',
-                display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:'14px',
-                background:'#fff',
-                transition:'all 0.3s',
-                cursor:'default',
-                borderBottom:`2px solid transparent`,
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.background = navy;
-                e.currentTarget.style.borderBottomColor = gold;
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.background = '#fff';
-                e.currentTarget.style.borderBottomColor = 'transparent';
-              }}
-              >
-                {/* Logo placeholder box */}
-                <div style={{
-                  width:'72px', height:'36px',
-                  background:`rgba(184,151,106,0.08)`,
-                  border:`1px solid rgba(184,151,106,0.2)`,
-                  display:'flex', alignItems:'center', justifyContent:'center',
-                }}>
-                  <StarIcon size={14} color={gold} style={{ opacity:0.5 }} />
-                </div>
-                <span style={{
-                  fontSize:'8px', letterSpacing:'0.18em',
-                  color:`rgba(15,30,53,0.35)`,
-                  fontFamily:'Jost', textAlign:'center', lineHeight:1.5,
-                  transition:'color 0.3s',
-                }}
-                onMouseEnter={e => e.target.style.color = `${gold}cc`}
-                onMouseLeave={e => e.target.style.color = 'rgba(15,30,53,0.35)'}
-                >{name}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
     </>
   );
 }
@@ -1567,10 +1290,8 @@ function Packages({ c, gold, navy }) {
   const tierAccent = ['#a8a8a8', gold, '#e5e4e2'];
 
   return (
-    <section id="packages" style={{ background: navy,
-      padding:'120px 96px',
-      backgroundImage:`radial-gradient(ellipse 55% 40% at 8% 5%, rgba(184,151,106,0.07) 0%, transparent 55%), radial-gradient(ellipse 45% 55% at 92% 95%, rgba(184,151,106,0.05) 0%, transparent 55%)`
-    }}>
+    <section id="packages" style={{ background:'#fff', padding:'120px 96px',
+      boxShadow:'inset 0 -1px 0 rgba(184,151,106,0.12), inset 0 1px 0 rgba(184,151,106,0.08)' }}>
       <div style={{ maxWidth:'1400px', margin:'0 auto' }}>
 
         {/* Header */}
@@ -1584,15 +1305,15 @@ function Packages({ c, gold, navy }) {
           </div>
           <h2 style={{
             fontFamily:'Cormorant Garamond, serif', fontSize:'clamp(40px, 5vw, 64px)',
-            fontWeight:300, color:'#fff', lineHeight:1.1, whiteSpace:'pre-line', marginBottom:'20px',
+            fontWeight:300, color:navy, lineHeight:1.1, whiteSpace:'pre-line', marginBottom:'20px',
           }}>{c.packages.title}</h2>
-          <p style={{ fontSize:'14px', color:'rgba(255,255,255,0.4)', fontFamily:'Jost', fontWeight:300, maxWidth:'480px', margin:'0 auto', lineHeight:1.8 }}>
+          <p style={{ fontSize:'14px', color:'rgba(15,30,53,0.5)', fontFamily:'Jost', fontWeight:300, maxWidth:'480px', margin:'0 auto', lineHeight:1.8 }}>
             {c.packages.sub}
           </p>
         </div>
 
         {/* Cards grid */}
-        <div className='reveal-stagger' style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'2px' }}>
+        <CardSwiper className='reveal-stagger g-3 swipe' style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'2px' }}>
           {c.packages.items.map((pkg, i) => {
             const isActive = activeIdx === i;
             const isGold   = i === 1;
@@ -1602,17 +1323,17 @@ function Packages({ c, gold, navy }) {
                 style={{
                   position:'relative', padding:'52px 44px 44px',
                   background: isActive
-                    ? (isGold ? `${gold}18` : 'rgba(255,255,255,0.06)')
-                    : 'rgba(255,255,255,0.02)',
+                    ? (isGold ? `${gold}14` : 'rgba(15,30,53,0.03)')
+                    : 'var(--cream)',
                   border: isActive
                     ? `1px solid ${gold}80`
-                    : `1px solid rgba(255,255,255,0.07)`,
+                    : `1px solid rgba(15,30,53,0.08)`,
                   borderTop: isActive
                     ? `2px solid ${gold}`
-                    : `1px solid rgba(255,255,255,0.07)`,
+                    : `1px solid rgba(15,30,53,0.08)`,
                   boxShadow: isActive
-                    ? `0 0 0 1px ${gold}30, 0 0 28px ${gold}55, 0 0 70px ${gold}28, inset 0 1px 0 rgba(184,151,106,0.25)`
-                    : 'inset 0 1px 0 rgba(255,255,255,0.03)',
+                    ? `0 0 0 1px ${gold}30, 0 0 26px ${gold}40, 0 12px 40px rgba(0,0,0,0.10), inset 0 1px 0 rgba(184,151,106,0.25)`
+                    : '0 1px 4px rgba(0,0,0,0.04)',
                   transition:'all 0.45s cubic-bezier(0.16,1,0.3,1)',
                   cursor:'pointer',
                   display:'flex', flexDirection:'column',
@@ -1634,7 +1355,7 @@ function Packages({ c, gold, navy }) {
                   <span style={{
                     fontFamily:'Cormorant Garamond, serif', fontSize:'22px', fontWeight:400,
                     letterSpacing:'0.15em',
-                    color: isActive && isGold ? gold : isActive ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.5)',
+                    color: isActive && isGold ? gold : isActive ? navy : 'rgba(15,30,53,0.5)',
                     transition:'color 0.4s',
                   }}>{pkg.name.toUpperCase()}</span>
                 </div>
@@ -1645,10 +1366,10 @@ function Packages({ c, gold, navy }) {
                     <span style={{
                       fontFamily:'Cormorant Garamond, serif',
                       fontSize: pkg.price === 'Custom' || pkg.price === 'กำหนดเอง' ? '36px' : '48px',
-                      fontWeight:300, color:'#fff', lineHeight:1,
+                      fontWeight:300, color:navy, lineHeight:1,
                     }}>{pkg.price}</span>
                     {pkg.unit && (
-                      <span style={{ fontSize:'12px', color:'rgba(255,255,255,0.35)', fontFamily:'Jost' }}>{pkg.unit}</span>
+                      <span style={{ fontSize:'12px', color:'rgba(15,30,53,0.4)', fontFamily:'Jost' }}>{pkg.unit}</span>
                     )}
                   </div>
                 </div>
@@ -1656,9 +1377,9 @@ function Packages({ c, gold, navy }) {
                 {/* Desc */}
                 <p style={{
                   fontSize:'13px', lineHeight:1.7,
-                  color: isActive ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.28)',
+                  color: isActive ? 'rgba(15,30,53,0.6)' : 'rgba(15,30,53,0.4)',
                   fontFamily:'Jost', fontWeight:300, marginBottom:'32px',
-                  paddingBottom:'28px', borderBottom:'1px solid rgba(255,255,255,0.07)',
+                  paddingBottom:'28px', borderBottom:'1px solid rgba(15,30,53,0.1)',
                   transition:'color 0.4s',
                 }}>{pkg.desc}</p>
 
@@ -1668,15 +1389,15 @@ function Packages({ c, gold, navy }) {
                     <div key={fi} style={{ display:'flex', alignItems:'flex-start', gap:'10px' }}>
                       <div style={{
                         width:'14px', height:'14px', flexShrink:0, marginTop:'1px',
-                        border:`1px solid ${isActive && isGold ? gold : isActive ? 'rgba(255,255,255,0.35)' : 'rgba(255,255,255,0.15)'}`,
+                        border:`1px solid ${isActive && isGold ? gold : isActive ? 'rgba(15,30,53,0.4)' : 'rgba(15,30,53,0.18)'}`,
                         display:'flex', alignItems:'center', justifyContent:'center',
                         transition:'border-color 0.4s',
                       }}>
-                        <div style={{ width:'6px', height:'6px', background: isActive && isGold ? gold : isActive ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.2)', transition:'background 0.4s' }} />
+                        <div style={{ width:'6px', height:'6px', background: isActive && isGold ? gold : isActive ? 'rgba(15,30,53,0.5)' : 'rgba(15,30,53,0.22)', transition:'background 0.4s' }} />
                       </div>
                       <span style={{
                         fontSize:'13px', fontFamily:'Jost', fontWeight:300, lineHeight:1.5,
-                        color: isActive ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.3)',
+                        color: isActive ? 'rgba(15,30,53,0.7)' : 'rgba(15,30,53,0.45)',
                         transition:'color 0.4s',
                       }}>{f}</span>
                     </div>
@@ -1689,8 +1410,8 @@ function Packages({ c, gold, navy }) {
                   padding:'13px 24px', fontSize:'11px', letterSpacing:'0.15em',
                   fontFamily:'Jost', fontWeight:500, textDecoration:'none',
                   background: isActive && isGold ? gold : 'transparent',
-                  color: isActive && isGold ? navy : isActive ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.3)',
-                  border: isActive && isGold ? `1px solid ${gold}` : `1px solid ${isActive ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.1)'}`,
+                  color: isActive && isGold ? navy : isActive ? navy : 'rgba(15,30,53,0.4)',
+                  border: isActive && isGold ? `1px solid ${gold}` : `1px solid ${isActive ? 'rgba(15,30,53,0.3)' : 'rgba(15,30,53,0.12)'}`,
                   transition:'all 0.3s',
                 }}
                 onMouseEnter={e => {
@@ -1700,14 +1421,14 @@ function Packages({ c, gold, navy }) {
                 }}
                 onMouseLeave={e => {
                   if (!isActive) return;
-                  if (!isGold) { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }
+                  if (!isGold) { e.currentTarget.style.borderColor = 'rgba(15,30,53,0.3)'; e.currentTarget.style.color = navy; }
                   else { e.currentTarget.style.background = gold; }
                 }}
                 >{pkg.cta.toUpperCase()}</a>
               </div>
             );
           })}
-        </div>
+        </CardSwiper>
       </div>
     </section>
   );
@@ -1739,7 +1460,7 @@ function Contact({ c, gold, navy, language }) {
       boxShadow:'inset 0 1px 0 rgba(184,151,106,0.12)',
     }}>
       <div style={{ maxWidth:'1400px', margin:'0 auto' }}>
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'96px', alignItems:'start' }}>
+        <div className="g-split" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'96px', alignItems:'start' }}>
           <div className="reveal-left">
             <div style={{ display:'flex', alignItems:'center', gap:'16px', marginBottom:'20px' }}>
               <div style={{ width:'40px', height:'1px', background:gold }} />
@@ -1761,7 +1482,7 @@ function Contact({ c, gold, navy, language }) {
             <div style={{ marginTop:'52px', display:'flex', flexDirection:'column', gap:'24px' }}>
               {[
                 { label:'LINE OA', val:c.footer.line },
-                { label:'Email', val:'express@conradtime.com' },
+                { label:'Email', val:SITE_CONFIG.contact.email },
                 { label:'Phone', val:c.footer.tel },
               ].map((item, i) => (
                 <div key={i} style={{ display:'flex', gap:'24px', alignItems:'center' }}>
@@ -1977,7 +1698,7 @@ function Pillars({ c, gold, navy }) {
 function Footer({ c, gold, navy }) {
   return (
     <footer style={{ background:'#060e1a', padding:'52px 96px', borderTop:`1px solid rgba(184,151,106,0.1)` }}>
-      <div style={{ maxWidth:'1400px', margin:'0 auto', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'24px' }}>
+      <div className="footer-inner" style={{ maxWidth:'1400px', margin:'0 auto', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'24px' }}>
         <div style={{ display:'flex', alignItems:'center', gap:'12px' }}>
           <StarIcon size={16} color={gold} />
           <span style={{ fontFamily:'Cormorant Garamond, serif', fontSize:'16px', letterSpacing:'0.15em', color:'rgba(255,255,255,0.4)' }}>
@@ -2036,7 +1757,7 @@ function FloatingLine({ gold, navy }) {
       transition:'all 0.5s cubic-bezier(0.16,1,0.3,1)',
     }}>
       {/* LINE button */}
-      <a href="https://line.me/ti/p/~@ConradExpress" target="_blank" rel="noopener noreferrer"
+      <a href={SITE_CONFIG.contact.lineUrl} target="_blank" rel="noopener noreferrer"
         title="Chat on LINE"
         style={{
           width:'52px', height:'52px', borderRadius:'50%',
@@ -2100,12 +1821,7 @@ function App() {
       <style>{`
         input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.2); font-family: Jost, sans-serif; }
         option { background: #0f1e35; }
-        @media (max-width: 900px) {
-          section { padding: 80px 32px !important; }
-          nav { padding: 0 24px !important; }
-          h1 { font-size: 64px !important; }
-          .grid-2 { grid-template-columns: 1fr !important; }
-        }
+        /* Responsive layout rules live in the document <head> style block. */
       `}</style>
 
       <Nav c={c} gold={gold} navy={navy} scrolled={scrolled} lang={language} setLang={handleLangChange} />
@@ -2113,8 +1829,8 @@ function App() {
       <Services c={c} gold={gold} navy={navy} />
       <WhyUs c={c} gold={gold} navy={navy} />
       <Process c={c} gold={gold} navy={navy} />
-      <Packages c={c} gold={gold} navy={navy} />
       <Testimonials c={c} gold={gold} navy={navy} />
+      <Packages c={c} gold={gold} navy={navy} />
       <Contact c={c} gold={gold} navy={navy} language={language} />
       <Footer c={c} gold={gold} navy={navy} />
       <FloatingLine gold={gold} navy={navy} />
