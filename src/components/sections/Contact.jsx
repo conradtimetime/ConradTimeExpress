@@ -6,9 +6,21 @@
 function Contact({ c, gold, navy, language }) {
   const [form, setForm] = useState({ name:'', phone:'', type:'', message:'' });
   const [submitted, setSubmitted] = useState(false);
+  const fieldConstraints = {
+    name: { autoComplete:'name', maxLength:80, required:true },
+    phone: { autoComplete:'tel', inputMode:'tel', maxLength:32, required:true },
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const normalizedForm = {
+      name: form.name.trim(),
+      phone: form.phone.trim(),
+      type: form.type,
+      message: form.message.trim(),
+    };
+    if (!normalizedForm.name || !normalizedForm.phone || !normalizedForm.type) return;
+    setForm(normalizedForm);
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 4000);
   };
@@ -86,9 +98,11 @@ function Contact({ c, gold, navy, language }) {
                   {f.label.toUpperCase()}
                 </label>
                 <input
+                  name={f.key}
                   type={f.type}
                   value={form[f.key]}
                   onChange={e => setForm({...form, [f.key]: e.target.value})}
+                  {...fieldConstraints[f.key]}
                   style={inputStyle}
                   onFocus={e => e.target.style.borderBottomColor = gold}
                   onBlur={e => e.target.style.borderBottomColor = 'rgba(255,255,255,0.15)'}
@@ -101,8 +115,10 @@ function Contact({ c, gold, navy, language }) {
                 {c.contact.fields.type.toUpperCase()}
               </label>
               <select
+                name="serviceType"
                 value={form.type}
                 onChange={e => setForm({...form, type: e.target.value})}
+                required
                 style={{ ...inputStyle, appearance:'none' }}
                 onFocus={e => e.target.style.borderBottomColor = gold}
                 onBlur={e => e.target.style.borderBottomColor = 'rgba(255,255,255,0.15)'}
@@ -119,8 +135,10 @@ function Contact({ c, gold, navy, language }) {
                 {c.contact.fields.message.toUpperCase()}
               </label>
               <textarea
+                name="message"
                 value={form.message}
                 onChange={e => setForm({...form, message: e.target.value})}
+                maxLength={600}
                 rows={4}
                 style={{ ...inputStyle, resize:'none' }}
                 onFocus={e => e.target.style.borderBottomColor = gold}

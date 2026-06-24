@@ -191,6 +191,8 @@ function TweaksPanel({ title = 'Tweaks', children }) {
 
   React.useEffect(() => {
     const onMsg = (e) => {
+      const trustedSources = [window, window.parent].filter(Boolean);
+      if (!trustedSources.includes(e.source)) return;
       const t = e?.data?.type;
       if (t === '__activate_edit_mode') setOpen(true);
       else if (t === '__deactivate_edit_mode') setOpen(false);
