@@ -14,5 +14,5 @@ screenshots/
 # ── Generated build artifact (self-contained bundle of Conrad Express.html) ──
 Conrad Express - Standalone.html
 
-# ── Dependencies (if a build step is added later) ──
+# ── Dependencies ──
 node_modules/

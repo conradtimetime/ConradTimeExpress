@@ -1,8 +1,12 @@
 {
   "name": "conrad-express-static",
   "private": true,
+  "engines": {
+    "node": ">=22.18.0"
+  },
   "scripts": {
-    "build": "node scripts/build-static-bundle.mjs"
+    "build": "node scripts/build-static-bundle.mjs",
+    "verify": "npm run build && node scripts/verify-static-site.mjs"
   },
   "devDependencies": {
     "@babel/core": "^8.0.1",

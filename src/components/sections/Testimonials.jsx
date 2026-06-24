@@ -42,7 +42,7 @@ function Testimonials({ c, gold, navy }) {
       {/* ══════════════════════════════════════════
           SECTION 2 — DARK 3D PHOTO CARD CAROUSEL
       ══════════════════════════════════════════ */}
-      <section style={{
+      <section id="testimonials" style={{
         background:`radial-gradient(ellipse 55% 40% at 8% 5%, rgba(184,151,106,0.07) 0%, transparent 55%), radial-gradient(ellipse 45% 55% at 92% 95%, rgba(184,151,106,0.05) 0%, transparent 55%), ${navy}`,
         padding:'72px 0 64px',
         position:'relative',
