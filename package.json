@@ -1,0 +1,12 @@
+{
+  "name": "conrad-express-static",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-static-bundle.mjs"
+  },
+  "devDependencies": {
+    "@babel/core": "^8.0.1",
+    "@babel/plugin-transform-react-jsx": "^8.0.1",
+    "terser": "^5.48.0"
+  }
+}
