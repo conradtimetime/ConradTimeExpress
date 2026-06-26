@@ -1,6 +1,6 @@
 (function () {
   const { useState } = React;
-  const { CardSwiper, StarIcon } = window;
+  const { CardSwiper, StarIcon, SectionEyebrow } = window;
 
 /* ── PACKAGES ── */
 function Packages({ c, gold, navy }) {
@@ -19,13 +19,7 @@ function Packages({ c, gold, navy }) {
 
         {/* Header */}
         <div className="reveal" style={{ textAlign:'center', marginBottom:'52px' }}>
-          <div style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:'16px', marginBottom:'16px' }}>
-            <div style={{ width:'40px', height:'1px', background:gold }} />
-            <span style={{ fontSize:'11px', letterSpacing:'0.25em', color:gold, fontFamily:'Jost' }}>
-              {c.packages.label.toUpperCase()}
-            </span>
-            <div style={{ width:'40px', height:'1px', background:gold }} />
-          </div>
+          <SectionEyebrow label={c.packages.label} gold={gold} centered style={{ marginBottom:'16px' }} />
           <h2 style={{
             fontFamily:'Cormorant Garamond, serif', fontSize:'clamp(36px, 4.5vw, 56px)',
             fontWeight:300, color:navy, lineHeight:1.08, whiteSpace:'pre-line', marginBottom:'18px',
@@ -85,11 +79,19 @@ function Packages({ c, gold, navy }) {
 
                 {/* Price */}
                 <div style={{ marginBottom:'8px' }}>
+                  {pkg.original && (
+                    <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'4px' }}>
+                      <span style={{ fontSize:'12px', color:'rgba(15,30,53,0.4)', fontFamily:'Jost', textDecoration:'line-through' }}>{pkg.original}</span>
+                      {pkg.promoLabel && (
+                        <span style={{ fontSize:'9px', letterSpacing:'0.1em', color:gold, border:`1px solid ${gold}70`, padding:'2px 7px', fontFamily:'Jost', fontWeight:500 }}>{pkg.promoLabel.toUpperCase()}</span>
+                      )}
+                    </div>
+                  )}
                   <div style={{ display:'flex', alignItems:'baseline', gap:'6px' }}>
                     <span style={{
                       fontFamily:'Cormorant Garamond, serif',
                       fontSize: pkg.price === 'Custom' || pkg.price === 'กำหนดเอง' ? '34px' : '46px',
-                      fontWeight:300, color:navy, lineHeight:1,
+                      fontWeight:300, color: pkg.original ? gold : navy, lineHeight:1,
                     }}>{pkg.price}</span>
                     {pkg.unit && (
                       <span style={{ fontSize:'12px', color:'rgba(15,30,53,0.4)', fontFamily:'Jost' }}>{pkg.unit}</span>

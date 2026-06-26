@@ -1,7 +1,7 @@
 (function () {
   const { useState } = React;
-  const { COPY } = window.CONRAD_EXPRESS_DATA;
-  const { StarIcon } = window;
+  const { COPY, ASSETS } = window.CONRAD_EXPRESS_DATA;
+  const { logoSymbol: LOGO_SYMBOL } = ASSETS;
 
 /* ── NAV ── */
 function Nav({ c, gold, navy, scrolled, lang, setLang }) {
@@ -29,7 +29,12 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
     }}>
       {/* Logo */}
       <a href="#" style={{ display:'flex', alignItems:'center', gap:'10px', textDecoration:'none' }}>
-        <StarIcon size={20} color={gold} />
+        <img
+          src={LOGO_SYMBOL}
+          alt=""
+          aria-hidden="true"
+          style={{ width:'20px', height:'20px', objectFit:'contain', display:'block' }}
+        />
         <span style={{ fontFamily:'Cormorant Garamond, serif', fontSize:'18px', letterSpacing:'0.18em', color:'#fff', fontWeight:500 }}>
           CONRAD EXPRESS
         </span>

@@ -1,15 +1,13 @@
 (function () {
   const { useEffect, useState } = React;
   const { REVIEW_CARDS, REVIEW_PHOTOS } = window.CONRAD_EXPRESS_DATA;
-  const { PhotoPlaceholder, StarIcon } = window;
+  const { PhotoPlaceholder, StarIcon, SectionEyebrow, CornerMarks } = window;
 
 /* ── TESTIMONIALS ── */
-function Testimonials({ c, gold, navy }) {
-  const [activeIdx, setActiveIdx] = useState(0); // Shared index — syncs text quotes & photo cards
+function Testimonials({ c, gold, navy, language }) {
+  const [activeIdx, setActiveIdx] = useState(0);
 
-  /* ── Review data — 5 cards, EN + TH ── */
-  const isTH = c.testimonials.label === 'เสียงจากลูกค้า';
-  const reviews = isTH ? REVIEW_CARDS.th : REVIEW_CARDS.en;
+  const reviews = language === 'th' ? REVIEW_CARDS.th : REVIEW_CARDS.en;
   const reviewPhotos = REVIEW_PHOTOS;
   const total = reviews.length;
 
@@ -45,6 +43,8 @@ function Testimonials({ c, gold, navy }) {
       <section id="testimonials" style={{
         background:`radial-gradient(ellipse 55% 40% at 8% 5%, rgba(184,151,106,0.07) 0%, transparent 55%), radial-gradient(ellipse 45% 55% at 92% 95%, rgba(184,151,106,0.05) 0%, transparent 55%), ${navy}`,
         padding:'120px 0',
+        minHeight:'100vh', boxSizing:'border-box',
+        display:'flex', flexDirection:'column', justifyContent:'center',
         position:'relative',
         overflow:'hidden',
       }}>
@@ -54,17 +54,11 @@ function Testimonials({ c, gold, navy }) {
 
         {/* Heading */}
         <div style={{ textAlign:'center', marginBottom:'52px', padding:'0 24px', position:'relative', zIndex:2 }}>
-          <div style={{ display:'inline-flex', alignItems:'center', gap:'16px', marginBottom:'16px' }}>
-            <div style={{ width:'40px', height:'1px', background:gold }} />
-            <span style={{ fontSize:'11px', letterSpacing:'0.25em', color:gold, fontFamily:'Jost' }}>
-              {c.testimonials.label.toUpperCase()}
-            </span>
-            <div style={{ width:'40px', height:'1px', background:gold }} />
-          </div>
+          <SectionEyebrow label={c.testimonials.label} gold={gold} centered style={{ marginBottom:'16px', justifyContent:'center' }} />
           <h2 style={{
             fontFamily:'Cormorant Garamond, serif', fontSize:'clamp(36px, 4.5vw, 56px)',
-            fontWeight:300, color:'#fff', lineHeight:1.1, margin:0,
-          }}>{isTH ? 'ลูกค้าของเรา' : 'Our Customers'}</h2>
+            fontWeight:300, color:'#fff', lineHeight:1.1, margin:0, whiteSpace:'pre-line',
+          }}>{c.testimonials.title}</h2>
         </div>
 
         {/* 3D COVERFLOW STAGE */}
@@ -149,26 +143,7 @@ function Testimonials({ c, gold, navy }) {
                     pointerEvents:'none', zIndex:3,
                   }} />
 
-                  {/* Corner mark — top-left */}
-                  <div style={{ position:'absolute', top:'10px', left:'10px', zIndex:4, pointerEvents:'none' }}>
-                    <div style={{ width:'22px', height:'2px', background:gold, opacity: isActive ? 0.9 : 0.4 }} />
-                    <div style={{ width:'2px', height:'22px', background:gold, opacity: isActive ? 0.9 : 0.4, marginTop:'-2px' }} />
-                  </div>
-                  {/* Corner mark — top-right */}
-                  <div style={{ position:'absolute', top:'10px', right:'10px', zIndex:4, pointerEvents:'none', display:'flex', flexDirection:'column', alignItems:'flex-end' }}>
-                    <div style={{ width:'22px', height:'2px', background:gold, opacity: isActive ? 0.9 : 0.4 }} />
-                    <div style={{ width:'2px', height:'22px', background:gold, opacity: isActive ? 0.9 : 0.4, marginTop:'-2px', alignSelf:'flex-end' }} />
-                  </div>
-                  {/* Corner mark — bottom-left */}
-                  <div style={{ position:'absolute', bottom:'10px', left:'10px', zIndex:4, pointerEvents:'none', display:'flex', flexDirection:'column', justifyContent:'flex-end' }}>
-                    <div style={{ width:'2px', height:'22px', background:gold, opacity: isActive ? 0.9 : 0.4 }} />
-                    <div style={{ width:'22px', height:'2px', background:gold, opacity: isActive ? 0.9 : 0.4, marginTop:'-2px' }} />
-                  </div>
-                  {/* Corner mark — bottom-right */}
-                  <div style={{ position:'absolute', bottom:'10px', right:'10px', zIndex:4, pointerEvents:'none', display:'flex', flexDirection:'column', alignItems:'flex-end', justifyContent:'flex-end' }}>
-                    <div style={{ width:'2px', height:'22px', background:gold, opacity: isActive ? 0.9 : 0.4, alignSelf:'flex-end' }} />
-                    <div style={{ width:'22px', height:'2px', background:gold, opacity: isActive ? 0.9 : 0.4, marginTop:'-2px' }} />
-                  </div>
+                  <CornerMarks size={22} gold={gold} opacity={isActive ? 0.9 : 0.4} zIndex={4} />
 
                   {/* Review number overlay */}
                   <div style={{

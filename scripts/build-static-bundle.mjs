@@ -20,7 +20,6 @@ const jsxSources = [
   'src/components/sections/Testimonials.jsx',
   'src/components/sections/Packages.jsx',
   'src/components/sections/Contact.jsx',
-  'src/components/Footer.jsx',
   'src/components/FloatingLine.jsx',
   'src/app.jsx',
 ];

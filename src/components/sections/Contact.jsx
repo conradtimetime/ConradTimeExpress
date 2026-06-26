@@ -1,18 +1,19 @@
 (function () {
   const { useState } = React;
-  const { SITE_CONFIG } = window.CONRAD_EXPRESS_DATA;
-  const { StarIcon } = window;
+  const { SITE_CONFIG, ASSETS } = window.CONRAD_EXPRESS_DATA;
+  const { SectionEyebrow } = window;
+  const LOGO_SYMBOL = ASSETS.logoSymbol;
 
 /* ── CONTACT ── */
 function Contact({ c, gold, navy, language }) {
   const [form, setForm] = useState({ name:'', phone:'', type:'', message:'' });
-  const [submitted, setSubmitted] = useState(false);
+  const [submitState, setSubmitState] = useState('idle');
   const fieldConstraints = {
     name: { autoComplete:'name', maxLength:80, required:true },
     phone: { autoComplete:'tel', inputMode:'tel', maxLength:32, required:true },
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const normalizedForm = {
       name: form.name.trim(),
@@ -21,9 +22,34 @@ function Contact({ c, gold, navy, language }) {
       message: form.message.trim(),
     };
     if (!normalizedForm.name || !normalizedForm.phone || !normalizedForm.type) return;
-    setForm(normalizedForm);
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
+
+    const payload = {
+      ...normalizedForm,
+      language,
+      pageUrl: window.location.href,
+      submittedAt: new Date().toISOString(),
+      userAgent: window.navigator.userAgent,
+    };
+
+    const endpoint = SITE_CONFIG.contact.formEndpoint;
+
+    setSubmitState('submitting');
+    try {
+      if (endpoint) {
+        await fetch(endpoint, {
+          method:'POST',
+          mode:'no-cors',
+          headers:{ 'Content-Type':'text/plain;charset=utf-8' },
+          body:JSON.stringify(payload),
+        });
+      }
+      setForm({ name:'', phone:'', type:'', message:'' });
+      setSubmitState('success');
+      setTimeout(() => setSubmitState('idle'), 5000);
+    } catch (error) {
+      setForm(normalizedForm);
+      setSubmitState('error');
+    }
   };
 
   const inputStyle = {
@@ -36,9 +62,9 @@ function Contact({ c, gold, navy, language }) {
   return (
     <section id="contact" className="contact-section" style={{
       background:navy,
-      padding:'96px 96px 0',
-      minHeight:'100vh',
-      height:'100vh',
+      padding:'88px 96px 0',
+      minHeight:'calc(100vh - 72px)',
+      height:'calc(100vh - 72px)',
       boxSizing:'border-box',
       display:'flex',
       flexDirection:'column',
@@ -48,8 +74,16 @@ function Contact({ c, gold, navy, language }) {
       boxShadow:'inset 0 1px 0 rgba(184,151,106,0.12)',
     }}>
       <style>{`
-        #contact.contact-section { padding:96px 96px 0 !important; }
-        #contact .contact-body { flex:1 1 auto; min-height:0; }
+        #contact.contact-section {
+          padding:88px 96px 0 !important;
+          min-height:calc(100vh - 72px) !important;
+          height:calc(100vh - 72px) !important;
+        }
+        #contact .contact-body {
+          flex:1 1 auto;
+          min-height:0;
+          align-items:center !important;
+        }
         #contact .contact-footer {
           width:calc(100% + 192px) !important;
           margin-left:-96px !important;
@@ -58,8 +92,11 @@ function Contact({ c, gold, navy, language }) {
           padding-right:96px !important;
           box-sizing:border-box !important;
         }
+        #contact .contact-copy {
+          align-self:flex-start !important;
+        }
         @media (max-width:1440px) {
-          #contact.contact-section { padding:92px 64px 0 !important; }
+          #contact.contact-section { padding:82px 64px 0 !important; }
           #contact .contact-footer {
             width:calc(100% + 128px) !important;
             margin-left:-64px !important;
@@ -69,7 +106,7 @@ function Contact({ c, gold, navy, language }) {
           }
         }
         @media (max-height:820px) and (min-width:768px) {
-          #contact.contact-section { padding-top:84px !important; }
+          #contact.contact-section { padding-top:64px !important; }
           #contact .contact-shell { gap:64px !important; }
           #contact .contact-heading { font-size:clamp(38px, 4vw, 54px) !important; margin-bottom:22px !important; }
           #contact .contact-details { margin-top:32px !important; gap:18px !important; }
@@ -79,11 +116,11 @@ function Contact({ c, gold, navy, language }) {
         @media (max-width:1024px) {
           #contact.contact-section {
             height:auto !important;
-            min-height:100vh !important;
+            min-height:calc(100vh - 72px) !important;
             padding:88px 40px 0 !important;
             overflow:visible !important;
           }
-          #contact .contact-body { min-height:auto !important; padding:34px 0 46px !important; }
+          #contact .contact-body { min-height:auto !important; padding:34px 0 46px !important; align-items:flex-start !important; }
           #contact .contact-shell { grid-template-columns:1fr !important; gap:52px !important; }
           #contact .contact-footer {
             width:calc(100% + 80px) !important;
@@ -112,13 +149,8 @@ function Contact({ c, gold, navy, language }) {
       <div className="contact-body" style={{ width:'100%', display:'flex', alignItems:'center' }}>
         <div style={{ width:'100%', maxWidth:'1400px', margin:'0 auto' }}>
         <div className="g-split contact-shell" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'96px', alignItems:'center' }}>
-          <div className="reveal-left">
-            <div style={{ display:'flex', alignItems:'center', gap:'16px', marginBottom:'20px' }}>
-              <div style={{ width:'40px', height:'1px', background:gold }} />
-              <span style={{ fontSize:'11px', letterSpacing:'0.25em', color:gold, fontFamily:'Jost' }}>
-                {c.contact.label.toUpperCase()}
-              </span>
-            </div>
+          <div className="reveal-left contact-copy" style={{ alignSelf:'flex-start' }}>
+            <SectionEyebrow label={c.contact.label} gold={gold} />
             <h2 className="contact-heading" style={{
               fontFamily:'Cormorant Garamond, serif', fontSize:'clamp(40px, 4vw, 60px)',
               fontWeight:300, color:'#fff', lineHeight:1.1, whiteSpace:'pre-line',
@@ -149,16 +181,34 @@ function Contact({ c, gold, navy, language }) {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="reveal-right contact-form" style={{ display:'flex', flexDirection:'column', gap:'28px' }}>
-            {submitted && (
-              <div style={{
-                background:`${gold}15`, border:`1px solid ${gold}40`,
-                padding:'16px 24px', color:gold, fontSize:'13px', fontFamily:'Jost',
-                letterSpacing:'0.05em',
-              }}>
-                ✓ {language === 'th' ? 'รับคำขอของคุณแล้ว เราจะติดต่อกลับภายใน 2 ชั่วโมง' : 'Your request has been received. We will respond within 2 hours.'}
+          <div className="reveal-right contact-form-wrap" style={{ position:'relative' }}>
+            {(submitState === 'success' || submitState === 'error') && (
+              <div
+                className="contact-status"
+                aria-live="polite"
+                style={{
+                  position:'absolute',
+                  left:0,
+                  right:0,
+                  top:'-76px',
+                  background:submitState === 'success' ? `${gold}15` : 'rgba(180,66,66,0.12)',
+                  border:submitState === 'success' ? `1px solid ${gold}40` : '1px solid rgba(220,110,110,0.35)',
+                  padding:'16px 24px',
+                  color:submitState === 'success' ? gold : 'rgba(255,185,185,0.86)',
+                  fontSize:'13px',
+                  fontFamily:'Jost',
+                  letterSpacing:submitState === 'success' ? '0.05em' : '0.04em',
+                  pointerEvents:'none',
+                  zIndex:4,
+                }}
+              >
+                {submitState === 'success'
+                  ? `✓ ${language === 'th' ? 'รับคำขอของคุณแล้ว เราจะติดต่อกลับภายใน 2 ชั่วโมง' : 'Your request has been received. We will respond within 2 hours.'}`
+                  : (language === 'th' ? 'ส่งคำขอไม่สำเร็จ กรุณาลองอีกครั้งหรือติดต่อเราทาง LINE OA' : 'Unable to submit. Please try again or contact us via LINE OA.')}
               </div>
             )}
+
+            <form onSubmit={handleSubmit} className="contact-form" style={{ display:'flex', flexDirection:'column', gap:'28px' }}>
 
             {[
               { key:'name', label:c.contact.fields.name, type:'text' },
@@ -173,6 +223,7 @@ function Contact({ c, gold, navy, language }) {
                   type={f.type}
                   value={form[f.key]}
                   onChange={e => setForm({...form, [f.key]: e.target.value})}
+                  disabled={submitState === 'submitting'}
                   {...fieldConstraints[f.key]}
                   style={inputStyle}
                   onFocus={e => e.target.style.borderBottomColor = gold}
@@ -189,6 +240,7 @@ function Contact({ c, gold, navy, language }) {
                 name="serviceType"
                 value={form.type}
                 onChange={e => setForm({...form, type: e.target.value})}
+                disabled={submitState === 'submitting'}
                 required
                 style={{ ...inputStyle, appearance:'none' }}
                 onFocus={e => e.target.style.borderBottomColor = gold}
@@ -209,6 +261,7 @@ function Contact({ c, gold, navy, language }) {
                 name="message"
                 value={form.message}
                 onChange={e => setForm({...form, message: e.target.value})}
+                disabled={submitState === 'submitting'}
                 maxLength={600}
                 rows={4}
                 style={{ ...inputStyle, resize:'none' }}
@@ -217,16 +270,20 @@ function Contact({ c, gold, navy, language }) {
               />
             </div>
 
-            <button type="submit" style={{
+            <button type="submit" disabled={submitState === 'submitting'} style={{
               background: gold, color: navy, border:'none',
               padding:'16px 40px', fontSize:'12px', letterSpacing:'0.15em',
               fontFamily:'Jost, sans-serif', fontWeight:500,
-              cursor:'pointer', alignSelf:'flex-start', transition:'all 0.25s',
+              cursor:submitState === 'submitting' ? 'wait' : 'pointer', alignSelf:'flex-start', transition:'all 0.25s',
+              opacity:submitState === 'submitting' ? 0.65 : 1,
             }}
             onMouseEnter={e => { e.currentTarget.style.background='#cead82'; e.currentTarget.style.transform='translateY(-2px)'; }}
             onMouseLeave={e => { e.currentTarget.style.background=gold; e.currentTarget.style.transform='translateY(0)'; }}
-            >{c.contact.fields.cta.toUpperCase()}</button>
-          </form>
+            >{submitState === 'submitting'
+              ? (language === 'th' ? 'กำลังส่ง...' : 'SUBMITTING...')
+              : c.contact.fields.cta.toUpperCase()}</button>
+            </form>
+          </div>
         </div>
         </div>
       </div>
@@ -249,7 +306,12 @@ function Contact({ c, gold, navy, language }) {
           gap:'22px',
         }}>
           <div style={{ display:'flex', alignItems:'center', gap:'12px', flexWrap:'wrap' }}>
-            <StarIcon size={16} color={gold} />
+            <img
+              src={LOGO_SYMBOL}
+              alt=""
+              aria-hidden="true"
+              style={{ width:'16px', height:'16px', objectFit:'contain', display:'block' }}
+            />
             <span style={{ fontFamily:'Cormorant Garamond, serif', fontSize:'16px', letterSpacing:'0.15em', color:'rgba(255,255,255,0.42)' }}>
               CONRAD EXPRESS
             </span>

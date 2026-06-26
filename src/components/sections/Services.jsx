@@ -1,6 +1,6 @@
 (function () {
   const { useState } = React;
-  const { CardSwiper } = window;
+  const { CardSwiper, SectionEyebrow } = window;
 
 /* ── SERVICES ── */
 function Services({ c, gold, navy }) {
@@ -8,64 +8,86 @@ function Services({ c, gold, navy }) {
   return (
     <section id="services" className="services-section" style={{
       background:'#fff',
-      padding:'96px 96px 72px',
-      minHeight:'100vh',
-      height:'100vh',
+      padding:'88px 96px 76px',
+      minHeight:'calc(100vh - 72px)',
       boxSizing:'border-box',
       display:'flex',
       alignItems:'center',
+      scrollMarginTop:'72px',
       boxShadow:'inset 0 -1px 0 rgba(184,151,106,0.12), inset 0 1px 0 rgba(184,151,106,0.08)',
       overflow:'hidden',
     }}>
       <style>{`
-        #services.services-section { padding:96px 96px 72px !important; }
-        #services .services-kicker { margin-bottom:20px !important; }
-        #services .services-heading { margin-bottom:60px !important; }
-        #services .service-card { padding:44px 42px !important; }
+        #services.services-section {
+          padding:88px 96px 76px !important;
+          min-height:calc(100vh - 72px) !important;
+        }
+        #services .services-inner { max-width:1450px !important; }
+        #services .services-kicker { margin-bottom:18px !important; }
+        #services .services-heading { margin-bottom:44px !important; }
+        #services .services-sub { margin-top:20px !important; }
+        #services .service-card {
+          padding:36px 40px !important;
+          min-height:224px;
+          display:flex;
+          flex-direction:column;
+        }
+        #services .service-number { margin-bottom:14px !important; }
+        #services .service-title { margin-bottom:12px !important; }
+        #services .service-copy { line-height:1.62 !important; }
         @media (max-width:1440px) {
-          #services.services-section { padding:92px 64px 64px !important; }
-          #services .services-heading { margin-bottom:52px !important; }
-          #services .service-card { padding:40px 38px !important; }
+          #services.services-section { padding:72px 64px 58px !important; }
+          #services .services-heading { margin-bottom:36px !important; }
+          #services .services-title { font-size:clamp(38px, 4.2vw, 56px) !important; }
+          #services .services-sub { font-size:13.2px !important; line-height:1.68 !important; max-width:760px !important; }
+          #services .service-card { padding:30px 32px !important; min-height:214px; }
+          #services .service-title { font-size:25px !important; }
+          #services .service-copy { font-size:12.8px !important; line-height:1.55 !important; }
         }
         @media (max-height:820px) and (min-width:768px) {
-          #services.services-section { padding:84px 64px 38px !important; }
-          #services .services-heading { margin-bottom:36px !important; }
-          #services .services-title { font-size:clamp(38px, 5vw, 54px) !important; }
-          #services .service-card { padding:28px 36px !important; }
-          #services .service-number { margin-bottom:10px !important; }
-          #services .service-title { font-size:25px !important; margin-bottom:9px !important; }
-          #services .service-copy { font-size:13px !important; line-height:1.55 !important; }
+          #services.services-section { padding:54px 64px 40px !important; }
+          #services .services-heading { margin-bottom:28px !important; }
+          #services .services-kicker { margin-bottom:14px !important; }
+          #services .services-title { font-size:clamp(34px, 4.2vw, 48px) !important; }
+          #services .services-sub { margin-top:14px !important; font-size:12.2px !important; line-height:1.52 !important; max-width:720px !important; }
+          #services .service-card { padding:24px 28px !important; min-height:190px; }
+          #services .service-number { margin-bottom:8px !important; }
+          #services .service-title { font-size:23px !important; margin-bottom:8px !important; }
+          #services .service-copy { font-size:12.2px !important; line-height:1.45 !important; }
         }
         @media (max-width:1024px) {
           #services.services-section {
-            height:auto !important;
-            min-height:100vh !important;
+            min-height:auto !important;
             padding:88px 40px 72px !important;
             overflow:visible !important;
           }
+          #services .services-sub { max-width:640px !important; }
         }
         @media (max-width:767px) {
           #services.services-section { padding:72px 22px 58px !important; }
           #services .services-heading { margin-bottom:38px !important; }
           #services .services-title { font-size:clamp(40px, 12vw, 54px) !important; }
-          #services .service-card { padding:32px 28px !important; }
+          #services .services-sub { font-size:13px !important; line-height:1.65 !important; }
+          #services .service-card { padding:32px 28px !important; min-height:auto; }
         }
       `}</style>
-      <div style={{ width:'100%', maxWidth:'1400px', margin:'0 auto' }}>
-        <div className="reveal services-heading" style={{ marginBottom:'60px' }}>
-          <div className="services-kicker" style={{ display:'flex', alignItems:'center', gap:'16px', marginBottom:'20px' }}>
-            <div style={{ width:'40px', height:'1px', background:gold }} />
-            <span style={{ fontSize:'11px', letterSpacing:'0.25em', color:gold, fontFamily:'Jost', fontWeight:400 }}>
-              {c.services.label.toUpperCase()}
-            </span>
-          </div>
+      <div className="services-inner" style={{ width:'100%', maxWidth:'1450px', margin:'0 auto' }}>
+        <div className="reveal services-heading" style={{ marginBottom:'60px', textAlign:'center' }}>
+          <SectionEyebrow label={c.services.label} gold={gold} centered className="services-kicker" />
           <h2 className="services-title" style={{
             fontFamily:'Cormorant Garamond, serif', fontSize:'clamp(40px, 5vw, 64px)',
-            fontWeight:300, color:navy, lineHeight:1.1, whiteSpace:'pre-line',
+            fontWeight:300, color:navy, lineHeight:1.1, whiteSpace:'pre-line', margin:'0 auto',
           }}>{c.services.title}</h2>
+          {c.services.sub && (
+            <p className="services-sub" style={{
+              margin:'20px auto 0', maxWidth:'780px',
+              fontSize:'14px', lineHeight:1.75, fontWeight:300,
+              color:'rgba(15,30,53,0.52)', fontFamily:'Jost',
+            }}>{c.services.sub}</p>
+          )}
         </div>
 
-        <CardSwiper className="g-2 swipe" style={{ display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'2px' }}>
+        <CardSwiper className="services-grid g-2 swipe" style={{ display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:'2px' }}>
           {c.services.items.map((s, i) => (
             <div key={i}
               className="service-card"

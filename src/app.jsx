@@ -43,7 +43,7 @@ function App() {
       <Services c={c} gold={gold} navy={navy} />
       <WhyUs c={c} gold={gold} navy={navy} />
       <Process c={c} gold={gold} navy={navy} />
-      <Testimonials c={c} gold={gold} navy={navy} />
+      <Testimonials c={c} gold={gold} navy={navy} language={language} />
       <Packages c={c} gold={gold} navy={navy} />
       <Contact c={c} gold={gold} navy={navy} language={language} />
       <FloatingLine gold={gold} navy={navy} />

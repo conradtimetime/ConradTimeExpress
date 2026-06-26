@@ -86,5 +86,57 @@ function CardSwiper({ className, style, children }) {
 }
 
 
-  Object.assign(window, { StarIcon, PhotoPlaceholder, CardSwiper });
+/* ── SECTION EYEBROW ──
+   Renders the gold kicker line(s) + label above section headings.
+   centered=true → lines on both sides (Services, Process, Packages, Testimonials)
+   centered=false → single left line (WhyUs, Contact) */
+function SectionEyebrow({ label, gold, centered = false, className = '', style = {} }) {
+  const line = <div style={{ width: '40px', height: '1px', background: gold }} />;
+  return (
+    <div
+      className={className}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: centered ? 'center' : undefined,
+        gap: '16px',
+        marginBottom: '20px',
+        ...style,
+      }}
+    >
+      {line}
+      <span style={{ fontSize: '11px', letterSpacing: '0.25em', color: gold, fontFamily: 'Jost' }}>
+        {label.toUpperCase()}
+      </span>
+      {centered && line}
+    </div>
+  );
+}
+
+
+/* ── CORNER MARKS ──
+   Four L-shaped gold corner marks — used in Process, Testimonials, WhyUs image frames. */
+function CornerMarks({ size = 24, gold, opacity = 0.8, zIndex = 4 }) {
+  const h = { display: 'block', width: `${size}px`, height: '2px', background: gold, opacity };
+  const v = { display: 'block', width: '2px', height: `${size}px`, background: gold, opacity, marginTop: '-2px' };
+  return (
+    <>
+      <div style={{ position: 'absolute', top: '10px', left: '10px', zIndex, pointerEvents: 'none' }}>
+        <div style={h} /><div style={v} />
+      </div>
+      <div style={{ position: 'absolute', top: '10px', right: '10px', zIndex, pointerEvents: 'none', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+        <div style={h} /><div style={{ ...v, alignSelf: 'flex-end' }} />
+      </div>
+      <div style={{ position: 'absolute', bottom: '10px', left: '10px', zIndex, pointerEvents: 'none', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+        <div style={{ ...v, marginTop: 0 }} /><div style={{ ...h, marginTop: '-2px' }} />
+      </div>
+      <div style={{ position: 'absolute', bottom: '10px', right: '10px', zIndex, pointerEvents: 'none', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
+        <div style={{ ...v, alignSelf: 'flex-end', marginTop: 0 }} /><div style={{ ...h, marginTop: '-2px' }} />
+      </div>
+    </>
+  );
+}
+
+
+  Object.assign(window, { StarIcon, PhotoPlaceholder, CardSwiper, SectionEyebrow, CornerMarks });
 })();

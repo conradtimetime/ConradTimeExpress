@@ -6,6 +6,7 @@
     contact: {
       email: "conradtime.time@gmail.com",
       lineUrl: "https://line.me/ti/p/~@ConradExpress",
+      formEndpoint: "https://script.google.com/macros/s/AKfycbwSiEBlsmjYevzxkLyU25V2S4vJYpcnClHGJZnjqoGzPsG-CY0kwGj7286t7nQIVf8QWQ/exec",
     },
   };
 

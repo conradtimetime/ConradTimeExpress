@@ -1,17 +1,11 @@
 (function () {
   const { useState } = React;
-  const { StarIcon } = window;
-
+  const { StarIcon, SectionEyebrow, CornerMarks } = window;
+  const { processImages } = window.CONRAD_EXPRESS_DATA.ASSETS;
 
 /* ── PROCESS ── */
 function Process({ c, gold, navy }) {
   const [active, setActive] = useState(0);
-  const processImages = {
-    0: { src:'brand-images/Consultation.png', maxWidth:'72%' },
-    1: { src:'brand-images/Collection.png', fit:'cover', objectPosition:'center 68%' },
-    2: { src:'brand-images/Transit.png', fit:'cover', objectPosition:'center 62%' },
-    3: { src:'brand-images/Delivery.png', fit:'cover', objectPosition:'center 64%' },
-  };
   const activeImage = processImages[active];
 
   return (
@@ -67,16 +61,11 @@ function Process({ c, gold, navy }) {
         }
       `}</style>
       <div style={{ width:'100%', maxWidth:'1400px', margin:'0 auto' }}>
-        <div className="process-heading" style={{ marginBottom:'58px' }}>
-          <div style={{ display:'flex', alignItems:'center', gap:'16px', marginBottom:'20px' }}>
-            <div style={{ width:'40px', height:'1px', background:gold }} />
-            <span style={{ fontSize:'11px', letterSpacing:'0.25em', color:gold, fontFamily:'Jost' }}>
-              {c.process.label.toUpperCase()}
-            </span>
-          </div>
+        <div className="process-heading" style={{ marginBottom:'58px', textAlign:'center' }}>
+          <SectionEyebrow label={c.process.label} gold={gold} centered />
           <h2 className="process-title" style={{
             fontFamily:'Cormorant Garamond, serif', fontSize:'clamp(40px, 5vw, 64px)',
-            fontWeight:300, color:navy, lineHeight:1.1, whiteSpace:'pre-line',
+            fontWeight:300, color:navy, lineHeight:1.1, whiteSpace:'pre-line', margin:'0 auto',
           }}>{c.process.title}</h2>
         </div>
 
@@ -276,26 +265,7 @@ function Process({ c, gold, navy }) {
                   pointerEvents:'none', zIndex:4,
                 }} />
 
-                {/* Corner marks — top-left */}
-                <div style={{ position:'absolute', top:'10px', left:'10px', zIndex:5, pointerEvents:'none' }}>
-                  <div style={{ width:'28px', height:'2px', background:gold, opacity:0.8 }} />
-                  <div style={{ width:'2px', height:'28px', background:gold, opacity:0.8, marginTop:'-2px' }} />
-                </div>
-                {/* Corner marks — top-right */}
-                <div style={{ position:'absolute', top:'10px', right:'10px', zIndex:5, pointerEvents:'none', display:'flex', flexDirection:'column', alignItems:'flex-end' }}>
-                  <div style={{ width:'28px', height:'2px', background:gold, opacity:0.8 }} />
-                  <div style={{ width:'2px', height:'28px', background:gold, opacity:0.8, marginTop:'-2px', alignSelf:'flex-end' }} />
-                </div>
-                {/* Corner marks — bottom-left */}
-                <div style={{ position:'absolute', bottom:'10px', left:'10px', zIndex:5, pointerEvents:'none', display:'flex', flexDirection:'column', justifyContent:'flex-end' }}>
-                  <div style={{ width:'2px', height:'28px', background:gold, opacity:0.8 }} />
-                  <div style={{ width:'28px', height:'2px', background:gold, opacity:0.8, marginTop:'-2px' }} />
-                </div>
-                {/* Corner marks — bottom-right */}
-                <div style={{ position:'absolute', bottom:'10px', right:'10px', zIndex:5, pointerEvents:'none', display:'flex', flexDirection:'column', alignItems:'flex-end', justifyContent:'flex-end' }}>
-                  <div style={{ width:'2px', height:'28px', background:gold, opacity:0.8, alignSelf:'flex-end' }} />
-                  <div style={{ width:'28px', height:'2px', background:gold, opacity:0.8, marginTop:'-2px' }} />
-                </div>
+                <CornerMarks size={28} gold={gold} opacity={0.8} zIndex={5} />
 
                 {/* Step number overlay */}
                 <div style={{

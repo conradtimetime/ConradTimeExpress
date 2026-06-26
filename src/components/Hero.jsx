@@ -13,6 +13,8 @@ const HERO_BG = SITE_CONFIG.heroBackground || 'brand-images/Section_Hero.png';
 
 function Hero({ c, gold, navy, layout }) {
   const isDark = layout === 'dark';
+  const sameDayPackage = c.packages.items.find((pkg) => pkg.name === 'Same Day') || c.packages.items[0];
+  const startingPrice = sameDayPackage?.price || c.pricing.price;
 
   return (
     <section id="hero" style={{
@@ -203,7 +205,7 @@ function Hero({ c, gold, navy, layout }) {
             </div>
             <div style={{ display:'flex', alignItems:'baseline', gap:'5px' }}>
               <span style={{ fontFamily:'Cormorant Garamond, serif', fontSize:'26px', fontWeight:300, color: isDark ? '#fff' : navy, lineHeight:1 }}>
-                {c.pricing.price}
+                {startingPrice}
               </span>
               <span style={{ fontSize:'10px', color: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(15,30,53,0.4)', fontFamily:'Jost' }}>
                 {c.pricing.unit}
