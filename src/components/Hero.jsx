@@ -1,5 +1,4 @@
 (function () {
-  const { useEffect, useRef } = React;
   const { SITE_CONFIG } = window.CONRAD_EXPRESS_DATA;
   const { StarIcon } = window;
 
@@ -10,29 +9,10 @@
    The image is rendered object-fit:cover so it always fills the full-screen
    hero; keep the key subject toward the RIGHT half (the left side is covered
    by the headline + a dark scrim for legibility). */
-const HERO_BG = SITE_CONFIG.heroBackground; // e.g. 'brand-images/hero.jpg' — leave '' to show the placeholder
+const HERO_BG = SITE_CONFIG.heroBackground || 'brand-images/Section_Hero.png';
 
 function Hero({ c, gold, navy, layout }) {
   const isDark = layout === 'dark';
-  const parallaxRef = useRef(null);
-
-  /* Parallax — direct DOM, zero React re-renders */
-  useEffect(() => {
-    const el = parallaxRef.current;
-    if (!el) return;
-    let ticking = false;
-    const handler = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          if (el) el.style.transform = `translateY(${window.scrollY * 0.10}px)`;
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-    window.addEventListener('scroll', handler, { passive: true });
-    return () => window.removeEventListener('scroll', handler);
-  }, []);
 
   return (
     <section id="hero" style={{
@@ -96,9 +76,13 @@ function Hero({ c, gold, navy, layout }) {
       `}</style>
 
       {/* ── BACKGROUND IMAGE (swap HERO_BG above to replace) ── */}
-      <div ref={parallaxRef} style={{ position:'absolute', inset:'-6% 0 0 0', height:'112%', zIndex:1, willChange:'transform' }}>
+      <div style={{ position:'absolute', inset:0, width:'100%', height:'100%', zIndex:1 }}>
         {HERO_BG ? (
-          <img src={HERO_BG} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }} />
+          <img src={HERO_BG} alt="" style={{
+            width:'100%', height:'100%',
+            objectFit:'cover', objectPosition:'center center',
+            display:'block',
+          }} />
         ) : (
           <div style={{
             width:'100%', height:'100%', background:'#13203a',

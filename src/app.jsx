@@ -3,7 +3,7 @@
   const { COPY } = window.CONRAD_EXPRESS_DATA;
   const {
     Nav, Hero, Services, WhyUs, Process, Testimonials, Packages, Contact,
-    Footer, FloatingLine,
+    FloatingLine,
   } = window;
   const TWEAK_DEFAULTS = window.TWEAK_DEFAULTS;
 
@@ -46,7 +46,6 @@ function App() {
       <Testimonials c={c} gold={gold} navy={navy} />
       <Packages c={c} gold={gold} navy={navy} />
       <Contact c={c} gold={gold} navy={navy} language={language} />
-      <Footer c={c} gold={gold} navy={navy} />
       <FloatingLine gold={gold} navy={navy} />
 
       <TweaksPanel>

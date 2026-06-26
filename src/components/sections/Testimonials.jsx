@@ -44,12 +44,27 @@ function Testimonials({ c, gold, navy }) {
       ══════════════════════════════════════════ */}
       <section id="testimonials" style={{
         background:`radial-gradient(ellipse 55% 40% at 8% 5%, rgba(184,151,106,0.07) 0%, transparent 55%), radial-gradient(ellipse 45% 55% at 92% 95%, rgba(184,151,106,0.05) 0%, transparent 55%), ${navy}`,
-        padding:'72px 0 64px',
+        padding:'120px 0',
         position:'relative',
         overflow:'hidden',
       }}>
         <div style={{ position:'absolute', right:'-10vw', top:'50%', transform:'translateY(-50%)', opacity:0.02, pointerEvents:'none' }}>
           <StarIcon size={560} color={gold} />
+        </div>
+
+        {/* Heading */}
+        <div style={{ textAlign:'center', marginBottom:'52px', padding:'0 24px', position:'relative', zIndex:2 }}>
+          <div style={{ display:'inline-flex', alignItems:'center', gap:'16px', marginBottom:'16px' }}>
+            <div style={{ width:'40px', height:'1px', background:gold }} />
+            <span style={{ fontSize:'11px', letterSpacing:'0.25em', color:gold, fontFamily:'Jost' }}>
+              {c.testimonials.label.toUpperCase()}
+            </span>
+            <div style={{ width:'40px', height:'1px', background:gold }} />
+          </div>
+          <h2 style={{
+            fontFamily:'Cormorant Garamond, serif', fontSize:'clamp(36px, 4.5vw, 56px)',
+            fontWeight:300, color:'#fff', lineHeight:1.1, margin:0,
+          }}>{isTH ? 'ลูกค้าของเรา' : 'Our Customers'}</h2>
         </div>
 
         {/* 3D COVERFLOW STAGE */}

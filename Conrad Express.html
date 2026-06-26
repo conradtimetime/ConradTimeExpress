@@ -247,20 +247,27 @@
     .swipe-dot.on { background: var(--gold); width: 22px; border-radius: 4px; }
   }
 
-  /* ── Section / footer spacing per device class (hero keeps 100vh) ── */
+  /* ── Section / footer spacing per device class (hero keeps 100vh) ──
+     Vertical rhythm kept tight so each section sits comfortably on screen. */
+  @media (min-width: 1441px) {
+    section:not(#hero) { padding-top: 88px !important; padding-bottom: 88px !important; }
+    footer { padding-top: 48px !important; padding-bottom: 48px !important; }
+  }
   @media (max-width: 1440px) {
-    section:not(#hero) { padding: 104px 64px !important; }
-    footer { padding: 52px 64px !important; }
+    section:not(#hero) { padding: 84px 64px !important; }
+    footer { padding: 48px 64px !important; }
   }
   @media (max-width: 1024px) {
-    section:not(#hero) { padding: 88px 40px !important; }
-    footer { padding: 48px 40px !important; }
+    section:not(#hero) { padding: 72px 40px !important; }
+    footer { padding: 44px 40px !important; }
   }
   @media (max-width: 767px) {
-    section:not(#hero) { padding: 64px 22px !important; }
-    footer { padding: 40px 22px !important; }
+    section:not(#hero) { padding: 56px 22px !important; }
+    footer { padding: 38px 22px !important; }
     .footer-inner { flex-direction: column !important; justify-content: center !important; text-align: center !important; }
   }
+
+  /* Packages + Contact follow the standard section rhythm (same as the others). */
 
   /* ── Navigation: collapse to hamburger on small screens ── */
   .nav-burger { display: none; }
