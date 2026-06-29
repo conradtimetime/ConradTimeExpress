@@ -71,7 +71,7 @@ function Process({ c, gold, navy }) {
 
         <div className="g-split process-grid" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'72px', alignItems:'center' }}>
           {/* Steps list */}
-          <div className="reveal-left" style={{ display:'flex', flexDirection:'column', gap:'0' }}>
+          <div className="reveal-right" style={{ order:2, display:'flex', flexDirection:'column', gap:'0' }}>
             {c.process.steps.map((step, i) => (
               <div key={i}
                 className="process-step"
@@ -105,7 +105,7 @@ function Process({ c, gold, navy }) {
           </div>
 
           {/* Active step visual container */}
-          <div className="reveal-right" style={{ display:'flex', alignItems:'center', justifyContent:'center' }}>
+          <div className="reveal-left" style={{ order:1, display:'flex', alignItems:'center', justifyContent:'center' }}>
             <div className="process-visual-shell" style={{ position:'relative', width:'86%' }}>
 
               {/* Offset shadow block */}
