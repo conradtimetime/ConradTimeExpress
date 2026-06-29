@@ -11,6 +11,14 @@ function Contact({ c, gold, navy, language }) {
     name: { autoComplete:'name', maxLength:80, required:true },
     phone: { autoComplete:'tel', inputMode:'tel', maxLength:32, required:true },
   };
+  const otherShipmentTypes = (c.contact.types || []).filter((type) => {
+    const normalized = String(type).trim().toLowerCase();
+    return normalized === 'other' || normalized === 'อื่นๆ';
+  });
+  const shipmentTypes = [
+    ...c.services.items.map((service) => service.title),
+    ...(otherShipmentTypes.length ? otherShipmentTypes : [language === 'th' ? 'อื่นๆ' : 'Other']),
+  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -246,7 +254,7 @@ function Contact({ c, gold, navy, language }) {
                 onBlur={e => e.target.style.borderBottomColor = 'rgba(255,255,255,0.15)'}
               >
                 <option value="" style={{ background:navy }}>—</option>
-                {c.contact.types.map((t, i) => (
+                {shipmentTypes.map((t, i) => (
                   <option key={i} value={t} style={{ background:navy }}>{t}</option>
                 ))}
               </select>
