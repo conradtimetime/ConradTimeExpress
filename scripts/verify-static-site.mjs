@@ -34,8 +34,11 @@ assert(!html.includes('type="text/babel"'), 'HTML must not use type="text/babel"
 assert(!html.includes('react.development'), 'React development build must not be loaded.');
 assert(!html.includes('react-dom.development'), 'ReactDOM development build must not be loaded.');
 
+const normalizeLocalScriptSrc = (src) => src.split(/[?#]/, 1)[0];
 const scriptSources = [...html.matchAll(/<script[^>]+src="([^"]+)"/g)].map((match) => match[1]);
-const localScriptSources = scriptSources.filter((src) => !/^https?:\/\//.test(src));
+const localScriptSources = scriptSources
+  .filter((src) => !/^https?:\/\//.test(src))
+  .map(normalizeLocalScriptSrc);
 const expectedScriptOrder = [
   rel('src', 'data', 'config.js'),
   rel('src', 'data', 'copy.js'),

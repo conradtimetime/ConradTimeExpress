@@ -18,7 +18,7 @@ function Packages({ c, gold, navy }) {
       <div style={{ width:'100%', maxWidth:'1400px', margin:'0 auto' }}>
 
         {/* Header */}
-        <div className="reveal" style={{ textAlign:'center', marginBottom:'52px' }}>
+        <div className="reveal" style={{ textAlign:'center', marginBottom:'22px' }}>
           <SectionEyebrow label={c.packages.label} gold={gold} centered style={{ marginBottom:'16px' }} />
           <h2 style={{
             fontFamily:'Cormorant Garamond, serif', fontSize:'clamp(36px, 4.5vw, 56px)',
@@ -67,7 +67,7 @@ function Packages({ c, gold, navy }) {
                 )}
 
                 {/* Tier name */}
-                <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'24px' }}>
+                <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'14px' }}>
                   <StarIcon size={12} color={tierAccent[i]} style={{ opacity: isActive ? 1 : 0.5 }} />
                   <span style={{
                     fontFamily:'Cormorant Garamond, serif', fontSize:'22px', fontWeight:400,
@@ -103,13 +103,13 @@ function Packages({ c, gold, navy }) {
                 <p style={{
                   fontSize:'13px', lineHeight:1.65,
                   color: isActive ? 'rgba(15,30,53,0.6)' : 'rgba(15,30,53,0.4)',
-                  fontFamily:'Jost', fontWeight:300, marginBottom:'28px',
-                  paddingBottom:'24px', borderBottom:'1px solid rgba(15,30,53,0.1)',
+                  fontFamily:'Jost', fontWeight:300, marginBottom:'20px',
+                  paddingBottom:'18px', borderBottom:'1px solid rgba(15,30,53,0.1)',
                   transition:'color 0.4s',
                 }}>{pkg.desc}</p>
 
                 {/* Features */}
-                <div style={{ display:'flex', flexDirection:'column', gap:'10px', flex:1 }}>
+                <div style={{ display:'flex', flexDirection:'column', gap:'8px', flex:1 }}>
                   {pkg.features.map((f, fi) => (
                     <div key={fi} style={{ display:'flex', alignItems:'flex-start', gap:'10px' }}>
                       <div style={{

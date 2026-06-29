@@ -1,7 +1,6 @@
 (function () {
   const { useState } = React;
-  const { COPY, ASSETS } = window.CONRAD_EXPRESS_DATA;
-  const { logoSymbol: LOGO_SYMBOL } = ASSETS;
+  const { COPY } = window.CONRAD_EXPRESS_DATA;
 
 /* ── NAV ── */
 function Nav({ c, gold, navy, scrolled, lang, setLang }) {
@@ -27,21 +26,31 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
       boxShadow: scrolled ? '0 4px 24px rgba(0,0,0,0.3), 0 1px 0 rgba(184,151,106,0.12) inset' : 'none',
       transition: 'all 0.4s ease',
     }}>
+      <div
+        aria-hidden="true"
+        style={{
+          position:'absolute',
+          left:0,
+          top:0,
+          bottom:0,
+          width:'clamp(260px, 30vw, 430px)',
+          background:`linear-gradient(90deg, ${navy}d9 0%, ${navy}9a 44%, ${navy}40 72%, transparent 100%)`,
+          opacity: scrolled ? 0 : 1,
+          pointerEvents:'none',
+          transition:'opacity 0.35s ease',
+          zIndex:0,
+        }}
+      />
+
       {/* Logo */}
-      <a href="#" style={{ display:'flex', alignItems:'center', gap:'10px', textDecoration:'none' }}>
-        <img
-          src={LOGO_SYMBOL}
-          alt=""
-          aria-hidden="true"
-          style={{ width:'20px', height:'20px', objectFit:'contain', display:'block' }}
-        />
+      <a href="#" style={{ display:'flex', alignItems:'center', textDecoration:'none', position:'relative', zIndex:1 }}>
         <span style={{ fontFamily:'Cormorant Garamond, serif', fontSize:'18px', letterSpacing:'0.18em', color:'#fff', fontWeight:500 }}>
           CONRAD EXPRESS
         </span>
       </a>
 
       {/* Desktop Links */}
-      <div className="nav-links" style={{ display:'flex', alignItems:'center', gap:'36px' }}>
+      <div className="nav-links" style={{ display:'flex', alignItems:'center', gap:'36px', position:'relative', zIndex:1 }}>
         {links.map(l => (
           <a key={l.href} href={l.href} style={{
             color:'rgba(255,255,255,0.75)', textDecoration:'none',
@@ -93,6 +102,7 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
         background:'transparent', border:'none', cursor:'pointer',
         flexDirection:'column', justifyContent:'center', alignItems:'center', gap:'5px',
         width:'42px', height:'42px', padding:'8px',
+        position:'relative', zIndex:1,
       }}>
         <span style={{ display:'block', width:'22px', height:'1.5px', background:gold, transition:'transform 0.3s, opacity 0.3s', transform: menuOpen ? 'translateY(6.5px) rotate(45deg)' : 'none' }} />
         <span style={{ display:'block', width:'22px', height:'1.5px', background:gold, opacity: menuOpen ? 0 : 1, transition:'opacity 0.2s' }} />

@@ -1,5 +1,5 @@
 (function () {
-  const { useState } = React;
+  const { useState, useEffect } = React;
   const { CardSwiper, StarIcon, SectionEyebrow, CornerMarks } = window;
   const { whyImage: WHY_IMAGE } = window.CONRAD_EXPRESS_DATA.ASSETS;
 
@@ -8,6 +8,14 @@ function WhyUs({ c, gold, navy }) {
   const [hoveredPillar, setHoveredPillar] = useState(null);
   const [activeShowcase, setActiveShowcase] = useState('stats');
   const showingStats = activeShowcase === 'stats';
+
+  // Auto-swap between the stats panel and the image every 10 seconds.
+  useEffect(() => {
+    const t = setInterval(() => {
+      setActiveShowcase(s => (s === 'stats' ? 'image' : 'stats'));
+    }, 10000);
+    return () => clearInterval(t);
+  }, []);
   return (
     <section id="why" className="why-section" style={{
       background: `linear-gradient(160deg, ${navy} 0%, #0a1628 100%)`,

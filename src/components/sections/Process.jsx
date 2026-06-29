@@ -16,7 +16,7 @@ function Process({ c, gold, navy }) {
       height:'100vh',
       boxSizing:'border-box',
       display:'flex',
-      alignItems:'center',
+      alignItems:'flex-start',
       overflow:'hidden',
     }}>
       <style>{`

@@ -59,8 +59,8 @@ const COPY = {
       items: [
         { num: '08', label: 'Years of luxury logistics expertise' },
         { num: '99.8%', label: 'On-time delivery rate' },
-        { num: '฿2B+', label: 'In high-value goods transported' },
-        { num: '80+', label: 'Countries served worldwide' },
+        { num: '10K+', label: 'Parcels delivered successfully' },
+        { num: '77', label: 'Provinces across Thailand' },
       ]
     },
     process: {
@@ -177,8 +177,8 @@ const COPY = {
       items: [
         { num: '08', label: 'ปีแห่งความเชี่ยวชาญด้านโลจิสติกส์หรู' },
         { num: '99.8%', label: 'อัตราส่งตรงเวลา' },
-        { num: '2B+', label: 'บาทในสินค้ามูลค่าสูงที่ขนส่งแล้ว' },
-        { num: '80+', label: 'ประเทศทั่วโลก' },
+        { num: '10K+', label: 'ส่งพัสดุให้ลูกค้าสำเร็จ' },
+        { num: '77', label: 'จังหวัดทั่วไทย' },
       ]
     },
     process: {
