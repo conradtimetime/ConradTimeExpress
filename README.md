@@ -4,7 +4,7 @@ Static React landing page for Conrad Express luxury and high-value logistics.
 
 ## Architecture
 
-- `Conrad Express.html` is the static HTML shell, global styles, CDN React loader, CSP, and script order.
+- `index.html` is the static HTML shell, global styles, CDN React loader, CSP, and script order.
 - `src/data/` owns runtime configuration, bilingual copy, reviews, image registries, and tweak defaults.
 - `src/components/` owns reusable UI and page sections.
 - `tweaks-panel.jsx` owns edit-mode controls and host messaging.
@@ -42,8 +42,16 @@ python3 -m http.server 8755
 Open:
 
 ```text
-http://127.0.0.1:8755/Conrad%20Express.html
+http://127.0.0.1:8755/
 ```
+
+## Vercel Settings
+
+- Application Preset: `Other`
+- Install Command: `npm install`
+- Build Command: `npm run build`
+- Output Directory: `.`
+- Root Directory: repository root
 
 ## Editing Workflow
 
@@ -58,7 +66,7 @@ http://127.0.0.1:8755/Conrad%20Express.html
 - `npm install` completes with `0 vulnerabilities`.
 - `npm run verify` passes.
 - Local browser smoke test loads the hero, sections, language switcher, contact form, and floating Line link.
-- `Conrad Express.html` has no `type="text/babel"` scripts and no `unsafe-eval` in CSP.
+- `index.html` has no `type="text/babel"` scripts and no `unsafe-eval` in CSP.
 - Contact details and external links are correct.
 - `git status --short` is clean after the release commit.
 

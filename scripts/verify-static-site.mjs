@@ -23,7 +23,7 @@ const fileExists = async (filePath) => {
 
 const read = (filePath) => fs.readFile(abs(filePath), 'utf8');
 
-const htmlPath = 'Conrad Express.html';
+const htmlPath = 'index.html';
 const html = await read(htmlPath);
 
 assert(html.includes('Content-Security-Policy'), 'Missing Content-Security-Policy meta tag.');
