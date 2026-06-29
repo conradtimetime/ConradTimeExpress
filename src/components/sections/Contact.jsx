@@ -1,8 +1,7 @@
 (function () {
   const { useState } = React;
-  const { SITE_CONFIG, ASSETS } = window.CONRAD_EXPRESS_DATA;
+  const { SITE_CONFIG } = window.CONRAD_EXPRESS_DATA;
   const { SectionEyebrow } = window;
-  const LOGO_SYMBOL = ASSETS.logoSymbol;
 
 /* ── CONTACT ── */
 function Contact({ c, gold, navy, language }) {
@@ -306,12 +305,6 @@ function Contact({ c, gold, navy, language }) {
           gap:'22px',
         }}>
           <div style={{ display:'flex', alignItems:'center', gap:'12px', flexWrap:'wrap' }}>
-            <img
-              src={LOGO_SYMBOL}
-              alt=""
-              aria-hidden="true"
-              style={{ width:'16px', height:'16px', objectFit:'contain', display:'block' }}
-            />
             <span style={{ fontFamily:'Cormorant Garamond, serif', fontSize:'16px', letterSpacing:'0.15em', color:'rgba(255,255,255,0.42)' }}>
               CONRAD EXPRESS
             </span>
@@ -319,18 +312,6 @@ function Contact({ c, gold, navy, language }) {
             <span style={{ fontSize:'11px', letterSpacing:'0.15em', color:`${gold}60`, fontFamily:'Jost' }}>
               {c.footer.tagline.toUpperCase()}
             </span>
-          </div>
-
-          <div style={{ display:'flex', gap:'24px', alignItems:'center', flexWrap:'wrap' }}>
-            {[
-              { label:'LINE', val:c.footer.line },
-              { label:'TEL', val:c.footer.tel },
-            ].map((item,i) => (
-              <div key={i} style={{ display:'flex', gap:'8px', alignItems:'center' }}>
-                <span style={{ fontSize:'9px', letterSpacing:'0.18em', color:`${gold}60`, fontFamily:'Jost' }}>{item.label}</span>
-                <span style={{ fontSize:'12px', color:'rgba(255,255,255,0.45)', fontFamily:'Jost', fontWeight:300 }}>{item.val}</span>
-              </div>
-            ))}
           </div>
 
           <div style={{ display:'flex', gap:'24px', flexWrap:'wrap' }}>

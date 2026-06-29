@@ -75,7 +75,7 @@ const COPY = {
     },
     testimonials: {
       label: 'Client Voices',
-      title: 'Trust Built\nOver Time',
+      title: 'Trust Built Over Time',
       items: [
         { quote: 'Every step was handled with precision and the utmost care. Conrad Express stands entirely apart from any logistics service I have used before.', author: 'Mr. James H.', role: 'Business Executive, London' },
         { quote: 'My jewellery was documented, wrapped, and delivered without a single concern. The condition photography before dispatch was a brilliant, reassuring touch.', author: 'Khun Arisa V.', role: 'Private Collector, Bangkok' },
@@ -193,7 +193,7 @@ const COPY = {
     },
     testimonials: {
       label: 'เสียงจากลูกค้า',
-      title: 'ความไว้วางใจ\nสร้างจากเวลา',
+      title: 'ความไว้วางใจสร้างจากเวลา',
       items: [
         { quote: 'ทุกขั้นตอนดำเนินการด้วยความแม่นยำและความรอบคอบสูงสุด Conrad Express โดดเด่นจากทุกบริการโลจิสติกส์ที่ผมเคยใช้มา', author: 'นาย James H.', role: 'นักธุรกิจ, ลอนดอน' },
         { quote: 'คอลเลกชันเครื่องประดับของฉันถูกบันทึก ห่อ และส่งถึงปลายทางอย่างสมบูรณ์แบบ การถ่ายภาพสภาพสินค้าก่อนจัดส่งเป็นสิ่งที่น่าประทับใจมาก', author: 'คุณอริสา ว.', role: 'นักสะสมส่วนตัว กรุงเทพฯ' },
