@@ -26,31 +26,15 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
       boxShadow: scrolled ? '0 4px 24px rgba(0,0,0,0.3), 0 1px 0 rgba(184,151,106,0.12) inset' : 'none',
       transition: 'all 0.4s ease',
     }}>
-      <div
-        aria-hidden="true"
-        style={{
-          position:'absolute',
-          left:0,
-          top:0,
-          bottom:0,
-          width:'clamp(260px, 30vw, 430px)',
-          background:`linear-gradient(90deg, ${navy}d9 0%, ${navy}9a 44%, ${navy}40 72%, transparent 100%)`,
-          opacity: scrolled ? 0 : 1,
-          pointerEvents:'none',
-          transition:'opacity 0.35s ease',
-          zIndex:0,
-        }}
-      />
-
       {/* Logo */}
-      <a href="#" style={{ display:'flex', alignItems:'center', textDecoration:'none', position:'relative', zIndex:1 }}>
+      <a href="#" style={{ display:'flex', alignItems:'center', textDecoration:'none' }}>
         <span style={{ fontFamily:'Cormorant Garamond, serif', fontSize:'18px', letterSpacing:'0.18em', color:'#fff', fontWeight:500 }}>
           CONRAD EXPRESS
         </span>
       </a>
 
       {/* Desktop Links */}
-      <div className="nav-links" style={{ display:'flex', alignItems:'center', gap:'36px', position:'relative', zIndex:1 }}>
+      <div className="nav-links" style={{ display:'flex', alignItems:'center', gap:'36px' }}>
         {links.map(l => (
           <a key={l.href} href={l.href} style={{
             color:'rgba(255,255,255,0.75)', textDecoration:'none',
@@ -71,12 +55,21 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
 
         {/* Language toggle */}
         <button onClick={() => setLang(lang === 'en' ? 'th' : 'en')} style={{
-          background: 'transparent', border: `1px solid rgba(184,151,106,0.4)`,
-          color: gold, padding: '4px 12px', fontSize: '11px', letterSpacing: '0.1em',
-          cursor: 'pointer', fontFamily: 'Jost, sans-serif', transition: 'all 0.2s',
+          background: gold,
+          border: `1px solid ${gold}`,
+          color: navy,
+          padding: '7px 14px',
+          minWidth:'48px',
+          fontSize: '11px',
+          letterSpacing: '0.14em',
+          fontWeight:600,
+          cursor: 'pointer',
+          fontFamily: 'Jost, sans-serif',
+          transition: 'all 0.2s',
+          boxShadow:`0 0 0 1px rgba(255,255,255,0.08) inset, 0 8px 22px rgba(184,151,106,0.22)`,
         }}
-        onMouseEnter={e => { e.target.style.background = gold; e.target.style.color = navy; }}
-        onMouseLeave={e => { e.target.style.background = 'transparent'; e.target.style.color = gold; }}
+        onMouseEnter={e => { e.target.style.background = '#cead82'; e.target.style.transform = 'translateY(-1px)'; }}
+        onMouseLeave={e => { e.target.style.background = gold; e.target.style.transform = 'translateY(0)'; }}
         >{lang === 'en' ? 'TH' : 'EN'}</button>
 
         <a href="#contact" style={{
@@ -102,7 +95,6 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
         background:'transparent', border:'none', cursor:'pointer',
         flexDirection:'column', justifyContent:'center', alignItems:'center', gap:'5px',
         width:'42px', height:'42px', padding:'8px',
-        position:'relative', zIndex:1,
       }}>
         <span style={{ display:'block', width:'22px', height:'1.5px', background:gold, transition:'transform 0.3s, opacity 0.3s', transform: menuOpen ? 'translateY(6.5px) rotate(45deg)' : 'none' }} />
         <span style={{ display:'block', width:'22px', height:'1.5px', background:gold, opacity: menuOpen ? 0 : 1, transition:'opacity 0.2s' }} />
@@ -127,8 +119,10 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
           ))}
           <div style={{ display:'flex', gap:'12px', alignItems:'center', marginTop:'18px' }}>
             <button onClick={() => setLang(lang === 'en' ? 'th' : 'en')} style={{
-              background:'transparent', border:`1px solid rgba(184,151,106,0.4)`, color:gold,
-              padding:'10px 16px', fontSize:'11px', letterSpacing:'0.1em', cursor:'pointer', fontFamily:'Jost, sans-serif',
+              background:gold, border:`1px solid ${gold}`, color:navy,
+              padding:'11px 18px', fontSize:'11px', letterSpacing:'0.14em',
+              fontWeight:600, cursor:'pointer', fontFamily:'Jost, sans-serif',
+              boxShadow:`0 8px 22px rgba(184,151,106,0.22)`,
             }}>{lang === 'en' ? 'TH' : 'EN'}</button>
             <a href="#contact" onClick={() => setMenuOpen(false)} style={{
               flex:1, textAlign:'center', background:gold, color:navy,

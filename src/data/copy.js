@@ -3,15 +3,15 @@
 
 const COPY = {
   en: {
-    nav: { services: 'Services', about: 'About', process: 'Process', packages: 'Packages', contact: 'Contact', cta: 'Request Pickup' },
+    nav: { services: 'Services', about: 'About', process: 'Process', packages: 'Packages', contact: 'Contact', cta: 'Book a Service' },
     hero: {
       eyebrow: 'Conrad Time · Est. 2016',
       title: 'Conrad\nExpress',
-      sub: 'Dedicated logistics for luxury timepieces\nand high-value collectibles',
-      cta1: 'Schedule a Pickup',
+      sub: 'Specialised transport for high-value goods with the utmost security —\ncared for from pickup to recipient, delivered on time and professionally.',
+      cta1: 'Book a Service',
       cta2: 'Learn More',
     },
-    trust: ['Fully Insured', 'White-Glove Handling', 'Real-Time Tracking', 'Discreet Packaging'],
+    trust: ['Insurance from 50K+', 'Beyond standard delivery', 'Real-Time Tracking'],
     pricing: { label: 'Starting from', price: '฿500', unit: '/ shipment', note: 'All plans include full insurance & real-time tracking' },
     packages: {
       label: 'Service Packages',
@@ -121,15 +121,15 @@ const COPY = {
     }
   },
   th: {
-    nav: { services: 'บริการ', about: 'เกี่ยวกับเรา', process: 'ขั้นตอน', packages: 'แพ็กเกจ', contact: 'ติดต่อ', cta: 'นัดรับสินค้า' },
+    nav: { services: 'บริการ', about: 'เกี่ยวกับเรา', process: 'ขั้นตอน', packages: 'แพ็กเกจ', contact: 'ติดต่อ', cta: 'จองการใช้บริการ' },
     hero: {
       eyebrow: 'Conrad Time · ก่อตั้ง 2016',
       title: 'Conrad\nExpress',
-      sub: 'โลจิสติกส์เฉพาะทางสำหรับนาฬิกาหรูหราและของสะสมมูลค่าสูง',
-      cta1: 'นัดหมายรับสินค้า',
+      sub: 'บริการขนส่งเฉพาะทางสำหรับของมูลค่าสูง โดยเน้นความปลอดภัยขั้นสูงสุด\nดูแลตั้งแต่รับสินค้าจนส่งถึงมือผู้รับ ตรงเวลาอย่างมืออาชีพ',
+      cta1: 'จองการใช้บริการ',
       cta2: 'เรียนรู้เพิ่มเติม',
     },
-    trust: ['ประกันเต็มมูลค่า', 'บริการ White-Glove', 'ติดตามแบบเรียลไทม์', 'บรรจุภัณฑ์ระดับพรีเมียม'],
+    trust: ['ประกันภัยเริ่มต้น 50K+', 'บริการขนส่งที่เหนือกว่ามาตรฐานทั่วไป', 'ติดตามแบบเรียลไทม์'],
     pricing: { label: 'เริ่มต้นที่', price: '฿500', unit: '/ การจัดส่ง', note: 'ทุกแพ็กเกจรวมประกันเต็มมูลค่าและติดตามแบบเรียลไทม์' },
     packages: {
       label: 'แพ็กเกจบริการ',

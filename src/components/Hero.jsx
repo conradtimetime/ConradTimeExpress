@@ -84,6 +84,7 @@ function Hero({ c, gold, navy, layout }) {
             width:'100%', height:'100%',
             objectFit:'cover', objectPosition:'center center',
             display:'block',
+            transform:'scaleX(-1)',
           }} />
         ) : (
           <div style={{
@@ -112,26 +113,26 @@ function Hero({ c, gold, navy, layout }) {
       {/* SCRIM — keeps the headline legible over any photo */}
       <div style={{ position:'absolute', inset:0, zIndex:2, pointerEvents:'none',
         background: isDark
-          ? `linear-gradient(270deg, ${navy}f7 0%, ${navy}e0 26%, ${navy}80 48%, ${navy}1a 66%, transparent 80%),
+          ? `linear-gradient(90deg, ${navy}f7 0%, ${navy}e0 26%, ${navy}80 48%, ${navy}1a 66%, transparent 80%),
              linear-gradient(to top, ${navy}cc 0%, transparent 32%)`
-          : `linear-gradient(270deg, #f9f6f0f2 0%, #f9f6f0c8 30%, #f9f6f060 52%, transparent 76%)`
+          : `linear-gradient(90deg, #f9f6f0f2 0%, #f9f6f0c8 30%, #f9f6f060 52%, transparent 76%)`
       }} />
 
       {/* VERTICAL RULE */}
-      <div style={{ position:'absolute', right:'48px', top:'22%', bottom:'22%', zIndex:4,
+      <div style={{ position:'absolute', left:'48px', top:'22%', bottom:'22%', zIndex:4,
         width:'1px', background:'linear-gradient(to bottom, transparent, rgba(184,151,106,0.36), transparent)',
         pointerEvents:'none',
       }} />
 
       {/* ── TEXT CONTENT ── */}
       <div className="hero-content" style={{
-        position:'absolute', top:0, right:0, bottom:0,
+        position:'absolute', top:0, left:0, bottom:0,
         width:'min(640px, 55%)', zIndex:5,
-        display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'flex-end',
-        padding:'120px 96px 80px 56px',
-        textAlign:'right',
+        display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'flex-start',
+        padding:'120px 56px 80px 96px',
+        textAlign:'left',
       }}>
-        <div className="h1" style={{ display:'flex', alignItems:'center', justifyContent:'flex-end', gap:'14px', marginBottom:'24px' }}>
+        <div className="h1" style={{ display:'flex', alignItems:'center', justifyContent:'flex-start', gap:'14px', marginBottom:'24px' }}>
           <StarIcon size={12} color='#b8976a' />
           <span style={{ fontSize:'10px', letterSpacing:'0.28em', color:'#b8976a', fontFamily:'Jost', fontWeight:400 }}>
             {c.hero.eyebrow.toUpperCase()}
@@ -147,15 +148,15 @@ function Hero({ c, gold, navy, layout }) {
           textShadow: isDark ? '0 3px 18px rgba(0,0,0,0.42), 0 0 42px rgba(184,151,106,0.12)' : 'none',
         }}>{c.hero.title}</h1>
 
-        <div className="hl" style={{ height:'1px', background:'#b8976a', marginBottom:'22px', alignSelf:'flex-end' }} />
+        <div className="hl" style={{ height:'1px', background:'#b8976a', marginBottom:'22px', alignSelf:'flex-start' }} />
 
         <p className="h3" style={{
           fontSize:'13.5px', lineHeight:1.85, letterSpacing:'0.03em',
           color: isDark ? 'rgba(255,255,255,0.68)' : 'rgba(15,30,53,0.6)',
-          maxWidth:'340px', fontFamily:'Jost', fontWeight:300, whiteSpace:'pre-line', marginBottom:'40px',
+          maxWidth:'440px', fontFamily:'Jost', fontWeight:300, whiteSpace:'pre-line', marginBottom:'40px',
         }}>{c.hero.sub}</p>
 
-        <div className="h4" style={{ display:'flex', gap:'14px', alignItems:'center', justifyContent:'flex-end', marginBottom:'44px', flexWrap:'wrap' }}>
+        <div className="h4" style={{ display:'flex', gap:'14px', alignItems:'center', justifyContent:'flex-start', marginBottom:'44px', flexWrap:'wrap' }}>
           <a href="#contact" style={{
             background:'#b8976a', color:navy,
             padding:'13px 28px', fontSize:'11px', letterSpacing:'0.14em',
@@ -180,7 +181,7 @@ function Hero({ c, gold, navy, layout }) {
 
         <div className="h5" style={{
           display:'flex', gap:'20px', flexWrap:'wrap',
-          justifyContent:'flex-end',
+          justifyContent:'flex-start',
           borderTop:'1px solid rgba(184,151,106,0.14)', paddingTop:'22px', marginBottom:'18px',
         }}>
           {c.trust.map((t, i) => (
@@ -194,46 +195,48 @@ function Hero({ c, gold, navy, layout }) {
         </div>
 
         <div className="h6" style={{
-          display:'inline-flex', alignItems:'center', gap:'14px',
-          padding:'12px 18px',
-          background: isDark ? 'rgba(10,18,36,0.48)' : 'rgba(15,30,53,0.04)',
-          border:'1px solid rgba(184,151,106,0.32)',
-          backdropFilter:'blur(8px)',
-          boxShadow: isDark ? '0 16px 38px rgba(0,0,0,0.16), inset 0 1px 0 rgba(255,255,255,0.05)' : 'none',
+          display:'inline-flex', alignItems:'center', gap:'18px',
+          padding:'16px 24px 16px 20px',
+          background: isDark
+            ? 'linear-gradient(135deg, rgba(184,151,106,0.22) 0%, rgba(10,18,36,0.6) 58%)'
+            : 'linear-gradient(135deg, rgba(184,151,106,0.16) 0%, rgba(255,255,255,0.4) 60%)',
+          border:'1px solid rgba(184,151,106,0.6)',
+          borderLeft:'3px solid #cead82',
+          borderRadius:'4px',
+          backdropFilter:'blur(10px)',
+          boxShadow: isDark
+            ? '0 20px 46px rgba(0,0,0,0.34), inset 0 0 26px rgba(184,151,106,0.14), 0 0 0 1px rgba(184,151,106,0.1)'
+            : '0 14px 32px rgba(15,30,53,0.12)',
           maxWidth:'fit-content',
+          position:'relative',
         }}>
+          <StarIcon size={20} color="#cead82" style={{ flexShrink:0, opacity:0.95, filter:'drop-shadow(0 0 6px rgba(184,151,106,0.6))' }} />
           <div>
-            <div style={{ fontSize:'9px', letterSpacing:'0.2em', color:'rgba(184,151,106,0.75)', fontFamily:'Jost', marginBottom:'3px' }}>
+            <div style={{ fontSize:'9.5px', letterSpacing:'0.24em', color:'#cead82', fontFamily:'Jost', fontWeight:500, marginBottom:'4px' }}>
               {c.pricing.label.toUpperCase()}
             </div>
-            <div style={{ display:'flex', alignItems:'baseline', gap:'5px' }}>
-              <span style={{ fontFamily:'Cormorant Garamond, serif', fontSize:'26px', fontWeight:300, color: isDark ? '#fff' : navy, lineHeight:1 }}>
+            <div style={{ display:'flex', alignItems:'baseline', gap:'6px' }}>
+              <span style={{
+                fontFamily:'Cormorant Garamond, serif', fontSize:'42px', fontWeight:400,
+                color:'#e8d5b0', lineHeight:1,
+                textShadow:'0 0 20px rgba(184,151,106,0.6), 0 0 50px rgba(184,151,106,0.28)',
+              }}>
                 {startingPrice}
               </span>
-              <span style={{ fontSize:'10px', color: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(15,30,53,0.4)', fontFamily:'Jost' }}>
+              <span style={{ fontSize:'11px', color: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(15,30,53,0.45)', fontFamily:'Jost', fontWeight:400 }}>
                 {c.pricing.unit}
               </span>
             </div>
           </div>
-          <div style={{ width:'1px', height:'30px', background:'rgba(184,151,106,0.22)' }} />
-          <span style={{ fontSize:'10px', color: isDark ? 'rgba(255,255,255,0.32)' : 'rgba(15,30,53,0.4)', fontFamily:'Jost', fontWeight:300, maxWidth:'150px', lineHeight:1.5 }}>
+          <div style={{ width:'1px', height:'40px', background:'linear-gradient(to bottom, transparent, rgba(184,151,106,0.5), transparent)' }} />
+          <span style={{ fontSize:'10px', color: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(15,30,53,0.45)', fontFamily:'Jost', fontWeight:300, maxWidth:'160px', lineHeight:1.55 }}>
             {c.pricing.note}
           </span>
         </div>
       </div>
 
-      {/* TERRAIN LABEL */}
-      <div className="hero-aside" style={{ position:'absolute', bottom:'48px', left:'48px', zIndex:5, textAlign:'left', pointerEvents:'none' }}>
-        <div style={{ fontSize:'8px', letterSpacing:'0.28em', color:'rgba(184,151,106,0.45)', fontFamily:'Jost', marginBottom:'4px' }}>
-          NO TERRAIN TOO DIFFICULT
-        </div>
-        <div style={{ fontSize:'7px', letterSpacing:'0.18em', color:'rgba(184,151,106,0.3)', fontFamily:'Jost' }}>
-          WHITE-GLOVE · EVERY DESTINATION
-        </div>
-      </div>
-
       {/* SCROLL INDICATOR */}
-      <div className="hero-aside" style={{ position:'absolute', bottom:'32px', right:'96px', zIndex:5, display:'flex', alignItems:'center', gap:'10px', pointerEvents:'none' }}>
+      <div className="hero-aside" style={{ position:'absolute', bottom:'32px', left:'96px', zIndex:5, display:'flex', alignItems:'center', gap:'10px', pointerEvents:'none' }}>
         <div style={{ width:'1px', height:'36px', background:'linear-gradient(to bottom, transparent, rgba(184,151,106,0.8))', animation:'scrollPulse 2s ease infinite' }} />
         <span style={{ fontSize:'9px', letterSpacing:'0.25em', color:'rgba(184,151,106,0.5)', fontFamily:'Jost' }}>SCROLL</span>
       </div>
