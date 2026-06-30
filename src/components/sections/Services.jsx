@@ -1,4 +1,5 @@
 (function () {
+  const { useState } = React;
   const { SectionEyebrow } = window;
 
   const serviceImages = [
@@ -32,6 +33,7 @@
 
 /* ── SERVICES ── */
 function Services({ c, gold, navy }) {
+  const [activeService, setActiveService] = useState(null);
   const movingServices = [...c.services.items, ...c.services.items].map((service, index) => ({
     ...service,
     baseIndex: index % c.services.items.length,
@@ -197,6 +199,7 @@ function Services({ c, gold, navy }) {
         }
 
         #services .service-card:hover .service-shade::after,
+        #services .service-card.is-active .service-shade::after,
         #services .service-card:focus .service-shade::after {
           opacity:1;
         }
@@ -281,11 +284,13 @@ function Services({ c, gold, navy }) {
         }
 
         #services .service-card:hover .service-title,
+        #services .service-card.is-active .service-title,
         #services .service-card:focus .service-title {
           margin-bottom:14px;
         }
 
         #services .service-card:hover .service-copy,
+        #services .service-card.is-active .service-copy,
         #services .service-card:focus .service-copy {
           max-height:260px;
           opacity:1;
@@ -339,13 +344,39 @@ function Services({ c, gold, navy }) {
           #services.services-section {
             min-height:auto !important;
             padding:88px 0 72px !important;
+            overflow:hidden !important;
           }
           #services .services-heading {
             padding-left:40px !important;
             padding-right:40px !important;
           }
           #services .services-sub { max-width:640px !important; }
-          #services .service-card { flex-basis:min(78vw, 390px); }
+          #services .services-marquee {
+            overflow:visible;
+            padding:0 40px 10px;
+          }
+          #services .services-marquee::before,
+          #services .services-marquee::after {
+            display:none;
+          }
+          #services .services-track {
+            width:100%;
+            display:grid;
+            grid-template-columns:repeat(2, minmax(0, 1fr));
+            gap:16px;
+            animation:none !important;
+            transform:none !important;
+            contain:none;
+            will-change:auto;
+          }
+          #services .service-card.is-duplicate {
+            display:none;
+          }
+          #services .service-card {
+            width:100%;
+            flex:none;
+            aspect-ratio:1 / 1.05;
+          }
         }
         @media (max-width:767px) {
           #services.services-section { padding:72px 0 58px !important; }
@@ -357,21 +388,16 @@ function Services({ c, gold, navy }) {
           #services .services-title { font-size:clamp(40px, 12vw, 54px) !important; }
           #services .services-sub { font-size:13px !important; line-height:1.65 !important; }
           #services .services-marquee {
-            padding-left:0;
-            padding-right:0;
-          }
-          #services .services-marquee::before,
-          #services .services-marquee::after {
-            width:34px;
-            min-width:34px;
+            padding:0 22px 10px;
           }
           #services .services-track {
+            display:grid;
+            grid-template-columns:1fr;
             gap:14px;
-            animation-duration:30s;
           }
           #services .service-card {
-            flex-basis:min(84vw, 340px);
-            aspect-ratio:1 / 1.18;
+            width:100%;
+            aspect-ratio:1 / 1.08;
           }
           #services .service-frame { inset:14px; }
           #services .service-number { top:23px; left:24px; }
@@ -401,9 +427,14 @@ function Services({ c, gold, navy }) {
           <div className="services-track">
             {movingServices.map((s) => (
               <article key={`${s.title}-${s.loopIndex}`}
-                className="service-card"
-                tabIndex="0"
-                aria-label={`${s.title}. ${s.desc}`}>
+                className={`service-card${s.loopIndex >= c.services.items.length ? ' is-duplicate' : ''}${activeService === s.loopIndex ? ' is-active' : ''}`}
+                tabIndex={s.loopIndex >= c.services.items.length ? '-1' : '0'}
+                aria-hidden={s.loopIndex >= c.services.items.length ? 'true' : undefined}
+                aria-expanded={s.loopIndex >= c.services.items.length ? undefined : activeService === s.loopIndex}
+                aria-label={`${s.title}. ${s.desc}`}
+                onClick={() => setActiveService(activeService === s.loopIndex ? null : s.loopIndex)}
+                onFocus={() => setActiveService(s.loopIndex)}
+                onBlur={() => setActiveService((current) => current === s.loopIndex ? null : current)}>
                 <div className="service-fallback">
                   {ServiceIcon(s.baseIndex, gold)}
                 </div>

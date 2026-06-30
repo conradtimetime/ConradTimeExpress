@@ -32,12 +32,17 @@
     --white: #ffffff;
   }
 
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
 
   body {
     font-family: 'Jost', sans-serif;
     background: var(--cream);
     color: var(--text-dark);
+    max-width: 100%;
     overflow-x: hidden;
   }
 
@@ -293,12 +298,12 @@
 <div id="root"></div>
 
 <script src="src/data/config.js"></script>
-<script src="src/data/copy.js?v=20260630-services-smooth-motion"></script>
+<script src="src/data/copy.js?v=20260630-services-responsive-tap"></script>
 <script src="src/data/reviews.js"></script>
 <script src="src/data/assets.js"></script>
 <script src="src/data/site-data.js"></script>
 <script src="src/data/tweaks.js"></script>
-<script src="dist/conrad-express.bundle.js?v=20260630-services-smooth-motion"></script>
+<script src="dist/conrad-express.bundle.js?v=20260630-services-responsive-tap"></script>
 
 <template id="__bundler_thumbnail" data-bg-color="#0f1e35">
   <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
