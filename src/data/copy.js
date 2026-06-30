@@ -66,7 +66,7 @@ const COPY = {
     },
     process: {
       label: 'How It Works',
-      title: 'Simple, Start\nto Finish',
+      title: 'It’s easy to get started\nto Finish',
       steps: [
         { n: '01', title: 'Talk to Us', desc: 'We chat about your item, where it’s going, and how to keep it safe.' },
         { n: '02', title: 'Pickup', desc: 'Our team comes to you with the right packing materials.' },
@@ -87,7 +87,7 @@ const COPY = {
     },
     contact: {
       label: 'Get In Touch',
-      title: 'Let’s Get\nStarted',
+      title: 'It’s Easy to get Started\nFrom Beginning to End',
       sub: 'We’re here Mon–Sat, 9:00–18:00 ICT.\nNeed it urgent? Our hotline is open 24/7.',
       fields: { name: 'Full Name', phone: 'Phone Number', type: 'Shipment Type', message: 'Tell us about your item', cta: 'Send Request' },
       types: ['Watches & Jewellery', 'Art & Collectibles', 'Vault Transfer', 'International Express', 'Other'],
@@ -185,7 +185,7 @@ const COPY = {
     },
     process: {
       label: 'ขั้นตอนการทำงาน',
-      title: 'ง่ายๆ ตั้งแต่ต้น\nจนถึงปลายทาง',
+      title: 'เริ่มต้นไม่ยุ่งยาก\nตั้งแต่ต้นจนถึงปลายทาง',
       steps: [
         { n: '01', title: 'คุยกับเรา', desc: 'เราคุยกับคุณเรื่องของที่จะส่ง ปลายทาง และวิธีดูแลให้ปลอดภัย' },
         { n: '02', title: 'มารับของ', desc: 'ทีมงานไปรับถึงที่ พร้อมอุปกรณ์แพ็กของให้เรียบร้อย' },

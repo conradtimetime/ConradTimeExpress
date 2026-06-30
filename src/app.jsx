@@ -46,7 +46,7 @@ function App() {
       <Testimonials c={c} gold={gold} navy={navy} language={language} />
       <Packages c={c} gold={gold} navy={navy} />
       <Contact c={c} gold={gold} navy={navy} language={language} />
-      <FloatingLine gold={gold} navy={navy} />
+      <FloatingLine gold={gold} navy={navy} lang={language} />
 
       <TweaksPanel>
         <TweakSection label="Brand" />
