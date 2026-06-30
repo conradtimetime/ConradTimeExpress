@@ -48,7 +48,6 @@ const COPY = {
       items: [
         { title: 'Luxury Watches', desc: 'We move watches in shock-proof packing, handle them gently, and photograph their condition before sending. Great for a single watch, a full collection, or a trip to the service centre.' },
         { title: 'Art & Collectibles', desc: 'Temperature-controlled transport with custom crates for sculptures, paintings, rare books, and art — museum-level care, door to door.' },
-        { title: 'IT & Technology', desc: 'Priority delivery for pricey gear like laptops, MacBooks, iPads, pro cameras, and IT equipment — protective packing, serial-number records, customs help, and hand delivery.' },
         { title: 'Fine Jewellery & Gems', desc: 'Safe transport for diamond jewellery, gems, gold, and accessories — between shops, homes, safes, banks, and showrooms, tracked every step of the way.' },
         { title: 'Luxury Fashion & Brand Goods', desc: 'Secure transport for luxury handbags, apparel, and shoes, protected from scratches and humidity with careful packing and suitable temperature control to preserve shape and condition until handover.' },
         { title: 'Confidential Documents & Contracts', desc: 'Confidential delivery for private documents, land deeds, passports, purchase agreements, and cashier’s cheques, with real-time status tracking and secure hand delivery to the recipient.' },
@@ -168,7 +167,6 @@ const COPY = {
       items: [
         { title: 'นาฬิกาหรู', desc: 'ส่งนาฬิกาด้วยกล่องกันกระแทก จับด้วยความระมัดระวัง และถ่ายรูปสภาพก่อนส่ง เหมาะทั้งนาฬิกาเรือนเดียว คอลเลกชันสะสม หรือส่งเข้าศูนย์บริการ' },
         { title: 'งานศิลปะและของสะสม', desc: 'ส่งในอุณหภูมิควบคุม พร้อมลังไม้ทำพิเศษ สำหรับรูปปั้น ภาพวาด หนังสือหายาก และงานศิลป์ ดูแลถึงที่' },
-        { title: 'อุปกรณ์ไอทีและเทคโนโลยี', desc: 'ส่งของไอทีราคาแพง เช่น laptop, MacBook, iPad, กล้องโปร และอุปกรณ์ IT พร้อมแพ็กกันกระแทก จดเลขเครื่อง มีเอกสาร และส่งถึงมือ' },
         { title: 'จิวเวลรี่และเครื่องประดับล้ำค่า', desc: 'ส่งเครื่องประดับ เพชร พลอย ทอง และของมีค่า ระหว่างร้าน บ้าน ตู้เซฟ ธนาคาร หรือโชว์รูม ตามดูได้ทุกขั้นตอน' },
         { title: 'สินค้าแบรนด์เนมและแฟชั่นไฮเอนด์', desc: 'ขนส่งกระเป๋า เสื้อผ้า และรองเท้าแบรนด์เนมระดับลักชัวรี ป้องกันรอยขีดข่วนและความชื้นด้วยการแพ็กและควบคุมอุณหภูมิที่เหมาะสม เพื่อรักษาทรงและสภาพของสินค้าให้สมบูรณ์แบบที่สุดจนถึงมือผู้รับ' },
         { title: 'เอกสารสำคัญและสัญญาทางธุรกิจ', desc: 'บริการจัดส่งเอกสารลับ โฉนดที่ดิน พาสปอร์ต สัญญาซื้อขาย หรือเช็คเงินสด ที่ประเมินค่าไม่ได้ ด้วยระบบติดตามสถานะแบบเรียลไทม์ และการส่งมอบตรงถึงมือผู้รับอย่างปลอดภัย (Confidential & Express)' },

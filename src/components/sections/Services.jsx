@@ -5,14 +5,13 @@
   const serviceImages = [
     'brand-images/service-card-watch.jpg',
     'brand-images/service-card-packaging.jpg',
-    'brand-images/service-card-delivery.jpg',
     'brand-images/service-card-hero.jpg',
     'brand-images/service-card-hero.jpg',
     'brand-images/service-card-packaging.jpg',
     'brand-images/service-card-delivery.jpg',
   ];
 
-  const serviceImagePositions = ['center 44%', 'center 54%', 'center 52%', 'left center', 'left center', 'center 48%', 'center 52%'];
+  const serviceImagePositions = ['center 44%', 'center 54%', 'left center', 'left center', 'center 48%', 'center 52%'];
 
   /* On-brand line icon per category — shows until a photo is added. */
   const ServiceIcon = (i, gold) => {
@@ -20,7 +19,6 @@
     const icons = [
       (<g {...p}><circle cx="32" cy="32" r="15" /><path d="M32 24v8l6 4" /><path d="M26 16l1.5-6h9l1.5 6M26 48l1.5 6h9l1.5-6" /></g>),
       (<g {...p}><rect x="15" y="16" width="34" height="32" rx="2" /><path d="M15 40l9-9 6 6 7-8 12 12" /><circle cx="40" cy="25" r="2.5" /></g>),
-      (<g {...p}><rect x="17" y="18" width="30" height="20" rx="2" /><path d="M13 44h38l-3-6H16z" /></g>),
       (<g {...p}><path d="M22 20h20l8 9-18 19-18-19z" /><path d="M16 29h32M32 48L22 29M32 48l10-19M28 29l4-9 4 9" /></g>),
       (<g {...p}><path d="M20 27h24l3 24H17z" /><path d="M25 27c0-5 3-9 7-9s7 4 7 9" /><path d="M23 36h18M25 43h14" /></g>),
       (<g {...p}><path d="M19 15h21l7 7v27H19z" /><path d="M40 15v8h7" /><path d="M25 30h16M25 37h16M25 44h10" /></g>),
@@ -236,18 +234,6 @@ function Services({ c, gold, navy }) {
           border-bottom:2px solid;
         }
 
-        #services .service-number {
-          position:absolute;
-          top:28px;
-          left:30px;
-          z-index:4;
-          font-size:11px;
-          letter-spacing:0.22em;
-          color:${gold};
-          font-family:Jost, sans-serif;
-          text-shadow:0 1px 12px rgba(0,0,0,0.55);
-        }
-
         #services .service-content {
           position:absolute;
           left:30px;
@@ -400,7 +386,6 @@ function Services({ c, gold, navy }) {
             aspect-ratio:1 / 1.08;
           }
           #services .service-frame { inset:14px; }
-          #services .service-number { top:23px; left:24px; }
           #services .service-icon-mark { right:24px; top:22px; transform:scale(0.72); }
           #services .service-content { left:24px; right:24px; bottom:24px; }
           #services .service-title { font-size:31px !important; }
@@ -448,7 +433,6 @@ function Services({ c, gold, navy }) {
                 />
                 <div className="service-shade" />
                 <div className="service-frame" />
-                <div className="service-number">0{s.baseIndex + 1}</div>
                 <div className="service-icon-mark">{ServiceIcon(s.baseIndex, gold)}</div>
                 <div className="service-content">
                   <h3 className="service-title">{s.title}</h3>
