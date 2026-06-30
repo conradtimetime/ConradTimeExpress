@@ -14,6 +14,27 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
     { en: COPY.en.nav.packages, th: COPY.th.nav.packages, href: '#packages' },
     { en: COPY.en.nav.contact,  th: COPY.th.nav.contact,  href: '#contact' },
   ];
+  const nextLanguage = lang === 'en'
+    ? { code:'th', label:'Switch to Thai', flag:'brand-images/flag-th.svg' }
+    : { code:'en', label:'Switch to English', flag:'brand-images/flag-us.svg' };
+  const flagStyle = {
+    width:'44px',
+    height:'29px',
+    display:'block',
+    objectFit:'cover',
+  };
+  const languageButtonStyle = {
+    background:'transparent',
+    border:'none',
+    padding:0,
+    width:'44px',
+    height:'29px',
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center',
+    cursor:'pointer',
+    transition:'opacity 0.2s, transform 0.2s',
+  };
   return (
     <nav className="ce-nav" style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
@@ -54,23 +75,17 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
         ))}
 
         {/* Language toggle */}
-        <button onClick={() => setLang(lang === 'en' ? 'th' : 'en')} style={{
-          background: gold,
-          border: `1px solid ${gold}`,
-          color: navy,
-          padding: '7px 14px',
-          minWidth:'48px',
-          fontSize: '11px',
-          letterSpacing: '0.14em',
-          fontWeight:600,
-          cursor: 'pointer',
-          fontFamily: 'Jost, sans-serif',
-          transition: 'all 0.2s',
-          boxShadow:`0 0 0 1px rgba(255,255,255,0.08) inset, 0 8px 22px rgba(184,151,106,0.22)`,
-        }}
-        onMouseEnter={e => { e.target.style.background = '#cead82'; e.target.style.transform = 'translateY(-1px)'; }}
-        onMouseLeave={e => { e.target.style.background = gold; e.target.style.transform = 'translateY(0)'; }}
-        >{lang === 'en' ? 'TH' : 'EN'}</button>
+        <button
+          type="button"
+          onClick={() => setLang(nextLanguage.code)}
+          aria-label={nextLanguage.label}
+          title={nextLanguage.label}
+          style={languageButtonStyle}
+          onMouseEnter={e => { e.currentTarget.style.opacity = '0.78'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
+          onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)'; }}
+        >
+          <img src={nextLanguage.flag} alt="" aria-hidden="true" style={flagStyle} />
+        </button>
 
         <a href="#contact" style={{
           background: gold, color: navy,
@@ -118,12 +133,17 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
             }}>{l[lang].toUpperCase()}</a>
           ))}
           <div style={{ display:'flex', gap:'12px', alignItems:'center', marginTop:'18px' }}>
-            <button onClick={() => setLang(lang === 'en' ? 'th' : 'en')} style={{
-              background:gold, border:`1px solid ${gold}`, color:navy,
-              padding:'11px 18px', fontSize:'11px', letterSpacing:'0.14em',
-              fontWeight:600, cursor:'pointer', fontFamily:'Jost, sans-serif',
-              boxShadow:`0 8px 22px rgba(184,151,106,0.22)`,
-            }}>{lang === 'en' ? 'TH' : 'EN'}</button>
+            <button
+              type="button"
+              onClick={() => setLang(nextLanguage.code)}
+              aria-label={nextLanguage.label}
+              title={nextLanguage.label}
+              style={languageButtonStyle}
+              onMouseEnter={e => { e.currentTarget.style.opacity = '0.78'; }}
+              onMouseLeave={e => { e.currentTarget.style.opacity = '1'; }}
+            >
+              <img src={nextLanguage.flag} alt="" aria-hidden="true" style={flagStyle} />
+            </button>
             <a href="#contact" onClick={() => setMenuOpen(false)} style={{
               flex:1, textAlign:'center', background:gold, color:navy,
               padding:'13px 20px', fontSize:'11px', letterSpacing:'0.12em',
