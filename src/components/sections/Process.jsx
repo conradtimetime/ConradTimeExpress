@@ -7,6 +7,8 @@
 function Process({ c, gold, navy }) {
   const [active, setActive] = useState(0);
   const activeImage = processImages[active];
+  const totalSteps = c.process.steps.length;
+  const progressValue = totalSteps ? ((active + 1) / totalSteps) * 100 : 0;
 
   return (
     <section id="process" className="process-section" style={{
@@ -23,13 +25,29 @@ function Process({ c, gold, navy }) {
         #process.process-section { padding:96px 96px 72px !important; }
         #process .process-heading { margin-bottom:58px !important; }
         #process .process-grid { gap:72px !important; }
-        #process .process-step { padding:23px 0 !important; }
+        #process .process-onboarding { max-width:560px; width:100%; margin-left:auto; }
+        #process .process-progress-row { display:flex; align-items:center; justify-content:flex-end; gap:18px; margin-bottom:20px; }
+        #process .process-progress-track { width:148px; height:6px; border-radius:999px; background:rgba(15,30,53,0.10); overflow:hidden; }
+        #process .process-progress-fill { height:100%; border-radius:inherit; background:var(--gold); transition:width 0.35s cubic-bezier(0.16,1,0.3,1); }
+        #process .process-step-list { list-style:none; display:flex; flex-direction:column; gap:14px; margin:0; padding:0; }
+        #process .process-step-card { width:100%; text-align:left; border-radius:8px; border:1px solid rgba(15,30,53,0.12); background:rgba(255,255,255,0.50); padding:18px 20px; cursor:pointer; transition:border-color 0.25s ease, background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease; }
+        #process .process-step-card:hover,
+        #process .process-step-card:focus-visible { border-color:rgba(184,151,106,0.54); background:rgba(255,255,255,0.74); outline:none; transform:translateY(-1px); }
+        #process .process-step-card.is-active { border-color:rgba(15,30,53,0.22); background:rgba(255,255,255,0.82); box-shadow:0 18px 38px rgba(15,30,53,0.08); }
+        #process .process-step-inner { display:flex; align-items:flex-start; gap:20px; }
+        #process .process-step-marker { width:48px; height:44px; flex:0 0 48px; display:flex; align-items:flex-start; justify-content:flex-start; font-family:'Cormorant Garamond', serif; font-size:28px; line-height:1; font-weight:500; color:rgba(15,30,53,0.58); }
+        #process .process-step-check { width:34px; height:34px; flex:0 0 48px; color:var(--gold); }
+        #process .process-step-title { font-family:'Cormorant Garamond', serif; font-size:22px; font-weight:500; color:rgba(15,30,53,0.62); margin:0 0 6px; transition:color 0.25s ease, opacity 0.25s ease; }
+        #process .process-step-copy { font-size:13px; line-height:1.62; font-family:'Jost'; font-weight:300; color:rgba(15,30,53,0.62); margin:0; }
+        #process .process-step-card.is-active .process-step-title { color:var(--navy); }
+        #process .process-step-card.is-active .process-step-marker { color:var(--gold); }
+        #process .process-step-card.is-complete .process-step-title { color:rgba(15,30,53,0.42); text-decoration:line-through; text-decoration-thickness:1px; text-decoration-color:rgba(184,151,106,0.58); }
+        #process .process-step-card.is-complete .process-step-copy { color:rgba(15,30,53,0.46); }
         #process .process-visual-shell { width:86% !important; }
         @media (max-width:1440px) {
           #process.process-section { padding:92px 64px 64px !important; }
           #process .process-heading { margin-bottom:50px !important; }
           #process .process-grid { gap:64px !important; }
-          #process .process-step { padding:22px 0 !important; }
           #process .process-visual-shell { width:84% !important; }
         }
         @media (max-height:820px) and (min-width:768px) {
@@ -37,9 +55,13 @@ function Process({ c, gold, navy }) {
           #process .process-heading { margin-bottom:34px !important; }
           #process .process-title { font-size:clamp(38px, 5vw, 54px) !important; }
           #process .process-grid { gap:54px !important; }
-          #process .process-step { padding:17px 0 !important; gap:24px !important; }
+          #process .process-progress-row { margin-bottom:14px !important; }
+          #process .process-step-list { gap:10px !important; }
+          #process .process-step-card { padding:14px 16px !important; }
+          #process .process-step-marker { width:42px !important; flex-basis:42px !important; font-size:24px !important; }
+          #process .process-step-check { flex-basis:42px !important; }
           #process .process-step-title { font-size:20px !important; margin-bottom:6px !important; }
-          #process .process-step-copy { font-size:12.5px !important; line-height:1.55 !important; max-height:56px !important; }
+          #process .process-step-copy { font-size:12.5px !important; line-height:1.55 !important; }
           #process .process-visual-shell { width:78% !important; }
         }
         @media (max-width:1024px) {
@@ -50,13 +72,20 @@ function Process({ c, gold, navy }) {
             overflow:visible !important;
           }
           #process .process-grid { grid-template-columns:1fr !important; gap:48px !important; }
+          #process .process-onboarding { max-width:620px !important; margin:0 auto !important; }
           #process .process-visual-shell { width:min(620px, 88%) !important; }
         }
         @media (max-width:767px) {
           #process.process-section { padding:72px 22px 58px !important; }
           #process .process-heading { margin-bottom:36px !important; }
           #process .process-title { font-size:clamp(40px, 12vw, 54px) !important; }
-          #process .process-step { padding:20px 0 !important; gap:18px !important; }
+          #process .process-progress-row { justify-content:space-between !important; gap:14px !important; }
+          #process .process-progress-track { width:128px !important; }
+          #process .process-step-card { padding:16px 16px !important; }
+          #process .process-step-inner { gap:14px !important; }
+          #process .process-step-marker { width:42px !important; flex-basis:42px !important; font-size:24px !important; }
+          #process .process-step-check { width:30px !important; height:30px !important; flex-basis:42px !important; }
+          #process .process-step-title { font-size:21px !important; }
           #process .process-visual-shell { width:94% !important; }
         }
       `}</style>
@@ -71,37 +100,62 @@ function Process({ c, gold, navy }) {
 
         <div className="g-split process-grid" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'72px', alignItems:'center' }}>
           {/* Steps list */}
-          <div className="reveal-right" style={{ order:2, display:'flex', flexDirection:'column', gap:'0' }}>
-            {c.process.steps.map((step, i) => (
-              <div key={i}
-                className="process-step"
-                onClick={() => setActive(i)}
-                style={{
-                  padding:'23px 0', cursor:'pointer',
-                  borderBottom:`1px solid rgba(15,30,53,0.1)`,
-                  display:'flex', gap:'32px', alignItems:'flex-start',
-                  transition:'all 0.3s',
-                }}>
-                <span style={{
-                  fontFamily:'Cormorant Garamond, serif', fontSize:'14px',
-                  color: active===i ? gold : 'rgba(15,30,53,0.3)',
-                  fontStyle:'italic', minWidth:'28px', transition:'color 0.3s',
-                }}>{step.n}</span>
-                <div>
-                  <h4 className="process-step-title" style={{
-                    fontFamily:'Cormorant Garamond, serif', fontSize:'22px', fontWeight:400,
-                    color: active===i ? navy : 'rgba(15,30,53,0.5)',
-                    marginBottom:'8px', transition:'color 0.3s',
-                  }}>{step.title}</h4>
-                  <p className="process-step-copy" style={{
-                    fontSize:'13px', lineHeight:1.7, fontFamily:'Jost', fontWeight:300,
-                    color: active===i ? 'rgba(15,30,53,0.65)' : 'transparent',
-                    maxHeight: active===i ? '80px' : '0', overflow:'hidden',
-                    transition:'all 0.4s ease',
-                  }}>{step.desc}</p>
-                </div>
+          <div className="reveal-right process-onboarding" style={{ order:2 }}>
+            <div className="process-progress-row">
+              <span style={{
+                fontFamily:'Jost',
+                fontSize:'13px',
+                letterSpacing:'0.12em',
+                textTransform:'uppercase',
+                color:'rgba(15,30,53,0.74)',
+                fontWeight:500,
+                whiteSpace:'nowrap',
+              }}>
+                Step {active + 1}/{totalSteps}
+              </span>
+              <div className="process-progress-track" aria-hidden="true">
+                <div className="process-progress-fill" style={{ width:`${progressValue}%` }} />
               </div>
-            ))}
+            </div>
+
+            <ul className="process-step-list">
+              {c.process.steps.map((step, i) => {
+                const isComplete = i < active;
+                const isActive = i === active;
+
+                return (
+                  <li key={i}>
+                    <button
+                      type="button"
+                      className={[
+                        'process-step-card',
+                        isActive ? 'is-active' : '',
+                        isComplete ? 'is-complete' : '',
+                      ].filter(Boolean).join(' ')}
+                      onClick={() => setActive(i)}
+                      aria-current={isActive ? 'step' : undefined}
+                    >
+                      <div className="process-step-inner">
+                        {isComplete ? (
+                          <svg className="process-step-check" viewBox="0 0 24 24" aria-hidden="true">
+                            <path
+                              fill="currentColor"
+                              d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.58 7.72-5.35 5.35a1 1 0 0 1-1.42 0l-2.39-2.4a1 1 0 1 1 1.41-1.41l1.69 1.69 4.65-4.65a1 1 0 0 1 1.41 1.42Z"
+                            />
+                          </svg>
+                        ) : (
+                          <span className="process-step-marker" aria-hidden="true">{step.n}.</span>
+                        )}
+                        <div>
+                          <h4 className="process-step-title">{step.title}</h4>
+                          <p className="process-step-copy">{step.desc}</p>
+                        </div>
+                      </div>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
 
           {/* Active step visual container */}
@@ -269,10 +323,10 @@ function Process({ c, gold, navy }) {
 
                 {/* Step number overlay */}
                 <div style={{
-                  position:'absolute', top:'24px', left:'24px', zIndex:5,
-                  fontFamily:'Cormorant Garamond, serif', fontSize:'56px', fontWeight:300,
-                  color:`${gold}30`, lineHeight:1,
-                  textShadow:'0 2px 12px rgba(0,0,0,0.12)',
+                  position:'absolute', top:'26px', left:'26px', zIndex:5,
+                  fontFamily:'Cormorant Garamond, serif', fontSize:'clamp(72px, 7vw, 98px)', fontWeight:400,
+                  color:`${gold}8f`, lineHeight:0.9,
+                  textShadow:'0 5px 18px rgba(0,0,0,0.24)',
                 }}>
                   {c.process.steps[active].n}
                 </div>
