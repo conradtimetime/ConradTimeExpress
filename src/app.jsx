@@ -2,7 +2,7 @@
   const { useEffect, useState } = React;
   const { COPY } = window.CONRAD_EXPRESS_DATA;
   const {
-    Nav, Hero, Services, WhyUs, Process, Testimonials, Packages, Contact,
+    Nav, Hero, Brands, Services, WhyUs, Process, Testimonials, Packages, Contact,
     FloatingLine,
   } = window;
   const TWEAK_DEFAULTS = window.TWEAK_DEFAULTS;
@@ -40,6 +40,7 @@ function App() {
 
       <Nav c={c} gold={gold} navy={navy} scrolled={scrolled} lang={language} setLang={handleLangChange} />
       <Hero c={c} gold={gold} navy={navy} layout={tweaks.heroLayout} />
+      <Brands c={c} gold={gold} navy={navy} />
       <Services c={c} gold={gold} navy={navy} />
       <WhyUs c={c} gold={gold} navy={navy} />
       <Process c={c} gold={gold} navy={navy} language={language} />

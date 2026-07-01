@@ -14,6 +14,7 @@ const jsxSources = [
   'src/components/shared.jsx',
   'src/components/Nav.jsx',
   'src/components/Hero.jsx',
+  'src/components/sections/Brands.jsx',
   'src/components/sections/Services.jsx',
   'src/components/sections/WhyUs.jsx',
   'src/components/sections/Process.jsx',

@@ -12,6 +12,11 @@ const COPY = {
       cta2: 'Learn More',
     },
     trust: ['Insurance from 50K+', 'Beyond standard delivery', 'Real-Time Tracking'],
+    brands: {
+      label: 'Trusted By',
+      title: 'Brands That Trust Us',
+      items: ['Aurélien', 'Monteverde', 'Valmont & Co.', 'House of Sévigné', 'Lantana', 'Belmont Rowe'],
+    },
     pricing: { label: 'Starting from', price: '฿500', unit: '/ shipment', note: 'All plans include full insurance & real-time tracking' },
     packages: {
       label: 'Service Packages',
@@ -109,14 +114,16 @@ const COPY = {
       label: 'Our Standards',
       title: 'Four Things\nWe Promise You',
       items: [
-        { icon: '◈', title: 'Total Privacy', desc: 'Every shipment stays private. No labels, no details shared, no exceptions.' },
-        { icon: '◇', title: 'Always On Time', desc: 'On time, every time. We value your schedule as much as your goods.' },
-        { icon: '◻', title: 'Expert Handling', desc: 'A trained team that knows luxury items and how to keep them safe.' },
-        { icon: '◯', title: 'Full Accountability', desc: 'We track every item, photograph its condition, and confirm delivery — every time.' },
+        { icon: 'privacy', title: 'Total Privacy', sub: 'Discreet, unmarked handling', desc: 'Every shipment stays private — no labels, no shared details, no exceptions.' },
+        { icon: 'time', title: 'Always On Time', sub: '99.8% on-time delivery', desc: 'On time, every time. We treat your schedule with the same care as your goods.' },
+        { icon: 'expert', title: 'Expert Handling', sub: '8 years with luxury goods', desc: 'A trained team that knows high-value items and exactly how to keep them safe.' },
+        { icon: 'coverage', title: 'Nationwide Coverage', sub: 'All 77 provinces', desc: 'Secure door-to-door delivery anywhere in Thailand, city or province.' },
+        { icon: 'tracking', title: 'Real-Time Tracking', sub: '10K+ parcels delivered', desc: 'Follow your shipment live by GPS with status updates from pickup to handover.' },
+        { icon: 'accountable', title: 'Full Accountability', sub: 'Photographed & confirmed', desc: 'We track each item, record its condition, and confirm delivery — every time.' },
       ]
     },
     misc: {
-      whyAbout: 'Since 2016, Conrad Time has set the bar for authenticating and selling luxury watches. Conrad Express brings that same care to every delivery.',
+      whyAbout: '',
       trustedBy: 'TRUSTED BY',
       howItWorks: 'HOW IT WORKS',
     }
@@ -131,6 +138,11 @@ const COPY = {
       cta2: 'เรียนรู้เพิ่มเติม',
     },
     trust: ['ประกันภัยเริ่มต้น 50K+', 'บริการขนส่งที่เหนือกว่ามาตรฐานทั่วไป', 'ติดตามแบบเรียลไทม์'],
+    brands: {
+      label: 'ได้รับความไว้วางใจจาก',
+      title: 'แบรนด์ที่ไว้วางใจเรา',
+      items: ['Aurélien', 'Monteverde', 'Valmont & Co.', 'House of Sévigné', 'Lantana', 'Belmont Rowe'],
+    },
     pricing: { label: 'เริ่มต้นที่', price: '฿500', unit: '/ การจัดส่ง', note: 'ทุกแพ็กเกจรวมประกันเต็มมูลค่าและติดตามแบบเรียลไทม์' },
     packages: {
       label: 'แพ็กเกจบริการ',
@@ -228,14 +240,16 @@ const COPY = {
       label: 'มาตรฐานของเรา',
       title: 'สี่สิ่งที่เรา\nสัญญากับคุณ',
       items: [
-        { icon: '◈', title: 'เป็นความลับสุดๆ', desc: 'ทุกการส่งเป็นความลับ ไม่มีการระบุ ไม่เปิดเผยให้ใครรู้' },
-        { icon: '◇', title: 'ตรงเวลาเสมอ', desc: 'ตรงเวลาคือเรื่องสำคัญ เราใส่ใจเวลาของคุณเท่ากับของที่ส่ง' },
-        { icon: '◻', title: 'มืออาชีพดูแล', desc: 'ทีมงานมืออาชีพ รู้วิธีดูแลของหรูและเรื่องความปลอดภัยเป็นอย่างดี' },
-        { icon: '◯', title: 'รับผิดชอบเต็มที่', desc: 'มีเอกสารตามของ ถ่ายรูปสภาพ และหลักฐานการส่งให้ทุกครั้ง' },
+        { icon: 'privacy', title: 'เป็นความลับสุดๆ', sub: 'ดูแลแบบไม่ระบุตัวตน', desc: 'ทุกการส่งเป็นความลับ ไม่มีป้ายกำกับ ไม่เปิดเผยรายละเอียดให้ใครรู้' },
+        { icon: 'time', title: 'ตรงเวลาเสมอ', sub: 'ส่งตรงเวลา 99.8%', desc: 'ตรงเวลาทุกครั้ง เราใส่ใจเวลาของคุณเท่ากับของที่ส่ง' },
+        { icon: 'expert', title: 'มืออาชีพดูแล', sub: 'ดูแลของหรูมา 8 ปี', desc: 'ทีมงานมืออาชีพ รู้จักของมูลค่าสูงและวิธีดูแลให้ปลอดภัย' },
+        { icon: 'coverage', title: 'ครอบคลุมทั่วประเทศ', sub: 'ครบ 77 จังหวัด', desc: 'ส่งถึงหน้าประตูอย่างปลอดภัยทุกที่ในไทย ทั้งในเมืองและต่างจังหวัด' },
+        { icon: 'tracking', title: 'ติดตามแบบเรียลไทม์', sub: 'ส่งแล้วกว่า 10K+ ชิ้น', desc: 'ตามพัสดุแบบ live ด้วย GPS อัปเดตสถานะตั้งแต่รับจนถึงมือผู้รับ' },
+        { icon: 'accountable', title: 'รับผิดชอบเต็มที่', sub: 'ถ่ายรูป+ยืนยันทุกขั้น', desc: 'ตามของทุกชิ้น บันทึกสภาพ และยืนยันการส่งให้ทุกครั้ง' },
       ]
     },
     misc: {
-      whyAbout: 'ตั้งแต่ปี 2559 Conrad Time วางมาตรฐานการรับรองและขายนาฬิกาหรู และ Conrad Express ก็เอาความใส่ใจแบบเดียวกันมาดูแลทุกการส่งของคุณ',
+      whyAbout: '',
       trustedBy: 'พาร์ทเนอร์ของเรา',
       howItWorks: 'ขั้นตอนการทำงาน',
     }
