@@ -8,7 +8,14 @@
    into brand-images/. */
 function Brands({ c, gold, navy }) {
   const brands = c.brands;
-  if (!brands || !brands.items || !brands.items.length) return null;
+  const brandLogos = [
+    { src: 'brand-images/Logo-Mesub-normalized.png', alt: 'Mesub' },
+    { src: 'brand-images/Logo-Khunhua-normalized.png', alt: 'Khunhua' },
+    { src: 'brand-images/Logo-Conradtime-normalized.png', alt: 'Conrad Time' },
+    { src: 'brand-images/Logo-Timepiece-normalized.png', alt: 'Timepiece' },
+    { src: 'brand-images/Logo-Voyage-normalized.png', alt: 'Voyage' },
+  ];
+  if (!brands || !brandLogos.length) return null;
 
   return (
     <section id="brands" className="brands-section" style={{
@@ -56,7 +63,7 @@ function Brands({ c, gold, navy }) {
           position:relative;
           z-index:1;
           width:100%;
-          max-width:1200px;
+          max-width:1500px;
           margin:0 auto;
           text-align:center;
         }
@@ -71,25 +78,45 @@ function Brands({ c, gold, navy }) {
         }
         #brands .brands-row {
           display:flex;
-          flex-wrap:wrap;
+          flex-wrap:nowrap;
           align-items:center;
           justify-content:center;
-          gap:22px 54px;
+          gap:clamp(16px, 1.45vw, 28px);
+          overflow-x:auto;
+          padding:4px 2px 8px;
+          scrollbar-width:none;
         }
-        #brands .brand-mark {
-          font-family:'Cormorant Garamond', serif;
-          font-size:clamp(20px, 2vw, 27px);
-          font-weight:500;
-          letter-spacing:0.04em;
-          color:rgba(15,30,53,0.74);
-          white-space:nowrap;
-          text-shadow:0 1px 0 rgba(255,255,255,0.24);
-          transition:color 0.28s ease, opacity 0.28s ease, transform 0.28s ease;
-          cursor:default;
+        #brands .brands-row::-webkit-scrollbar {
+          display:none;
         }
-        #brands .brand-mark:hover {
-          color:${navy};
+        #brands .brand-logo-card {
+          flex:0 0 clamp(176px, 14vw, 244px);
+          width:clamp(176px, 14vw, 244px);
+          height:clamp(104px, 7.2vw, 126px);
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          padding:12px 18px;
+          border:1px solid rgba(15,30,53,0.18);
+          border-radius:8px;
+          background:rgba(255,255,255,0.28);
+          box-shadow:0 1px 0 rgba(255,255,255,0.38) inset, 0 18px 42px rgba(70,43,12,0.13);
+          backdrop-filter:blur(8px);
+          transition:transform 0.28s ease, background 0.28s ease, box-shadow 0.28s ease;
+          overflow:hidden;
+        }
+        #brands .brand-logo-card:hover {
           transform:translateY(-2px);
+          background:rgba(255,255,255,0.38);
+          box-shadow:0 1px 0 rgba(255,255,255,0.48) inset, 0 22px 48px rgba(70,43,12,0.18);
+        }
+        #brands .brand-logo {
+          display:block;
+          width:100%;
+          height:100%;
+          object-fit:contain;
+          transform:scale(1.3);
+          transform-origin:center;
         }
         #brands .brand-dot {
           width:5px;
@@ -101,12 +128,16 @@ function Brands({ c, gold, navy }) {
         }
         @media (max-width:1024px) {
           #brands.brands-section { padding:48px 40px 52px !important; }
-          #brands .brands-row { gap:18px 40px; }
+          #brands .brands-inner { max-width:calc(100vw - 80px); }
+          #brands .brands-row { justify-content:flex-start; gap:16px; }
+          #brands .brand-logo-card { flex-basis:176px; width:176px; height:96px; }
         }
         @media (max-width:767px) {
           #brands.brands-section { padding:40px 22px 44px !important; }
           #brands .brands-title { font-size:clamp(30px, 10vw, 42px); margin-bottom:28px; }
-          #brands .brands-row { gap:16px 26px; }
+          #brands .brands-inner { max-width:calc(100vw - 44px); }
+          #brands .brands-row { gap:14px; padding-left:2px; padding-right:2px; }
+          #brands .brand-logo-card { flex-basis:168px; width:168px; height:92px; padding:10px 14px; }
           #brands .brand-dot { display:none; }
         }
         @media (prefers-reduced-motion: reduce) {
@@ -121,11 +152,10 @@ function Brands({ c, gold, navy }) {
         <SectionEyebrow label={brands.label} gold={navy} centered />
         {brands.title && <h2 className="brands-title">{brands.title}</h2>}
         <div className="brands-row">
-          {brands.items.map((name, i) => (
-            <React.Fragment key={name}>
-              {i > 0 && <span className="brand-dot" aria-hidden="true" />}
-              <span className="brand-mark">{name}</span>
-            </React.Fragment>
+          {brandLogos.map((logo) => (
+            <div className="brand-logo-card" key={logo.src}>
+              <img className="brand-logo" src={logo.src} alt={logo.alt} />
+            </div>
           ))}
         </div>
       </div>
