@@ -3,15 +3,15 @@
   const { SectionEyebrow } = window;
 
   const serviceImages = [
-    'brand-images/service-card-watch.jpg',
-    'brand-images/service-card-packaging.jpg',
-    'brand-images/service-card-hero.jpg',
-    'brand-images/service-card-hero.jpg',
-    'brand-images/service-card-packaging.jpg',
-    'brand-images/service-card-delivery.jpg',
+    'brand-images/Luxury-Watches.png',
+    'brand-images/Art-Collectibles.png',
+    'brand-images/Jewellery-Gems.png',
+    'brand-images/Luxury-Fashion.png',
+    'brand-images/Confidential-Documents.png',
+    'brand-images/Gadgets-It.png',
   ];
 
-  const serviceImagePositions = ['center 44%', 'center 54%', 'left center', 'left center', 'center 48%', 'center 52%'];
+  const serviceImagePositions = ['center center', 'center center', 'center center', 'center center', 'center center', 'center center'];
 
   /* On-brand line icon per category — shows until a photo is added. */
   const ServiceIcon = (i, gold) => {
