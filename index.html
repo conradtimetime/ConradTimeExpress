@@ -21,9 +21,11 @@
     --navy: #0f1e35;
     --navy-mid: #162440;
     --navy-light: #1d2f50;
-    --gold: #b8976a;
-    --gold-light: #cead82;
-    --gold-pale: #e8d5b0;
+    --gold: #e2b56f;
+    --gold-light: #fff0c9;
+    --gold-pale: #f9e5b8;
+    --gold-deep: #c99752;
+    --gold-gradient: linear-gradient(135deg, var(--gold-pale) 0%, var(--gold) 42%, var(--gold-light) 58%, var(--gold-deep) 100%);
     --cream: #f9f6f0;
     --cream-dark: #f0ebe0;
     --text-dark: #0d1a2e;
@@ -137,31 +139,31 @@
 
   /* Gold glow effects */
   .gold-glow {
-    box-shadow: 0 0 24px rgba(184,151,106,0.35), 0 0 72px rgba(184,151,106,0.12);
+    box-shadow: 0 0 24px rgba(226,181,111,0.35), 0 0 72px rgba(226,181,111,0.12);
   }
   .gold-glow-border {
     box-shadow:
-      0 0 0 1px rgba(184,151,106,0.5),
-      0 0 16px rgba(184,151,106,0.3),
-      0 0 40px rgba(184,151,106,0.12),
-      inset 0 0 24px rgba(184,151,106,0.04);
+      0 0 0 1px rgba(226,181,111,0.5),
+      0 0 16px rgba(226,181,111,0.3),
+      0 0 40px rgba(226,181,111,0.12),
+      inset 0 0 24px rgba(226,181,111,0.04);
   }
   .gold-text-glow {
     text-shadow:
-      0 0 20px rgba(184,151,106,0.6),
-      0 0 60px rgba(184,151,106,0.25),
+      0 0 20px rgba(226,181,111,0.6),
+      0 0 60px rgba(226,181,111,0.25),
       0 2px 4px rgba(0,0,0,0.4);
   }
 
   /* Circular concentric pattern background */
   .circle-pattern {
     background-image:
-      radial-gradient(circle at 60% 50%, transparent 120px, rgba(184,151,106,0.04) 121px, transparent 122px),
-      radial-gradient(circle at 60% 50%, transparent 180px, rgba(184,151,106,0.035) 181px, transparent 182px),
-      radial-gradient(circle at 60% 50%, transparent 260px, rgba(184,151,106,0.03) 261px, transparent 262px),
-      radial-gradient(circle at 60% 50%, transparent 360px, rgba(184,151,106,0.025) 361px, transparent 362px),
-      radial-gradient(circle at 60% 50%, transparent 480px, rgba(184,151,106,0.02) 481px, transparent 482px),
-      radial-gradient(circle at 60% 50%, transparent 620px, rgba(184,151,106,0.015) 621px, transparent 622px);
+      radial-gradient(circle at 60% 50%, transparent 120px, rgba(226,181,111,0.04) 121px, transparent 122px),
+      radial-gradient(circle at 60% 50%, transparent 180px, rgba(226,181,111,0.035) 181px, transparent 182px),
+      radial-gradient(circle at 60% 50%, transparent 260px, rgba(226,181,111,0.03) 261px, transparent 262px),
+      radial-gradient(circle at 60% 50%, transparent 360px, rgba(226,181,111,0.025) 361px, transparent 362px),
+      radial-gradient(circle at 60% 50%, transparent 480px, rgba(226,181,111,0.02) 481px, transparent 482px),
+      radial-gradient(circle at 60% 50%, transparent 620px, rgba(226,181,111,0.015) 621px, transparent 622px);
   }
 
   /* Gold curve line glow animation */
@@ -178,9 +180,9 @@
   .gold-curve-flow { animation: goldFlow 6s ease-in-out infinite; }
 
   /* Radial bloom spots */
-  .bloom-tl { background: radial-gradient(ellipse 60% 50% at 0% 0%, rgba(184,151,106,0.12) 0%, transparent 65%); }
-  .bloom-br { background: radial-gradient(ellipse 50% 60% at 100% 100%, rgba(184,151,106,0.1) 0%, transparent 65%); }
-  .bloom-center { background: radial-gradient(ellipse 40% 40% at 50% 50%, rgba(184,151,106,0.06) 0%, transparent 70%); }
+  .bloom-tl { background: radial-gradient(ellipse 60% 50% at 0% 0%, rgba(226,181,111,0.12) 0%, transparent 65%); }
+  .bloom-br { background: radial-gradient(ellipse 50% 60% at 100% 100%, rgba(226,181,111,0.1) 0%, transparent 65%); }
+  .bloom-center { background: radial-gradient(ellipse 40% 40% at 50% 50%, rgba(226,181,111,0.06) 0%, transparent 70%); }
 
   /* ═══════════════════ RESPONSIVE LAYOUT ═══════════════════
      Breakpoints — Mobile ≤768 · Tablet ≤1024 · Laptop ≤1440 · Desktop >1440
@@ -247,7 +249,7 @@
     }
     .swipe-dot {
       width: 7px; height: 7px; border-radius: 50%; padding: 0; cursor: pointer;
-      background: rgba(184,151,106,0.35); border: none; transition: all 0.3s;
+      background: rgba(226,181,111,0.35); border: none; transition: all 0.3s;
     }
     .swipe-dot.on { background: var(--gold); width: 22px; border-radius: 4px; }
   }
@@ -302,15 +304,15 @@
 <script src="src/data/reviews.js"></script>
 <script src="src/data/assets.js?v=20260630-process-images-cover"></script>
 <script src="src/data/site-data.js"></script>
-<script src="src/data/tweaks.js"></script>
-<script src="dist/conrad-express.bundle.js?v=20260630-process-images-cover"></script>
+<script src="src/data/tweaks.js?v=20260701-gold-system"></script>
+<script src="dist/conrad-express.bundle.js?v=20260701-gold-system"></script>
 
 <template id="__bundler_thumbnail" data-bg-color="#0f1e35">
   <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
     <rect width="1200" height="800" fill="#0f1e35"/>
-    <path d="M600 280 L608 372 L700 380 L608 388 L600 480 L592 388 L500 380 L592 372 Z" fill="#b8976a"/>
-    <rect x="440" y="510" width="320" height="2" fill="#b8976a" opacity="0.4"/>
-    <text x="600" y="560" text-anchor="middle" fill="#b8976a" font-size="28" letter-spacing="12" font-family="serif">CONRAD EXPRESS</text>
+    <path d="M600 280 L608 372 L700 380 L608 388 L600 480 L592 388 L500 380 L592 372 Z" fill="#e2b56f"/>
+    <rect x="440" y="510" width="320" height="2" fill="#e2b56f" opacity="0.4"/>
+    <text x="600" y="560" text-anchor="middle" fill="#e2b56f" font-size="28" letter-spacing="12" font-family="serif">CONRAD EXPRESS</text>
   </svg>
 </template>
 

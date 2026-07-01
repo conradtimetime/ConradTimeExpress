@@ -86,8 +86,8 @@ function Contact({ c, gold, navy, language }) {
       flexDirection:'column',
       justifyContent:'space-between',
       overflow:'hidden',
-      backgroundImage:`radial-gradient(ellipse 60% 45% at 5% 10%, rgba(184,151,106,0.08) 0%, transparent 55%), radial-gradient(ellipse 40% 50% at 95% 90%, rgba(184,151,106,0.06) 0%, transparent 50%)`,
-      boxShadow:'inset 0 1px 0 rgba(184,151,106,0.12)',
+      backgroundImage:`radial-gradient(ellipse 60% 45% at 5% 10%, rgba(226,181,111,0.08) 0%, transparent 55%), radial-gradient(ellipse 40% 50% at 95% 90%, rgba(226,181,111,0.06) 0%, transparent 50%)`,
+      boxShadow:'inset 0 1px 0 rgba(226,181,111,0.12)',
     }}>
       <style>{`
         #contact.contact-section {
@@ -284,7 +284,7 @@ function Contact({ c, gold, navy, language }) {
               cursor:submitState === 'submitting' ? 'wait' : 'pointer', alignSelf:'flex-start', transition:'all 0.25s',
               opacity:submitState === 'submitting' ? 0.65 : 1,
             }}
-            onMouseEnter={e => { e.currentTarget.style.background='#cead82'; e.currentTarget.style.transform='translateY(-2px)'; }}
+            onMouseEnter={e => { e.currentTarget.style.background='#fff0c9'; e.currentTarget.style.transform='translateY(-2px)'; }}
             onMouseLeave={e => { e.currentTarget.style.background=gold; e.currentTarget.style.transform='translateY(0)'; }}
             >{submitState === 'submitting'
               ? (language === 'th' ? 'กำลังส่ง...' : 'SUBMITTING...')
@@ -298,7 +298,7 @@ function Contact({ c, gold, navy, language }) {
       <div role="contentinfo" className="contact-footer" style={{
         width:'100%',
         flex:'0 0 auto',
-        borderTop:`1px solid rgba(184,151,106,0.18)`,
+        borderTop:`1px solid rgba(226,181,111,0.18)`,
         background:'#060e1a',
         boxShadow:'0 -18px 42px rgba(0,0,0,0.18)',
       }}>

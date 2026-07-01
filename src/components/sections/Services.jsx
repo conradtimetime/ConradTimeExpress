@@ -47,7 +47,7 @@ function Services({ c, gold, navy }) {
       display:'flex',
       alignItems:'center',
       scrollMarginTop:'72px',
-      boxShadow:'inset 0 -1px 0 rgba(184,151,106,0.12), inset 0 1px 0 rgba(184,151,106,0.08)',
+      boxShadow:'inset 0 -1px 0 rgba(226,181,111,0.12), inset 0 1px 0 rgba(226,181,111,0.08)',
       overflow:'hidden',
     }}>
       <style>{`
@@ -127,7 +127,7 @@ function Services({ c, gold, navy }) {
           min-height:0;
           overflow:hidden;
           background:#0f1e35;
-          border:1px solid rgba(184,151,106,0.28);
+          border:1px solid rgba(226,181,111,0.28);
           box-shadow:0 10px 24px rgba(15,30,53,0.12);
           cursor:pointer;
           isolation:isolate;
@@ -136,12 +136,12 @@ function Services({ c, gold, navy }) {
 
         #services .service-card:hover {
           transform:translate3d(0, -5px, 0);
-          border-color:rgba(184,151,106,0.68);
+          border-color:rgba(226,181,111,0.68);
           box-shadow:0 16px 32px rgba(15,30,53,0.18);
         }
 
         #services .service-card:focus {
-          outline:1px solid rgba(184,151,106,0.72);
+          outline:1px solid rgba(226,181,111,0.72);
           outline-offset:4px;
         }
 
@@ -200,7 +200,7 @@ function Services({ c, gold, navy }) {
         #services .service-frame {
           position:absolute;
           inset:18px;
-          border:1px solid rgba(184,151,106,0.38);
+          border:1px solid rgba(226,181,111,0.38);
           z-index:3;
           pointer-events:none;
         }

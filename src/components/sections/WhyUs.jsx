@@ -30,7 +30,7 @@ function WhyUs({ c, gold, navy }) {
       minHeight:'calc(100vh - 72px)', boxSizing:'border-box',
       display:'flex', flexDirection:'column', justifyContent:'center',
       scrollMarginTop:'72px',
-      boxShadow:'inset 0 1px 0 rgba(184,151,106,0.1), inset 0 -1px 0 rgba(184,151,106,0.06)',
+      boxShadow:'inset 0 1px 0 rgba(226,181,111,0.1), inset 0 -1px 0 rgba(226,181,111,0.06)',
     }}>
       <style>{`
         #why.why-section {
@@ -59,23 +59,23 @@ function WhyUs({ c, gold, navy }) {
         #why .why-feature {
           text-align:left;
           padding-top:26px;
-          border-top:1px solid rgba(184,151,106,0.16);
+          border-top:1px solid rgba(226,181,111,0.16);
           transition:border-color 0.32s ease;
         }
         #why .why-feature.is-hover { border-top-color:${gold}; }
         #why .why-feature-icon {
           width:58px; height:58px;
           display:flex; align-items:center; justify-content:center;
-          border:1px solid rgba(184,151,106,0.3);
+          border:1px solid rgba(226,181,111,0.3);
           border-radius:12px;
           margin-bottom:22px;
-          background:rgba(184,151,106,0.05);
+          background:rgba(226,181,111,0.05);
           transition:border-color 0.32s ease, background 0.32s ease, box-shadow 0.32s ease;
         }
         #why .why-feature.is-hover .why-feature-icon {
           border-color:${gold};
-          background:rgba(184,151,106,0.12);
-          box-shadow:0 0 24px rgba(184,151,106,0.22);
+          background:rgba(226,181,111,0.12);
+          box-shadow:0 0 24px rgba(226,181,111,0.22);
         }
         #why .why-feature-title {
           font-family:'Cormorant Garamond', serif;

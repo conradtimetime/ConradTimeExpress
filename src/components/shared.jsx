@@ -25,11 +25,11 @@ function PhotoPlaceholder({ label, width='100%', height='100%', style={} }) {
         backgroundImage:'repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 12px)',
       }} />
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" style={{opacity:0.25}}>
-        <rect x="2" y="6" width="28" height="20" rx="2" stroke="#b8976a" strokeWidth="1.5"/>
-        <circle cx="16" cy="16" r="5" stroke="#b8976a" strokeWidth="1.5"/>
-        <circle cx="24" cy="10" r="1.5" fill="#b8976a" opacity="0.6"/>
+        <rect x="2" y="6" width="28" height="20" rx="2" stroke="#e2b56f" strokeWidth="1.5"/>
+        <circle cx="16" cy="16" r="5" stroke="#e2b56f" strokeWidth="1.5"/>
+        <circle cx="24" cy="10" r="1.5" fill="#e2b56f" opacity="0.6"/>
       </svg>
-      <span style={{ fontSize:'10px', letterSpacing:'0.2em', color:'rgba(184,151,106,0.4)', fontFamily:'Jost, sans-serif', textAlign:'center', padding:'0 12px', position:'relative' }}>
+      <span style={{ fontSize:'10px', letterSpacing:'0.2em', color:'rgba(226,181,111,0.4)', fontFamily:'Jost, sans-serif', textAlign:'center', padding:'0 12px', position:'relative' }}>
         {label}
       </span>
     </div>

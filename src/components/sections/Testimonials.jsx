@@ -41,7 +41,7 @@ function Testimonials({ c, gold, navy, language }) {
           SECTION 2 — DARK 3D PHOTO CARD CAROUSEL
       ══════════════════════════════════════════ */}
       <section id="testimonials" style={{
-        background:`radial-gradient(ellipse 55% 40% at 8% 5%, rgba(184,151,106,0.07) 0%, transparent 55%), radial-gradient(ellipse 45% 55% at 92% 95%, rgba(184,151,106,0.05) 0%, transparent 55%), ${navy}`,
+        background:`radial-gradient(ellipse 55% 40% at 8% 5%, rgba(226,181,111,0.07) 0%, transparent 55%), radial-gradient(ellipse 45% 55% at 92% 95%, rgba(226,181,111,0.05) 0%, transparent 55%), ${navy}`,
         padding:'120px 0',
         minHeight:'100vh', boxSizing:'border-box',
         display:'flex', flexDirection:'column', justifyContent:'center',

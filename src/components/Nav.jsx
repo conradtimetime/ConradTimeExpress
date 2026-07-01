@@ -43,8 +43,8 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       background: scrolled ? `${navy}f2` : 'transparent',
       backdropFilter: scrolled ? 'blur(16px) saturate(180%)' : 'none',
-      borderBottom: scrolled ? `1px solid rgba(184,151,106,0.18)` : 'none',
-      boxShadow: scrolled ? '0 4px 24px rgba(0,0,0,0.3), 0 1px 0 rgba(184,151,106,0.12) inset' : 'none',
+      borderBottom: scrolled ? `1px solid rgba(226,181,111,0.18)` : 'none',
+      boxShadow: scrolled ? '0 4px 24px rgba(0,0,0,0.3), 0 1px 0 rgba(226,181,111,0.12) inset' : 'none',
       transition: 'all 0.4s ease',
     }}>
       {/* Logo */}
@@ -93,7 +93,7 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
           textDecoration: 'none', fontWeight: 500,
           transition: 'all 0.2s', display:'grid', placeItems:'center',
         }}
-        onMouseEnter={e => { e.currentTarget.style.background = '#cead82'; }}
+        onMouseEnter={e => { e.currentTarget.style.background = '#fff0c9'; }}
         onMouseLeave={e => { e.currentTarget.style.background = gold; }}
         >
           {['en','th'].map(L => (
@@ -121,7 +121,7 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
         <div style={{
           position:'absolute', top:'72px', left:0, right:0,
           background:`${navy}f7`, backdropFilter:'blur(16px) saturate(180%)',
-          borderBottom:`1px solid rgba(184,151,106,0.2)`,
+          borderBottom:`1px solid rgba(226,181,111,0.2)`,
           boxShadow:'0 14px 36px rgba(0,0,0,0.45)',
           display:'flex', flexDirection:'column', padding:'10px 22px 22px',
         }}>

@@ -14,7 +14,7 @@ function Packages({ c, gold, navy }) {
       minHeight:'100vh',
       display:'flex',
       alignItems:'center',
-      boxShadow:'inset 0 -1px 0 rgba(184,151,106,0.12), inset 0 1px 0 rgba(184,151,106,0.08)' }}>
+      boxShadow:'inset 0 -1px 0 rgba(226,181,111,0.12), inset 0 1px 0 rgba(226,181,111,0.08)' }}>
       <div style={{ width:'100%', maxWidth:'1400px', margin:'0 auto' }}>
 
         {/* Header */}
@@ -49,7 +49,7 @@ function Packages({ c, gold, navy }) {
                     ? `2px solid ${gold}`
                     : `1px solid rgba(15,30,53,0.08)`,
                   boxShadow: isActive
-                    ? `0 0 0 1px ${gold}30, 0 0 26px ${gold}40, 0 12px 40px rgba(0,0,0,0.10), inset 0 1px 0 rgba(184,151,106,0.25)`
+                    ? `0 0 0 1px ${gold}30, 0 0 26px ${gold}40, 0 12px 40px rgba(0,0,0,0.10), inset 0 1px 0 rgba(226,181,111,0.25)`
                     : '0 1px 4px rgba(0,0,0,0.04)',
                   transition:'all 0.45s cubic-bezier(0.16,1,0.3,1)',
                   cursor:'pointer',
@@ -142,7 +142,7 @@ function Packages({ c, gold, navy }) {
                 onMouseEnter={e => {
                   if (!isActive) return;
                   if (!isGold) { e.currentTarget.style.borderColor = gold; e.currentTarget.style.color = gold; }
-                  else { e.currentTarget.style.background = '#cead82'; }
+                  else { e.currentTarget.style.background = '#fff0c9'; }
                 }}
                 onMouseLeave={e => {
                   if (!isActive) return;

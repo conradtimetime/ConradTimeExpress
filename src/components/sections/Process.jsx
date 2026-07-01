@@ -23,7 +23,7 @@ function Process({ c, gold, navy, language }) {
       display:'flex',
       alignItems:'flex-start',
       overflow:'hidden',
-      boxShadow:'inset 0 -1px 0 rgba(184,151,106,0.12), inset 0 1px 0 rgba(184,151,106,0.08)',
+      boxShadow:'inset 0 -1px 0 rgba(226,181,111,0.12), inset 0 1px 0 rgba(226,181,111,0.08)',
     }}>
       <style>{`
         #process.process-section {
@@ -102,7 +102,7 @@ function Process({ c, gold, navy, language }) {
         }
         #process .process-step-card:hover,
         #process .process-step-card:focus-visible {
-          border-color:rgba(184,151,106,0.54);
+          border-color:rgba(226,181,111,0.54);
           background:#fff;
           outline:none;
           transform:translateY(-1px);
@@ -158,7 +158,7 @@ function Process({ c, gold, navy, language }) {
           color:rgba(15,30,53,0.42);
           text-decoration:line-through;
           text-decoration-thickness:1px;
-          text-decoration-color:rgba(184,151,106,0.58);
+          text-decoration-color:rgba(226,181,111,0.58);
         }
         #process .process-step-card.is-complete .process-step-copy { color:rgba(15,30,53,0.46); }
         #process .process-visual-shell {
@@ -311,7 +311,7 @@ function Process({ c, gold, navy, language }) {
                 boxShadow:'0 18px 45px rgba(8,24,45,0.24)',
                 background:`
                   radial-gradient(ellipse 58% 48% at 20% 18%, rgba(77,142,199,0.30) 0%, transparent 68%),
-                  radial-gradient(ellipse 62% 54% at 76% 70%, rgba(184,151,106,0.14) 0%, transparent 62%),
+                  radial-gradient(ellipse 62% 54% at 76% 70%, rgba(226,181,111,0.14) 0%, transparent 62%),
                   linear-gradient(135deg, #07172d 0%, #0c2746 54%, #123a5d 100%)
                 `,
               }}>
@@ -336,7 +336,7 @@ function Process({ c, gold, navy, language }) {
                 <div style={{
                   position:'absolute', inset:'22px',
                   border:`1px solid rgba(255,255,255,0.08)`,
-                  boxShadow:`inset 0 0 0 1px rgba(184,151,106,0.08)`,
+                  boxShadow:`inset 0 0 0 1px rgba(226,181,111,0.08)`,
                   pointerEvents:'none',
                   zIndex:0,
                 }} />

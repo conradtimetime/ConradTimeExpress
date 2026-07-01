@@ -71,7 +71,7 @@ const COPY = {
     },
     process: {
       label: 'How It Works',
-      title: 'It’s easy to get started\nto Finish',
+      title: 'It’s easy to get started\nFrom Beginning to End',
       steps: [
         { n: '01', title: 'Talk to Us', desc: 'We chat about your item, where it’s going, and how to keep it safe.' },
         { n: '02', title: 'Pickup', desc: 'Our team comes to you with the right packing materials.' },
@@ -92,7 +92,7 @@ const COPY = {
     },
     contact: {
       label: 'Get In Touch',
-      title: 'It’s Easy to get Started\nFrom Beginning to End',
+      title: 'Start Shipping\nWith Us Now',
       sub: 'We’re here Mon–Sat, 9:00–18:00 ICT.\nNeed it urgent? Our hotline is open 24/7.',
       fields: { name: 'Full Name', phone: 'Phone Number', type: 'Shipment Type', message: 'Tell us about your item', cta: 'Send Request' },
       types: ['Watches & Jewellery', 'Art & Collectibles', 'Vault Transfer', 'International Express', 'Other'],

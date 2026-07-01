@@ -1,6 +1,6 @@
 (function () {
   window.TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-    "accentColor": "#b8976a",
+    "accentColor": "#e2b56f",
     "navyColor": "#0f1e35",
     "heroLayout": "dark",
     "font": "Cormorant Garamond",
