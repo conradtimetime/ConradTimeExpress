@@ -101,14 +101,8 @@ const COPY = {
       tagline: 'Careful. Private. On time.',
       links: ['Privacy Policy', 'Terms of Service', 'Insurance Policy'],
       copy: '© 2026 Conrad Express. A Conrad Time Company.',
-      address: '546 Ratchada One Building, 10th Floor, Ratchadaphisek Rd, Chatuchak, Bangkok 10900',
       line: '@ConradExpress',
       tel: '+66 2 016 9950',
-    },
-    manifesto: {
-      label: 'Our Mission',
-      quote: 'One place for all your high-value shipping — built to be precise, private, and dependable.',
-      sub: 'From your very first message, expect smooth, careful handling at every step.',
     },
     pillars: {
       label: 'Our Standards',
@@ -123,8 +117,6 @@ const COPY = {
       ]
     },
     misc: {
-      whyAbout: '',
-      trustedBy: 'TRUSTED BY',
       howItWorks: 'HOW IT WORKS',
     }
   },
@@ -227,14 +219,8 @@ const COPY = {
       tagline: 'แม่นยำ · ใส่ใจ · ส่งถึงมือ',
       links: ['นโยบายความเป็นส่วนตัว', 'ข้อกำหนดการใช้บริการ', 'นโยบายประกันภัย'],
       copy: '© 2026 Conrad Express บริษัทในเครือ Conrad Time',
-      address: '546 อาคารรัชดาวัน ชั้น 10 ถนนรัชดาภิเษก จตุจักร กรุงเทพฯ 10900',
       line: '@ConradExpress',
       tel: '+66 2 016 9950',
-    },
-    manifesto: {
-      label: 'พันธกิจของเรา',
-      quote: 'บริการครบจบที่เดียวสำหรับส่งของมีค่า ออกแบบมาให้แม่นยำ รอบคอบ และไว้ใจได้',
-      sub: 'ตั้งแต่วันแรกที่คุณติดต่อเรา คุณจะได้รับการดูแลอย่างดีและราบรื่นในทุกขั้นตอน',
     },
     pillars: {
       label: 'มาตรฐานของเรา',
@@ -249,8 +235,6 @@ const COPY = {
       ]
     },
     misc: {
-      whyAbout: '',
-      trustedBy: 'พาร์ทเนอร์ของเรา',
       howItWorks: 'ขั้นตอนการทำงาน',
     }
   }

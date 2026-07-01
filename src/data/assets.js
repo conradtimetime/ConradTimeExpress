@@ -9,8 +9,6 @@
     'brand-images/review-5.jpg',
   ];
 
-  const logoSymbol = 'brand-images/Logo_Symbol-CRE.png';
-
   const whyImage = 'brand-images/WHY_CONRAD-EXPRESS.png';
 
   /* Process step images — key = step index 0–3 */
@@ -21,5 +19,5 @@
     3: { src: 'brand-images/Delivery.png',      fit: 'cover', objectPosition: 'center 64%' },
   };
 
-  window.CONRAD_EXPRESS_ASSETS = { reviewPhotos, logoSymbol, whyImage, processImages };
+  window.CONRAD_EXPRESS_ASSETS = { reviewPhotos, whyImage, processImages };
 })();
