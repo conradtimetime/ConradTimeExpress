@@ -65,6 +65,15 @@ function Contact({ c, gold, navy, language }) {
     color:'#fff', fontSize:'14px', fontFamily:'Jost, sans-serif', fontWeight:300,
     outline:'none', transition:'border-color 0.2s', letterSpacing:'0.03em',
   };
+  const labelStyle = {
+    display:'block', fontSize:'10px', letterSpacing:'0.2em',
+    color:`${gold}60`, fontFamily:'Jost', marginBottom:'8px',
+  };
+  // Shared underline focus/blur for every field
+  const focusUnderline = {
+    onFocus: e => { e.target.style.borderBottomColor = gold; },
+    onBlur: e => { e.target.style.borderBottomColor = 'rgba(255,255,255,0.15)'; },
+  };
 
   return (
     <section id="contact" className="contact-section" style={{
@@ -222,9 +231,7 @@ function Contact({ c, gold, navy, language }) {
               { key:'phone', label:c.contact.fields.phone, type:'tel' },
             ].map(f => (
               <div key={f.key}>
-                <label style={{ display:'block', fontSize:'10px', letterSpacing:'0.2em', color:`${gold}60`, fontFamily:'Jost', marginBottom:'8px' }}>
-                  {f.label.toUpperCase()}
-                </label>
+                <label style={labelStyle}>{f.label.toUpperCase()}</label>
                 <input
                   name={f.key}
                   type={f.type}
@@ -233,16 +240,13 @@ function Contact({ c, gold, navy, language }) {
                   disabled={submitState === 'submitting'}
                   {...fieldConstraints[f.key]}
                   style={inputStyle}
-                  onFocus={e => e.target.style.borderBottomColor = gold}
-                  onBlur={e => e.target.style.borderBottomColor = 'rgba(255,255,255,0.15)'}
+                  {...focusUnderline}
                 />
               </div>
             ))}
 
             <div>
-              <label style={{ display:'block', fontSize:'10px', letterSpacing:'0.2em', color:`${gold}60`, fontFamily:'Jost', marginBottom:'8px' }}>
-                {c.contact.fields.type.toUpperCase()}
-              </label>
+              <label style={labelStyle}>{c.contact.fields.type.toUpperCase()}</label>
               <select
                 name="serviceType"
                 value={form.type}
@@ -250,8 +254,7 @@ function Contact({ c, gold, navy, language }) {
                 disabled={submitState === 'submitting'}
                 required
                 style={{ ...inputStyle, appearance:'none' }}
-                onFocus={e => e.target.style.borderBottomColor = gold}
-                onBlur={e => e.target.style.borderBottomColor = 'rgba(255,255,255,0.15)'}
+                {...focusUnderline}
               >
                 <option value="" style={{ background:navy }}>—</option>
                 {shipmentTypes.map((t, i) => (
@@ -261,9 +264,7 @@ function Contact({ c, gold, navy, language }) {
             </div>
 
             <div>
-              <label style={{ display:'block', fontSize:'10px', letterSpacing:'0.2em', color:`${gold}60`, fontFamily:'Jost', marginBottom:'8px' }}>
-                {c.contact.fields.message.toUpperCase()}
-              </label>
+              <label style={labelStyle}>{c.contact.fields.message.toUpperCase()}</label>
               <textarea
                 name="message"
                 value={form.message}
@@ -272,8 +273,7 @@ function Contact({ c, gold, navy, language }) {
                 maxLength={600}
                 rows={4}
                 style={{ ...inputStyle, resize:'none' }}
-                onFocus={e => e.target.style.borderBottomColor = gold}
-                onBlur={e => e.target.style.borderBottomColor = 'rgba(255,255,255,0.15)'}
+                {...focusUnderline}
               />
             </div>
 

@@ -68,7 +68,7 @@ function Services({ c, gold, navy }) {
         #services .services-sub { margin-top:20px !important; }
 
         @keyframes servicesMoveRight {
-          from { transform:translate3d(calc(-50% - 10px), 0, 0); }
+          from { transform:translate3d(calc(-50% - 9px), 0, 0); }
           to { transform:translate3d(0, 0, 0); }
         }
 
@@ -131,9 +131,6 @@ function Services({ c, gold, navy }) {
           box-shadow:0 10px 24px rgba(15,30,53,0.12);
           cursor:pointer;
           isolation:isolate;
-          transform:translateZ(0);
-          backface-visibility:hidden;
-          contain:layout paint style;
           transition:transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
         }
 
@@ -155,8 +152,6 @@ function Services({ c, gold, navy }) {
           height:100%;
           object-fit:cover;
           display:block;
-          transform:translateZ(0);
-          backface-visibility:hidden;
           transition:transform 0.45s ease;
           z-index:1;
         }

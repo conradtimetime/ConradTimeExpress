@@ -15,7 +15,7 @@
 
   /* Process step images — key = step index 0–3 */
   const processImages = {
-    0: { src: 'brand-images/Consultation.png', maxWidth: '72%' },
+    0: { src: 'brand-images/Consultation.png', fit: 'cover', objectPosition: 'center center' },
     1: { src: 'brand-images/Collection.png',   fit: 'cover', objectPosition: 'center 68%' },
     2: { src: 'brand-images/Transit.png',       fit: 'cover', objectPosition: 'center 62%' },
     3: { src: 'brand-images/Delivery.png',      fit: 'cover', objectPosition: 'center 64%' },

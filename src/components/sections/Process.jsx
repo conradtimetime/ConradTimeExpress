@@ -4,84 +4,219 @@
   const { processImages } = window.CONRAD_EXPRESS_DATA.ASSETS;
 
 /* ── PROCESS ── */
-function Process({ c, gold, navy }) {
+function Process({ c, gold, navy, language }) {
   const [active, setActive] = useState(0);
   const activeImage = processImages[active];
   const totalSteps = c.process.steps.length;
   const progressValue = totalSteps ? ((active + 1) / totalSteps) * 100 : 0;
+  const progressText = language === 'th'
+    ? `ขั้นตอน ${active + 1}/${totalSteps}`
+    : `Step ${active + 1}/${totalSteps}`;
 
   return (
     <section id="process" className="process-section" style={{
-      background:'var(--cream)',
-      padding:'96px 96px 72px',
-      minHeight:'100vh',
-      height:'100vh',
+      background:'#fff',
+      padding:'42px 96px 58px',
+      minHeight:'calc(100vh - 72px)',
+      scrollMarginTop:'72px',
       boxSizing:'border-box',
       display:'flex',
       alignItems:'flex-start',
       overflow:'hidden',
+      boxShadow:'inset 0 -1px 0 rgba(184,151,106,0.12), inset 0 1px 0 rgba(184,151,106,0.08)',
     }}>
       <style>{`
-        #process.process-section { padding:96px 96px 72px !important; }
-        #process .process-heading { margin-bottom:58px !important; }
-        #process .process-grid { gap:72px !important; }
-        #process .process-onboarding { max-width:560px; width:100%; margin-left:auto; }
-        #process .process-progress-row { display:flex; align-items:center; justify-content:flex-end; gap:18px; margin-bottom:20px; }
-        #process .process-progress-track { width:148px; height:6px; border-radius:999px; background:rgba(15,30,53,0.10); overflow:hidden; }
-        #process .process-progress-fill { height:100%; border-radius:inherit; background:var(--gold); transition:width 0.35s cubic-bezier(0.16,1,0.3,1); }
-        #process .process-step-list { list-style:none; display:flex; flex-direction:column; gap:14px; margin:0; padding:0; }
-        #process .process-step-card { width:100%; text-align:left; border-radius:8px; border:1px solid rgba(15,30,53,0.12); background:rgba(255,255,255,0.50); padding:18px 20px; cursor:pointer; transition:border-color 0.25s ease, background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease; }
+        #process.process-section {
+          background:#fff !important;
+          scroll-margin-top:72px !important;
+          padding:42px 96px 58px !important;
+          min-height:calc(100vh - 72px) !important;
+          height:auto !important;
+          align-items:stretch !important;
+        }
+        #process > div { display:flex; flex-direction:column; justify-content:space-between; }
+        #process .process-heading {
+          height:176px !important;
+          margin-bottom:24px !important;
+          display:flex;
+          flex-direction:column;
+          align-items:center;
+          justify-content:flex-start;
+        }
+        #process .process-title {
+          min-height:124px !important;
+          max-width:760px;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+        }
+        #process .process-grid { gap:56px !important; align-items:center !important; }
+        #process .process-onboarding {
+          max-width:560px;
+          width:100%;
+          height:526px;
+          margin-right:auto;
+          display:flex;
+          flex-direction:column;
+        }
+        #process .process-progress-row {
+          display:flex;
+          align-items:center;
+          justify-content:flex-end;
+          gap:18px;
+          height:24px;
+          margin-bottom:20px;
+        }
+        #process .process-progress-track {
+          width:148px;
+          height:6px;
+          border-radius:999px;
+          background:rgba(15,30,53,0.10);
+          overflow:hidden;
+        }
+        #process .process-progress-fill {
+          height:100%;
+          border-radius:inherit;
+          background:var(--gold);
+          transition:width 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+        #process .process-step-list {
+          list-style:none;
+          display:flex;
+          flex-direction:column;
+          gap:14px;
+          margin:0;
+          padding:0;
+        }
+        #process .process-step-card {
+          width:100%;
+          height:110px;
+          min-height:110px;
+          text-align:left;
+          border-radius:8px;
+          border:1px solid rgba(15,30,53,0.12);
+          background:rgba(255,255,255,0.76);
+          padding:18px 20px;
+          cursor:pointer;
+          transition:border-color 0.25s ease, background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+        }
         #process .process-step-card:hover,
-        #process .process-step-card:focus-visible { border-color:rgba(184,151,106,0.54); background:rgba(255,255,255,0.74); outline:none; transform:translateY(-1px); }
-        #process .process-step-card.is-active { border-color:rgba(15,30,53,0.22); background:rgba(255,255,255,0.82); box-shadow:0 18px 38px rgba(15,30,53,0.08); }
+        #process .process-step-card:focus-visible {
+          border-color:rgba(184,151,106,0.54);
+          background:#fff;
+          outline:none;
+          transform:translateY(-1px);
+        }
+        #process .process-step-card.is-active {
+          border-color:rgba(15,30,53,0.22);
+          background:#fff;
+          box-shadow:0 18px 38px rgba(15,30,53,0.08);
+        }
         #process .process-step-inner { display:flex; align-items:flex-start; gap:20px; }
-        #process .process-step-marker { width:48px; height:44px; flex:0 0 48px; display:flex; align-items:flex-start; justify-content:flex-start; font-family:'Cormorant Garamond', serif; font-size:28px; line-height:1; font-weight:500; color:rgba(15,30,53,0.58); }
-        #process .process-step-check { width:34px; height:34px; flex:0 0 48px; color:var(--gold); }
-        #process .process-step-title { font-family:'Cormorant Garamond', serif; font-size:22px; font-weight:500; color:rgba(15,30,53,0.62); margin:0 0 6px; transition:color 0.25s ease, opacity 0.25s ease; }
-        #process .process-step-copy { font-size:13px; line-height:1.62; font-family:'Jost'; font-weight:300; color:rgba(15,30,53,0.62); margin:0; }
+        #process .process-step-marker {
+          width:48px;
+          height:44px;
+          flex:0 0 48px;
+          display:flex;
+          align-items:flex-start;
+          justify-content:flex-start;
+          font-family:'Cormorant Garamond', serif;
+          font-size:28px;
+          line-height:1;
+          font-weight:500;
+          color:rgba(15,30,53,0.58);
+        }
+        #process .process-step-check {
+          width:34px;
+          height:34px;
+          flex:0 0 48px;
+          color:var(--gold);
+        }
+        #process .process-step-title {
+          font-family:'Cormorant Garamond', serif;
+          font-size:22px;
+          font-weight:500;
+          color:rgba(15,30,53,0.62);
+          margin:0 0 6px;
+          transition:color 0.25s ease, opacity 0.25s ease;
+        }
+        #process .process-step-copy {
+          font-size:13px;
+          line-height:1.62;
+          font-family:'Jost';
+          font-weight:300;
+          color:rgba(15,30,53,0.62);
+          margin:0;
+          display:-webkit-box;
+          -webkit-line-clamp:2;
+          -webkit-box-orient:vertical;
+          overflow:hidden;
+        }
         #process .process-step-card.is-active .process-step-title { color:var(--navy); }
         #process .process-step-card.is-active .process-step-marker { color:var(--gold); }
-        #process .process-step-card.is-complete .process-step-title { color:rgba(15,30,53,0.42); text-decoration:line-through; text-decoration-thickness:1px; text-decoration-color:rgba(184,151,106,0.58); }
+        #process .process-step-card.is-complete .process-step-title {
+          color:rgba(15,30,53,0.42);
+          text-decoration:line-through;
+          text-decoration-thickness:1px;
+          text-decoration-color:rgba(184,151,106,0.58);
+        }
         #process .process-step-card.is-complete .process-step-copy { color:rgba(15,30,53,0.46); }
-        #process .process-visual-shell { width:86% !important; }
+        #process .process-visual-shell {
+          width:100% !important;
+          max-width:560px;
+          height:526px;
+          margin-left:auto;
+        }
+        #process .process-visual-frame { height:100% !important; aspect-ratio:auto !important; }
         @media (max-width:1440px) {
-          #process.process-section { padding:92px 64px 64px !important; }
-          #process .process-heading { margin-bottom:50px !important; }
-          #process .process-grid { gap:64px !important; }
-          #process .process-visual-shell { width:84% !important; }
+          #process.process-section { padding:40px 64px 54px !important; }
+          #process .process-heading { height:176px !important; margin-bottom:22px !important; }
+          #process .process-title { min-height:124px !important; }
+          #process .process-grid { gap:44px !important; }
         }
         @media (max-height:820px) and (min-width:768px) {
-          #process.process-section { padding:84px 64px 38px !important; }
-          #process .process-heading { margin-bottom:34px !important; }
-          #process .process-title { font-size:clamp(38px, 5vw, 54px) !important; }
+          #process.process-section { padding:26px 64px 0 !important; }
+          #process .process-heading { height:148px !important; margin-bottom:14px !important; }
+          #process .process-title { min-height:96px !important; font-size:clamp(38px, 5vw, 54px) !important; }
           #process .process-grid { gap:54px !important; }
-          #process .process-progress-row { margin-bottom:14px !important; }
-          #process .process-step-list { gap:10px !important; }
-          #process .process-step-card { padding:14px 16px !important; }
+          #process .process-onboarding { height:430px !important; max-width:520px !important; }
+          #process .process-progress-row { margin-bottom:12px !important; }
+          #process .process-step-list { gap:8px !important; }
+          #process .process-step-card { height:90px !important; min-height:90px !important; padding:13px 16px !important; }
           #process .process-step-marker { width:42px !important; flex-basis:42px !important; font-size:24px !important; }
           #process .process-step-check { flex-basis:42px !important; }
           #process .process-step-title { font-size:20px !important; margin-bottom:6px !important; }
           #process .process-step-copy { font-size:12.5px !important; line-height:1.55 !important; }
-          #process .process-visual-shell { width:78% !important; }
+          #process .process-visual-shell { max-width:520px !important; height:430px !important; }
         }
         @media (max-width:1024px) {
           #process.process-section {
             height:auto !important;
-            min-height:100vh !important;
-            padding:88px 40px 72px !important;
+            min-height:auto !important;
+            scroll-margin-top:72px !important;
+            padding:58px 40px 58px !important;
             overflow:visible !important;
           }
+          #process > div { display:block !important; }
+          #process .process-heading { height:auto !important; min-height:166px !important; margin-bottom:32px !important; }
+          #process .process-title { min-height:118px !important; }
           #process .process-grid { grid-template-columns:1fr !important; gap:48px !important; }
-          #process .process-onboarding { max-width:620px !important; margin:0 auto !important; }
-          #process .process-visual-shell { width:min(620px, 88%) !important; }
+          #process .process-onboarding { max-width:620px !important; height:auto !important; margin:0 auto !important; }
+          #process .process-visual-shell {
+            width:min(620px, 88%) !important;
+            max-width:620px !important;
+            height:auto !important;
+            margin:0 auto !important;
+          }
+          #process .process-visual-frame { height:auto !important; aspect-ratio:4/3 !important; }
         }
         @media (max-width:767px) {
-          #process.process-section { padding:72px 22px 58px !important; }
-          #process .process-heading { margin-bottom:36px !important; }
-          #process .process-title { font-size:clamp(40px, 12vw, 54px) !important; }
+          #process.process-section { scroll-margin-top:72px !important; padding:46px 22px 48px !important; }
+          #process .process-heading { min-height:148px !important; margin-bottom:28px !important; }
+          #process .process-title { min-height:104px !important; font-size:clamp(38px, 11vw, 52px) !important; }
           #process .process-progress-row { justify-content:space-between !important; gap:14px !important; }
           #process .process-progress-track { width:128px !important; }
-          #process .process-step-card { padding:16px 16px !important; }
+          #process .process-step-card { height:auto !important; min-height:116px !important; padding:16px 16px !important; }
           #process .process-step-inner { gap:14px !important; }
           #process .process-step-marker { width:42px !important; flex-basis:42px !important; font-size:24px !important; }
           #process .process-step-check { width:30px !important; height:30px !important; flex-basis:42px !important; }
@@ -99,7 +234,6 @@ function Process({ c, gold, navy }) {
         </div>
 
         <div className="g-split process-grid" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'72px', alignItems:'center' }}>
-          {/* Steps list */}
           <div className="reveal-right process-onboarding" style={{ order:2 }}>
             <div className="process-progress-row">
               <span style={{
@@ -111,7 +245,7 @@ function Process({ c, gold, navy }) {
                 fontWeight:500,
                 whiteSpace:'nowrap',
               }}>
-                Step {active + 1}/{totalSteps}
+                {progressText}
               </span>
               <div className="process-progress-track" aria-hidden="true">
                 <div className="process-progress-fill" style={{ width:`${progressValue}%` }} />
@@ -158,11 +292,8 @@ function Process({ c, gold, navy }) {
             </ul>
           </div>
 
-          {/* Active step visual container */}
           <div className="reveal-left" style={{ order:1, display:'flex', alignItems:'center', justifyContent:'center' }}>
             <div className="process-visual-shell" style={{ position:'relative', width:'86%' }}>
-
-              {/* Offset shadow block */}
               <div style={{
                 position:'absolute',
                 top:'18px', left:'18px', right:'-18px', bottom:'-18px',
@@ -172,8 +303,7 @@ function Process({ c, gold, navy }) {
                 zIndex:0,
               }} />
 
-              {/* Empty image frame */}
-              <div style={{
+              <div className="process-visual-frame" style={{
                 position:'relative', zIndex:1,
                 aspectRatio:'4/3',
                 overflow:'hidden',
@@ -285,7 +415,6 @@ function Process({ c, gold, navy }) {
                   </div>
                 )}
 
-                {/* Subtle blue watermark veil over the visual */}
                 <div style={{
                   position:'absolute',
                   inset:0,
@@ -312,7 +441,6 @@ function Process({ c, gold, navy }) {
                   SECURE TRANSIT
                 </div>
 
-                {/* Inner gold inset border */}
                 <div style={{
                   position:'absolute', inset:'16px',
                   border:`1px solid ${gold}35`,
@@ -321,7 +449,6 @@ function Process({ c, gold, navy }) {
 
                 <CornerMarks size={28} gold={gold} opacity={0.8} zIndex={5} />
 
-                {/* Step number overlay */}
                 <div style={{
                   position:'absolute', top:'26px', left:'26px', zIndex:5,
                   fontFamily:'Cormorant Garamond, serif', fontSize:'clamp(72px, 7vw, 98px)', fontWeight:400,
@@ -331,7 +458,6 @@ function Process({ c, gold, navy }) {
                   {c.process.steps[active].n}
                 </div>
 
-                {/* Bottom caption bar */}
                 <div style={{
                   position:'absolute', bottom:0, left:0, right:0, zIndex:4,
                   padding:'28px 20px 16px',
@@ -355,7 +481,6 @@ function Process({ c, gold, navy }) {
                 </div>
               </div>
 
-              {/* Side label */}
               <div style={{
                 position:'absolute', right:'-34px', top:'50%',
                 transform:'translateY(-50%) rotate(90deg)',
