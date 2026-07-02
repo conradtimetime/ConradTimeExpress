@@ -81,13 +81,37 @@ assert(
 assert(Array.isArray(data?.REVIEW_PHOTOS), 'Review photo registry is missing.');
 assert(Boolean(dataContext.window.TWEAK_DEFAULTS?.language), 'Tweak defaults were not loaded.');
 
-const assetPaths = [
+const assetPaths = new Set([
   data?.SITE_CONFIG?.heroBackground,
   ...(data?.REVIEW_PHOTOS || []),
-].filter(Boolean);
+].filter(Boolean));
 
-await Promise.all(assetPaths.map(async (assetPath) => {
-  assert(await fileExists(assetPath), `Missing asset referenced by data: ${assetPath}`);
+const sourceFiles = [];
+const collectSourceFiles = async (dirPath) => {
+  const entries = await fs.readdir(abs(dirPath), { withFileTypes: true }).catch(() => []);
+  await Promise.all(entries.map(async (entry) => {
+    const entryPath = rel(dirPath, entry.name);
+    if (entry.isDirectory()) {
+      await collectSourceFiles(entryPath);
+    } else if (/\.(html|js|jsx|md)$/.test(entry.name)) {
+      sourceFiles.push(entryPath);
+    }
+  }));
+};
+
+sourceFiles.push(htmlPath, 'tweaks-panel.jsx', 'README.md');
+await collectSourceFiles('src');
+await collectSourceFiles('scripts');
+
+for (const sourceFile of sourceFiles) {
+  const source = await read(sourceFile);
+  for (const match of source.matchAll(/brand-images\/[^'"`)>\s]+/g)) {
+    assetPaths.add(match[0]);
+  }
+}
+
+await Promise.all([...assetPaths].map(async (assetPath) => {
+  assert(await fileExists(assetPath), `Missing asset referenced by site source: ${assetPath}`);
 }));
 
 if (failures.length) {

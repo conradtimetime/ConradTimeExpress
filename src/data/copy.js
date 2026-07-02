@@ -61,7 +61,7 @@ const COPY = {
     },
     why: {
       label: 'Why Conrad Express',
-      title: 'Reliable, Careful,\nand On Time',
+      title: 'Has extensive experience\nIn The Field of High-Value Delivery',
       items: [
         { num: '08', label: 'Years delivering luxury goods' },
         { num: '99.8%', label: 'On-time delivery rate' },
@@ -179,7 +179,7 @@ const COPY = {
     },
     why: {
       label: 'ทำไมต้อง Conrad Express',
-      title: 'น่าเชื่อถือ ใส่ใจ\nและตรงเวลา',
+      title: 'มีประสบการณ์ยาวนาน\nด้านการส่งของมูลค่าสูง',
       items: [
         { num: '08', label: 'ปีที่ส่งของหรูมาแล้ว' },
         { num: '99.8%', label: 'อัตราส่งตรงเวลา' },
@@ -189,7 +189,7 @@ const COPY = {
     },
     process: {
       label: 'ขั้นตอนการทำงาน',
-      title: 'เริ่มต้นไม่ยุ่งยาก\nตั้งแต่ต้นจนถึงปลายทาง',
+      title: 'เริ่มต้นไม่ยุ่งยาก\nตั้งแต่ต้นจนจบ',
       steps: [
         { n: '01', title: 'คุยกับเรา', desc: 'เราคุยกับคุณเรื่องของที่จะส่ง ปลายทาง และวิธีดูแลให้ปลอดภัย' },
         { n: '02', title: 'มารับของ', desc: 'ทีมงานไปรับถึงที่ พร้อมอุปกรณ์แพ็กของให้เรียบร้อย' },
