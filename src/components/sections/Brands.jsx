@@ -20,7 +20,7 @@ function Brands({ c, gold, navy }) {
   return (
     <section id="brands" className="brands-section" style={{
       background:'linear-gradient(135deg, #f9e5b8 0%, #e2b56f 42%, #fff0c9 58%, #c99752 100%)',
-      padding:'56px 96px 60px',
+      padding:'56px 96px 40px',
       boxSizing:'border-box',
       boxShadow:'inset 0 1px 0 rgba(255,255,255,0.48), inset 0 -1px 0 rgba(15,30,53,0.18), 0 18px 54px rgba(226,181,111,0.2)',
       overflow:'hidden',
@@ -33,7 +33,7 @@ function Brands({ c, gold, navy }) {
             linear-gradient(115deg, rgba(255,255,255,0.34) 0%, rgba(255,255,255,0.12) 24%, rgba(255,255,255,0) 42%),
             repeating-linear-gradient(135deg, rgba(255,255,255,0.13) 0 1px, rgba(255,255,255,0) 1px 24px),
             linear-gradient(135deg, #f9e5b8 0%, #e2b56f 42%, #fff0c9 58%, #c99752 100%) !important;
-          padding:56px 96px 60px !important;
+          padding:56px 96px 40px !important;
         }
         #brands.brands-section::before {
           content:'';
