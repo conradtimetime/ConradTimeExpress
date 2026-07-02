@@ -2,10 +2,412 @@
   const { useState } = React;
   const { CardSwiper, StarIcon, SectionEyebrow, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
 
+const BOOKING_TARGET = '#contact';
+
+function getTierTheme(pkg, index, gold) {
+  const key = String(pkg.name || '').trim().toLowerCase();
+  const themes = {
+    standard: {
+      key:'standard',
+      icon:'rgba(15,30,53,0.46)',
+      title:'rgba(15,30,53,0.72)',
+      price:'#0f1e35',
+      marker:'rgba(15,30,53,0.42)',
+      surface:'linear-gradient(135deg, var(--cream) 0%, var(--cream) 100%)',
+      frame:'linear-gradient(135deg, rgba(15,30,53,0.08), rgba(15,30,53,0.18))',
+      shadow:'0 1px 4px rgba(0,0,0,0.04)',
+      sheen:'linear-gradient(110deg, transparent 0%, transparent 100%)',
+      sheenOpacity:'0',
+      ctaBorder:'rgba(15,30,53,0.12)',
+    },
+    silver: {
+      key:'silver',
+      icon:'#aeb7c2',
+      title:'#8d96a3',
+      price:'#0f1e35',
+      marker:'#aab3bf',
+      surface:'linear-gradient(135deg, rgba(255,255,255,0.72) 0%, rgba(249,246,240,0.96) 54%, rgba(234,237,241,0.7) 100%)',
+      frame:'linear-gradient(125deg, #79818c 0%, #f8fbff 22%, #a9b2be 40%, #ffffff 56%, #8b95a2 76%, #d8dee6 100%)',
+      shadow:'0 10px 26px rgba(130,142,158,0.18), inset 0 1px 0 rgba(255,255,255,0.72)',
+      sheen:'linear-gradient(112deg, transparent 8%, rgba(255,255,255,0.55) 34%, rgba(174,183,194,0.18) 48%, transparent 68%)',
+      sheenOpacity:'0.32',
+      ctaBorder:'rgba(150,160,174,0.48)',
+    },
+    gold: {
+      key:'gold',
+      icon:gold,
+      title:gold,
+      price:'#0f1e35',
+      marker:gold,
+      surface:'linear-gradient(135deg, rgba(255,255,255,0.72) 0%, rgba(249,246,240,0.96) 58%, rgba(255,240,201,0.42) 100%)',
+      frame:`linear-gradient(125deg, #8a5a22 0%, ${gold} 18%, #fff0c9 36%, #d79a43 54%, #fff7d8 72%, #b7792f 100%)`,
+      shadow:`0 0 0 1px ${gold}30, 0 0 30px ${gold}38, 0 14px 36px rgba(183,121,47,0.18), inset 0 1px 0 rgba(255,240,201,0.42)`,
+      sheen:'linear-gradient(112deg, transparent 4%, rgba(255,240,201,0.62) 28%, rgba(226,181,111,0.16) 46%, transparent 66%)',
+      sheenOpacity:'0.38',
+      ctaBorder:`${gold}70`,
+    },
+    platinum: {
+      key:'platinum',
+      icon:'#7f8dff',
+      title:'#7d86b9',
+      price:'#0f1e35',
+      marker:'#8b7cff',
+      surface:'linear-gradient(135deg, rgba(255,255,255,0.76) 0%, rgba(247,248,255,0.96) 46%, rgba(255,239,252,0.72) 100%)',
+      frame:'linear-gradient(128deg, #62f3ff 0%, #ffffff 13%, #6f85ff 28%, #ff55dd 44%, #8d68ff 58%, #5defff 74%, #fff4ff 88%, #3358d8 100%)',
+      shadow:'0 0 0 1px rgba(116,248,255,0.18), 0 0 28px rgba(103,95,245,0.24), 0 0 46px rgba(255,75,216,0.16), inset 0 1px 0 rgba(255,255,255,0.74)',
+      sheen:'linear-gradient(112deg, transparent 2%, rgba(116,248,255,0.5) 18%, rgba(255,255,255,0.72) 34%, rgba(255,75,216,0.34) 50%, rgba(91,239,255,0.28) 66%, transparent 82%)',
+      sheenOpacity:'0.42',
+      ctaBorder:'rgba(126,130,255,0.46)',
+    },
+  };
+  return themes[key] || themes[Object.keys(themes)[index]] || themes.standard;
+}
+
+function getPriceRows(pkg) {
+  if (Array.isArray(pkg.prices) && pkg.prices.length) return pkg.prices;
+  return [{ label: pkg.label || '', amount: pkg.price, unit: pkg.unit || '' }];
+}
+
+function getPriceRegions(packagesCopy, items) {
+  if (Array.isArray(packagesCopy.priceRegions) && packagesCopy.priceRegions.length) {
+    return packagesCopy.priceRegions;
+  }
+  return getPriceRows(items[0] || {}).map((price) => ({ label: price.label }));
+}
+
+function getPackageFit(pkg) {
+  return pkg.fit || pkg.fitFor || pkg.audience || '';
+}
+
+function normalizeCardTag(tag) {
+  if (!tag) return null;
+  if (typeof tag === 'string') return { label: tag, tone: 'promo', position: 'right' };
+  if (!tag.label) return null;
+  return {
+    tone: 'promo',
+    position: 'right',
+    ...tag,
+  };
+}
+
+function getPackageCornerTag(pkg, price) {
+  return normalizeCardTag(pkg.cornerTag || pkg.cardTag || (price.promoLabel ? { label: price.promoLabel, tone: 'promo' } : null));
+}
+
+function CardCornerTag({ tag, gold, navy }) {
+  const normalized = normalizeCardTag(tag);
+  if (!normalized) return null;
+
+  const tone = normalized.tone || normalized.variant || 'promo';
+  const palettes = {
+    promo: {
+      background: `linear-gradient(135deg, #9a651f 0%, ${gold} 24%, #fff0b8 46%, #e2b56f 64%, #8d5919 100%)`,
+      color: navy,
+      shadow: '0 9px 22px rgba(226,181,111,0.42), 0 1px 0 rgba(255,255,255,0.5) inset',
+      edge: 'rgba(255,255,255,0.52)',
+    },
+    navy: {
+      background: `linear-gradient(135deg, ${navy} 0%, #243a5d 54%, ${navy} 100%)`,
+      color: '#fff',
+      shadow: '0 9px 22px rgba(15,30,53,0.28), 0 1px 0 rgba(255,255,255,0.18) inset',
+      edge: 'rgba(255,255,255,0.24)',
+    },
+  };
+  const palette = palettes[tone] || palettes.promo;
+  const side = normalized.position === 'left' ? 'left' : 'right';
+
+  return (
+    <div
+      className={`package-corner-tag package-corner-tag-${tone} package-corner-tag-${side}`}
+      aria-hidden="true"
+      style={{
+        position:'absolute',
+        top:'20px',
+        [side]:'-48px',
+        width:'168px',
+        height:'34px',
+        display:'flex',
+        alignItems:'center',
+        justifyContent:'center',
+        background:palette.background,
+        color:palette.color,
+        borderTop:`1px solid ${palette.edge}`,
+        borderBottom:`1px solid rgba(15,30,53,0.1)`,
+        boxShadow:palette.shadow,
+        transform:`rotate(${side === 'right' ? '42deg' : '-42deg'})`,
+        transformOrigin:'center',
+        zIndex:3,
+        pointerEvents:'none',
+        overflow:'hidden',
+      }}
+    >
+      <span style={{
+        position:'relative',
+        zIndex:1,
+        fontFamily:'Jost',
+        fontSize:'10px',
+        fontWeight:700,
+        letterSpacing:'0.18em',
+        lineHeight:1,
+        whiteSpace:'nowrap',
+        textTransform:'uppercase',
+        textShadow:tone === 'promo' ? '0 1px 0 rgba(255,255,255,0.45)' : 'none',
+      }}>{normalized.label}</span>
+    </div>
+  );
+}
+
+function PriceRegionToggle({ options, activeIndex, onChange, gold, navy }) {
+  if (!options.length) return null;
+  return (
+    <div className="package-region-toggle" role="group" aria-label="Package price region" onClick={(event) => event.stopPropagation()} style={{
+      display:'inline-flex',
+      alignItems:'center',
+      justifyContent:'center',
+      gap:'4px',
+      maxWidth:'100%',
+      padding:'4px',
+      background:'rgba(15,30,53,0.04)',
+      border:'1px solid rgba(15,30,53,0.09)',
+    }}>
+      {options.map((option, index) => {
+        const active = activeIndex === index;
+        return (
+          <button
+            key={`${option.label}-${index}`}
+            type="button"
+            className="package-region-button"
+            aria-pressed={active}
+            onClick={() => onChange(index)}
+            style={{
+              minWidth:'132px',
+              padding:'10px 16px',
+              border:'none',
+              background:active ? gold : 'transparent',
+              color:active ? navy : 'rgba(15,30,53,0.58)',
+              fontSize:'10px',
+              letterSpacing:'0.14em',
+              fontFamily:'Jost',
+              fontWeight:500,
+              cursor:'pointer',
+              transition:'background 0.24s ease, color 0.24s ease',
+              whiteSpace:'nowrap',
+            }}
+          >{option.label.toUpperCase()}</button>
+        );
+      })}
+    </div>
+  );
+}
+
+function PricingCards({ items, activeIdx, priceIndex, onSelect, gold, navy }) {
+  return (
+    <CardSwiper className="reveal-stagger packages-grid g-4 swipe" style={{ display:'grid', gridTemplateColumns:'repeat(4,minmax(0,1fr))', gap:'2px' }}>
+      {items.map((pkg, index) => (
+        <PricingCard
+          key={pkg.name}
+          pkg={pkg}
+          active={activeIdx === index}
+          priceIndex={priceIndex}
+          theme={getTierTheme(pkg, index, gold)}
+          gold={gold}
+          navy={navy}
+          onSelect={() => onSelect(index)}
+        />
+      ))}
+    </CardSwiper>
+  );
+}
+
+function PricingCard({ pkg, active, priceIndex, theme, gold, navy, onSelect }) {
+  const highlighted = Boolean(pkg.highlight);
+  const selected = active;
+  const prices = getPriceRows(pkg);
+  const currentPrice = prices[priceIndex] || prices[0] || {};
+  const packageDetails = [...(pkg.details || []), ...(pkg.features || [])];
+  const priceSummary = `${currentPrice.label || ''}: ${currentPrice.amount || ''}${currentPrice.unit || ''}`;
+  const cornerTag = getPackageCornerTag(pkg, currentPrice);
+  const packageFit = getPackageFit(pkg);
+
+  return (
+    <article
+      className={`package-card package-tier-${theme.key}${active ? ' is-active' : ''}${highlighted ? ' is-highlighted' : ''}`}
+      aria-label={`${pkg.name}. ${cornerTag ? `${cornerTag.label}. ` : ''}${priceSummary}. ${packageFit ? `${packageFit}. ` : ''}${packageDetails.join(', ')}`}
+      onClick={(event) => {
+        event.stopPropagation();
+        onSelect();
+      }}
+      style={{
+        '--package-accent': selected ? navy : theme.icon,
+        '--tier-frame': theme.frame,
+        '--tier-surface': theme.surface,
+        '--tier-sheen': theme.sheen,
+        '--tier-sheen-opacity': selected ? '0' : theme.sheenOpacity,
+        position:'relative',
+        padding:'48px 30px 38px',
+        minWidth:0,
+        minHeight:'500px',
+        background:selected
+          ? `var(--tier-surface) padding-box, linear-gradient(135deg, ${navy} 0%, #243a5d 48%, ${navy} 100%) border-box`
+          : 'var(--tier-surface) padding-box, var(--tier-frame) border-box',
+        border:'1px solid transparent',
+        borderTop:selected || highlighted ? '2px solid transparent' : '1px solid transparent',
+        boxShadow:theme.shadow,
+        transition:'transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease',
+        cursor:'pointer',
+        display:'flex',
+        flexDirection:'column',
+        isolation:'isolate',
+      }}
+    >
+      {pkg.badge && (
+        <div style={{
+          position:'absolute',
+          top:'-1px',
+          left:'50%',
+          transform:'translateX(-50%)',
+          background:theme.key === 'gold' ? gold : navy,
+          color:theme.key === 'gold' ? navy : '#fff',
+          fontSize:'9px',
+          letterSpacing:'0.2em',
+          fontFamily:'Jost',
+          fontWeight:500,
+          padding:'4px 14px',
+          whiteSpace:'nowrap',
+          zIndex:2,
+        }}>{pkg.badge.toUpperCase()}</div>
+      )}
+
+      <CardCornerTag tag={cornerTag} gold={gold} navy={navy} />
+
+      <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'12px', minWidth:0 }}>
+        <StarIcon size={12} color={theme.icon} style={{ opacity:selected ? 1 : 0.72, flexShrink:0 }} />
+        <h3 style={{
+          fontFamily:'Cormorant Garamond, serif',
+          fontSize:'22px',
+          fontWeight:400,
+          letterSpacing:'0.15em',
+          color:theme.title,
+          transition:'color 0.3s',
+          minWidth:0,
+          overflowWrap:'anywhere',
+        }}>{pkg.name.toUpperCase()}</h3>
+      </div>
+
+      <div className="package-current-price" style={{
+        margin:'2px 0 16px',
+        paddingBottom:'16px',
+        borderBottom:'1px solid rgba(15,30,53,0.1)',
+        minWidth:0,
+      }}>
+        <div className="package-price-value" style={{ display:'flex', alignItems:'baseline', gap:'8px', flexWrap:'nowrap', minWidth:0, marginBottom:'8px' }}>
+          <span className="package-price-amount" style={{
+            fontFamily:'Cormorant Garamond, serif',
+            fontSize:'38px',
+            fontWeight:300,
+            color:theme.price,
+            lineHeight:1,
+            whiteSpace:'nowrap',
+            letterSpacing:0,
+            flexShrink:1,
+          }}>{currentPrice.amount}</span>
+          {currentPrice.unit && (
+            <span className="package-price-unit" style={{
+              fontSize:'12px',
+              color:'rgba(15,30,53,0.45)',
+              fontFamily:'Jost',
+              whiteSpace:'nowrap',
+              flexShrink:0,
+            }}>{currentPrice.unit}</span>
+          )}
+          {currentPrice.original && (
+            <span className="package-price-original" style={{
+              fontSize:'13px',
+              color:'rgba(15,30,53,0.38)',
+              fontFamily:'Jost',
+              textDecoration:'line-through',
+              whiteSpace:'nowrap',
+              flexShrink:0,
+            }}>{currentPrice.original}</span>
+          )}
+        </div>
+        {packageFit && (
+          <div className="package-fit-note" style={{
+            fontSize:'12px',
+            letterSpacing:0,
+            lineHeight:1.35,
+            color:selected ? 'rgba(15,30,53,0.48)' : 'rgba(15,30,53,0.36)',
+            fontFamily:'Jost',
+            fontWeight:400,
+            overflowWrap:'anywhere',
+          }}>{packageFit}</div>
+        )}
+      </div>
+
+      <div style={{ display:'flex', flexDirection:'column', gap:'8px', flex:1 }}>
+        {packageDetails.map((feature, featureIndex) => (
+          <div key={featureIndex} style={{ display:'flex', alignItems:'flex-start', gap:'10px', minWidth:0 }}>
+            <div style={{
+              width:'13px',
+              height:'13px',
+              flexShrink:0,
+              marginTop:'3px',
+              border:`1px solid ${theme.marker}`,
+              display:'flex',
+              alignItems:'center',
+              justifyContent:'center',
+              transition:'border-color 0.3s',
+            }}>
+              <div style={{ width:'5px', height:'5px', background:theme.marker, transition:'background 0.3s' }} />
+            </div>
+            <span style={{
+              fontSize:'13px',
+              fontFamily:'Jost',
+              fontWeight:300,
+              lineHeight:1.45,
+              color:selected ? 'rgba(15,30,53,0.72)' : 'rgba(15,30,53,0.45)',
+              minWidth:0,
+              overflowWrap:'anywhere',
+              transition:'color 0.3s',
+            }}>{feature}</span>
+          </div>
+        ))}
+      </div>
+
+      <a
+        href={pkg.ctaHref || BOOKING_TARGET}
+        className="package-cta"
+        onClick={(event) => {
+          event.stopPropagation();
+          onSelect();
+        }}
+        style={{
+          display:'block',
+          textAlign:'center',
+          marginTop:'24px',
+          padding:'13px 18px',
+          fontSize:'11px',
+          letterSpacing:'0.13em',
+          fontFamily:'Jost',
+          fontWeight:500,
+          textDecoration:'none',
+          background:selected ? navy : 'transparent',
+          color:selected ? '#fff' : 'rgba(15,30,53,0.42)',
+          border:`1px solid ${selected ? navy : theme.ctaBorder}`,
+          transition:'transform 0.25s ease, border-color 0.25s ease, color 0.25s ease, background 0.25s ease',
+          overflowWrap:'anywhere',
+        }}
+      >{pkg.cta.toUpperCase()}</a>
+    </article>
+  );
+}
+
 /* ── PACKAGES ── */
 function Packages({ c, gold, navy }) {
-  const [activeIdx, setActiveIdx] = useState(1); // Gold selected by default
-  const tierAccent = ['#a8a8a8', gold, '#e5e4e2'];
+  const packages = c.packages.items || [];
+  const priceRegions = getPriceRegions(c.packages, packages);
+  const [activeIdx, setActiveIdx] = useState(null);
+  const [priceIdx, setPriceIdx] = useState(0);
 
   return (
     <section id="packages" className="packages-section" style={getSectionFrameStyle({
@@ -13,146 +415,179 @@ function Packages({ c, gold, navy }) {
       padding:SECTION_FRAME.padding.standard.desktop,
       display:'flex',
       alignItems:'center',
-      boxShadow:'inset 0 -1px 0 rgba(226,181,111,0.12), inset 0 1px 0 rgba(226,181,111,0.08)' })}>
+      boxShadow:'inset 0 -1px 0 rgba(226,181,111,0.12), inset 0 1px 0 rgba(226,181,111,0.08)' })}
+      onClick={() => setActiveIdx(null)}>
       <style>{`
         ${getSectionFrameCss('#packages.packages-section')}
-      `}</style>
-      <div style={{ width:'100%', maxWidth:'1400px', margin:'0 auto' }}>
 
-        {/* Header */}
+        #packages .packages-shell {
+          width:100%;
+          max-width:1400px;
+          margin:0 auto;
+        }
+
+        #packages .packages-grid {
+          grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+        }
+
+        #packages .package-card {
+          overflow:hidden;
+        }
+
+        #packages .package-card::before {
+          content:'';
+          position:absolute;
+          inset:-36%;
+          z-index:0;
+          pointer-events:none;
+          background:var(--tier-sheen);
+          opacity:var(--tier-sheen-opacity);
+          transform:translateX(-34%) rotate(8deg);
+          transition:transform 0.78s ease, opacity 0.28s ease;
+        }
+
+        #packages .package-card:hover::before {
+          transform:translateX(18%) rotate(8deg);
+        }
+
+        #packages .package-card > * {
+          position:relative;
+          z-index:1;
+        }
+
+        #packages .package-corner-tag::after {
+          content:'';
+          position:absolute;
+          inset:-1px;
+          background:linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.68) 42%, transparent 72%);
+          transform:translateX(-130%);
+          animation:package-tag-sheen 3.8s ease-in-out infinite;
+        }
+
+        @keyframes package-tag-sheen {
+          0%, 42% { transform:translateX(-130%); }
+          68%, 100% { transform:translateX(130%); }
+        }
+
+        @media (min-width:768px) {
+          #packages .packages-heading {
+            white-space:nowrap !important;
+          }
+        }
+
+        #packages .package-card:hover {
+          transform:translateY(-4px);
+        }
+
+        #packages .package-card:not(.is-active) .package-cta:hover {
+          transform:translateY(-1px);
+          border-color:var(--package-accent) !important;
+          color:var(--package-accent) !important;
+          background:transparent !important;
+        }
+
+        #packages .package-card.is-active .package-cta:hover {
+          transform:translateY(-1px);
+          background:${navy} !important;
+          border-color:${navy} !important;
+          color:#fff !important;
+        }
+
+        #packages .package-fit-note,
+        #packages .package-price-value,
+        #packages .package-price-original,
+        #packages .package-price-unit {
+          min-width:0;
+        }
+
+        #packages .package-region-button:hover {
+          color:${navy} !important;
+        }
+
+        @media (max-width:1180px) {
+          #packages .packages-grid {
+            grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+            gap:10px !important;
+          }
+        }
+
+        @media (max-width:767px) {
+          #packages .package-region-toggle {
+            display:grid !important;
+            grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+            width:100% !important;
+          }
+
+          #packages .package-region-button {
+            min-width:0 !important;
+            padding-left:10px !important;
+            padding-right:10px !important;
+            letter-spacing:0.08em !important;
+            line-height:1.25 !important;
+            white-space:normal !important;
+            overflow-wrap:anywhere !important;
+          }
+
+          #packages .packages-grid {
+            gap:12px !important;
+          }
+
+          #packages .package-card {
+            min-height:480px !important;
+            padding:44px 24px 34px !important;
+          }
+
+          #packages .package-corner-tag {
+            top:18px !important;
+            right:-44px !important;
+            width:154px !important;
+            height:30px !important;
+          }
+
+          #packages .package-corner-tag span {
+            font-size:9px !important;
+            letter-spacing:0.14em !important;
+          }
+
+          #packages .package-price-amount {
+            font-size:34px !important;
+          }
+
+          #packages .package-price-original {
+            font-size:12px !important;
+          }
+
+          #packages .package-fit-note {
+            font-size:11px !important;
+            line-height:1.35 !important;
+          }
+        }
+
+        @media (max-width:360px) {
+          #packages .package-card {
+            min-height:460px !important;
+            padding-left:20px !important;
+            padding-right:20px !important;
+          }
+
+          #packages .package-price-amount {
+            font-size:31px !important;
+          }
+        }
+      `}</style>
+      <div className="packages-shell">
         <div className="reveal" style={{ textAlign:'center', marginBottom:'22px' }}>
           <SectionEyebrow label={c.packages.label} gold={gold} centered style={{ marginBottom:'16px' }} />
-          <h2 style={{
+          <h2 className="packages-heading" style={{
             fontFamily:'Cormorant Garamond, serif', fontSize:'clamp(36px, 4.5vw, 56px)',
-            fontWeight:300, color:navy, lineHeight:1.08, whiteSpace:'pre-line', marginBottom:0,
+            fontWeight:300, color:navy, lineHeight:1.08, whiteSpace:'normal', marginBottom:0,
           }}>{c.packages.title}</h2>
+          <div style={{ marginTop:'22px', display:'flex', justifyContent:'center' }}>
+            <PriceRegionToggle options={priceRegions} activeIndex={priceIdx} onChange={setPriceIdx} gold={gold} navy={navy} />
+          </div>
         </div>
 
-        {/* Cards grid */}
-        <CardSwiper className='reveal-stagger g-3 swipe' style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'2px' }}>
-          {c.packages.items.map((pkg, i) => {
-            const isActive = activeIdx === i;
-            const isGold   = i === 1;
-            return (
-              <div key={i}
-                onClick={() => setActiveIdx(i)}
-                style={{
-                  position:'relative', padding:'46px 40px 40px',
-                  background: isActive
-                    ? (isGold ? `${gold}14` : 'rgba(15,30,53,0.03)')
-                    : 'var(--cream)',
-                  border: isActive
-                    ? `1px solid ${gold}80`
-                    : `1px solid rgba(15,30,53,0.08)`,
-                  borderTop: isActive
-                    ? `2px solid ${gold}`
-                    : `1px solid rgba(15,30,53,0.08)`,
-                  boxShadow: isActive
-                    ? `0 0 0 1px ${gold}30, 0 0 26px ${gold}40, 0 12px 40px rgba(0,0,0,0.10), inset 0 1px 0 rgba(226,181,111,0.25)`
-                    : '0 1px 4px rgba(0,0,0,0.04)',
-                  transition:'all 0.45s cubic-bezier(0.16,1,0.3,1)',
-                  cursor:'pointer',
-                  display:'flex', flexDirection:'column',
-                }}>
-
-                {/* Popular badge */}
-                {pkg.badge && (
-                  <div style={{
-                    position:'absolute', top:'-1px', left:'50%', transform:'translateX(-50%)',
-                    background:gold, color:navy,
-                    fontSize:'9px', letterSpacing:'0.2em', fontFamily:'Jost', fontWeight:500,
-                    padding:'4px 14px',
-                  }}>{pkg.badge.toUpperCase()}</div>
-                )}
-
-                {/* Tier name */}
-                <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'14px' }}>
-                  <StarIcon size={12} color={tierAccent[i]} style={{ opacity: isActive ? 1 : 0.5 }} />
-                  <span style={{
-                    fontFamily:'Cormorant Garamond, serif', fontSize:'22px', fontWeight:400,
-                    letterSpacing:'0.15em',
-                    color: isActive && isGold ? gold : isActive ? navy : 'rgba(15,30,53,0.5)',
-                    transition:'color 0.4s',
-                  }}>{pkg.name.toUpperCase()}</span>
-                </div>
-
-                {/* Price */}
-                <div style={{ marginBottom:'8px' }}>
-                  {pkg.original && (
-                    <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'4px' }}>
-                      <span style={{ fontSize:'12px', color:'rgba(15,30,53,0.4)', fontFamily:'Jost', textDecoration:'line-through' }}>{pkg.original}</span>
-                      {pkg.promoLabel && (
-                        <span style={{ fontSize:'9px', letterSpacing:'0.1em', color:gold, border:`1px solid ${gold}70`, padding:'2px 7px', fontFamily:'Jost', fontWeight:500 }}>{pkg.promoLabel.toUpperCase()}</span>
-                      )}
-                    </div>
-                  )}
-                  <div style={{ display:'flex', alignItems:'baseline', gap:'6px' }}>
-                    <span style={{
-                      fontFamily:'Cormorant Garamond, serif',
-                      fontSize: pkg.price === 'Custom' || pkg.price === 'กำหนดเอง' ? '34px' : '46px',
-                      fontWeight:300, color: pkg.original ? gold : navy, lineHeight:1,
-                    }}>{pkg.price}</span>
-                    {pkg.unit && (
-                      <span style={{ fontSize:'12px', color:'rgba(15,30,53,0.4)', fontFamily:'Jost' }}>{pkg.unit}</span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Desc */}
-                <p style={{
-                  fontSize:'13px', lineHeight:1.65,
-                  color: isActive ? 'rgba(15,30,53,0.6)' : 'rgba(15,30,53,0.4)',
-                  fontFamily:'Jost', fontWeight:300, marginBottom:'20px',
-                  paddingBottom:'18px', borderBottom:'1px solid rgba(15,30,53,0.1)',
-                  transition:'color 0.4s',
-                }}>{pkg.desc}</p>
-
-                {/* Features */}
-                <div style={{ display:'flex', flexDirection:'column', gap:'8px', flex:1 }}>
-                  {pkg.features.map((f, fi) => (
-                    <div key={fi} style={{ display:'flex', alignItems:'flex-start', gap:'10px' }}>
-                      <div style={{
-                        width:'13px', height:'13px', flexShrink:0, marginTop:'2px',
-                        border:`1px solid ${isActive && isGold ? gold : isActive ? 'rgba(15,30,53,0.4)' : 'rgba(15,30,53,0.18)'}`,
-                        display:'flex', alignItems:'center', justifyContent:'center',
-                        transition:'border-color 0.4s',
-                      }}>
-                        <div style={{ width:'5px', height:'5px', background: isActive && isGold ? gold : isActive ? 'rgba(15,30,53,0.5)' : 'rgba(15,30,53,0.22)', transition:'background 0.4s' }} />
-                      </div>
-                      <span style={{
-                        fontSize:'13px', fontFamily:'Jost', fontWeight:300, lineHeight:1.45,
-                        color: isActive ? 'rgba(15,30,53,0.7)' : 'rgba(15,30,53,0.45)',
-                        transition:'color 0.4s',
-                      }}>{f}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* CTA */}
-                <a href="#contact" style={{
-                  display:'block', textAlign:'center', marginTop:'32px',
-                  padding:'13px 24px', fontSize:'11px', letterSpacing:'0.15em',
-                  fontFamily:'Jost', fontWeight:500, textDecoration:'none',
-                  background: isActive && isGold ? gold : 'transparent',
-                  color: isActive && isGold ? navy : isActive ? navy : 'rgba(15,30,53,0.4)',
-                  border: isActive && isGold ? `1px solid ${gold}` : `1px solid ${isActive ? 'rgba(15,30,53,0.3)' : 'rgba(15,30,53,0.12)'}`,
-                  transition:'all 0.3s',
-                }}
-                onMouseEnter={e => {
-                  if (!isActive) return;
-                  if (!isGold) { e.currentTarget.style.borderColor = gold; e.currentTarget.style.color = gold; }
-                  else { e.currentTarget.style.background = '#fff0c9'; }
-                }}
-                onMouseLeave={e => {
-                  if (!isActive) return;
-                  if (!isGold) { e.currentTarget.style.borderColor = 'rgba(15,30,53,0.3)'; e.currentTarget.style.color = navy; }
-                  else { e.currentTarget.style.background = gold; }
-                }}
-                >{pkg.cta.toUpperCase()}</a>
-              </div>
-            );
-          })}
-        </CardSwiper>
+        <PricingCards items={packages} activeIdx={activeIdx} priceIndex={priceIdx} onSelect={setActiveIdx} gold={gold} navy={navy} />
       </div>
     </section>
   );
