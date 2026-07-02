@@ -21,7 +21,7 @@ const COPY = {
     packages: {
       label: 'Service Packages',
       title: 'Pick the Plan\nThat Fits You',
-      sub: 'Every plan comes with careful handling, full insurance, and a team ready to help.',
+      sub: '',
       items: [
         {
           name: 'Same Day', badge: 'Fastest',

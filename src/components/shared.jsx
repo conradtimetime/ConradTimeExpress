@@ -113,6 +113,75 @@ function SectionEyebrow({ label, gold, centered = false, className = '', style =
   );
 }
 
+/* ── STANDARD SECTION FRAME ──
+   Shared spacing contract for the main non-hero content sections. Sections can
+   still opt into a full-bleed variant when their cards/carousel need edge fade. */
+const SECTION_FRAME = {
+  navOffset: '72px',
+  minHeight: 'calc(100vh - 72px)',
+  maxWidth: '1400px',
+  padding: {
+    standard: {
+      desktop: '88px 96px',
+      laptop: '84px 64px',
+      tablet: '72px 40px',
+      mobile: '56px 22px',
+      compact: '64px 64px 52px',
+    },
+    fullBleed: {
+      desktop: '88px 0',
+      laptop: '84px 0',
+      tablet: '72px 0',
+      mobile: '56px 0',
+      compact: '64px 0 52px',
+    },
+  },
+};
+
+function getSectionFrameStyle(overrides = {}) {
+  return {
+    minHeight: SECTION_FRAME.minHeight,
+    boxSizing: 'border-box',
+    scrollMarginTop: SECTION_FRAME.navOffset,
+    ...overrides,
+  };
+}
+
+function getSectionFrameCss(selector, options = {}) {
+  const variant = options.variant || 'standard';
+  const base = SECTION_FRAME.padding[variant] || SECTION_FRAME.padding.standard;
+  const desktop = options.desktop || base.desktop;
+  const laptop = options.laptop || base.laptop;
+  const tablet = options.tablet || base.tablet;
+  const mobile = options.mobile || base.mobile;
+  const compact = options.compact || base.compact;
+  const tabletMinHeight = options.tabletMinHeight === undefined ? 'auto' : options.tabletMinHeight;
+  const tabletMinHeightRule = tabletMinHeight
+    ? `min-height:${tabletMinHeight} !important;`
+    : '';
+
+  return `
+    ${selector} {
+      min-height:${SECTION_FRAME.minHeight} !important;
+      box-sizing:border-box !important;
+      scroll-margin-top:${SECTION_FRAME.navOffset} !important;
+      padding:${desktop} !important;
+    }
+    @media (max-width:1440px) {
+      ${selector} { padding:${laptop} !important; }
+    }
+    @media (max-width:1024px) {
+      ${selector} { padding:${tablet} !important; ${tabletMinHeightRule} }
+    }
+    @media (max-width:767px) {
+      ${selector} { padding:${mobile} !important; }
+    }
+    @media (max-height:820px) and (min-width:768px) {
+      ${selector} { padding:${compact} !important; }
+    }
+  `;
+}
+
 
 /* ── CORNER MARKS ──
    Four L-shaped gold corner marks — used in Process, Testimonials, WhyUs image frames. */
@@ -138,5 +207,14 @@ function CornerMarks({ size = 24, gold, opacity = 0.8, zIndex = 4 }) {
 }
 
 
-  Object.assign(window, { StarIcon, PhotoPlaceholder, CardSwiper, SectionEyebrow, CornerMarks });
+  Object.assign(window, {
+    StarIcon,
+    PhotoPlaceholder,
+    CardSwiper,
+    SectionEyebrow,
+    SECTION_FRAME,
+    getSectionFrameStyle,
+    getSectionFrameCss,
+    CornerMarks,
+  });
 })();

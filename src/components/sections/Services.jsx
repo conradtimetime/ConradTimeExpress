@@ -1,6 +1,6 @@
 (function () {
   const { useState } = React;
-  const { SectionEyebrow } = window;
+  const { SectionEyebrow, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
 
   const serviceImages = [
     'brand-images/Luxury-Watches.png',
@@ -39,22 +39,15 @@ function Services({ c, gold, navy }) {
   }));
 
   return (
-    <section id="services" className="services-section" style={{
+    <section id="services" className="services-section" style={getSectionFrameStyle({
       background:'#fff',
-      padding:'86px 0 76px',
-      minHeight:'calc(100vh - 72px)',
-      boxSizing:'border-box',
+      padding:SECTION_FRAME.padding.fullBleed.desktop,
       display:'flex',
       alignItems:'center',
-      scrollMarginTop:'72px',
       boxShadow:'inset 0 -1px 0 rgba(226,181,111,0.12), inset 0 1px 0 rgba(226,181,111,0.08)',
       overflow:'hidden',
-    }}>
+    })}>
       <style>{`
-        #services.services-section {
-          padding:86px 0 76px !important;
-          min-height:calc(100vh - 72px) !important;
-        }
         #services .services-inner { max-width:100% !important; }
         #services .services-heading {
           max-width:1450px !important;
@@ -299,7 +292,6 @@ function Services({ c, gold, navy }) {
           }
         }
         @media (max-width:1440px) {
-          #services.services-section { padding:72px 0 58px !important; }
           #services .services-heading {
             padding-left:64px !important;
             padding-right:64px !important;
@@ -311,7 +303,6 @@ function Services({ c, gold, navy }) {
           #services .service-copy { font-size:12.8px !important; line-height:1.56 !important; }
         }
         @media (max-height:820px) and (min-width:768px) {
-          #services.services-section { padding:54px 0 40px !important; }
           #services .services-heading { margin-bottom:28px !important; }
           #services .services-kicker { margin-bottom:14px !important; }
           #services .services-title { font-size:clamp(34px, 4.2vw, 48px) !important; }
@@ -323,8 +314,6 @@ function Services({ c, gold, navy }) {
         }
         @media (max-width:1024px) {
           #services.services-section {
-            min-height:auto !important;
-            padding:88px 0 72px !important;
             overflow:hidden !important;
           }
           #services .services-heading {
@@ -360,7 +349,6 @@ function Services({ c, gold, navy }) {
           }
         }
         @media (max-width:767px) {
-          #services.services-section { padding:72px 0 58px !important; }
           #services .services-heading {
             padding-left:22px !important;
             padding-right:22px !important;
@@ -386,6 +374,7 @@ function Services({ c, gold, navy }) {
           #services .service-title { font-size:31px !important; }
           #services .service-copy { max-width:100%; font-size:12.4px !important; line-height:1.5 !important; }
         }
+        ${getSectionFrameCss('#services.services-section', { variant:'fullBleed' })}
       `}</style>
       <div className="services-inner" style={{ width:'100%', maxWidth:'1450px', margin:'0 auto' }}>
         <div className="reveal services-heading" style={{ marginBottom:'60px', textAlign:'center' }}>

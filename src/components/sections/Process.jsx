@@ -1,6 +1,6 @@
 (function () {
   const { useState } = React;
-  const { StarIcon, SectionEyebrow, CornerMarks } = window;
+  const { StarIcon, SectionEyebrow, CornerMarks, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
   const { processImages } = window.CONRAD_EXPRESS_DATA.ASSETS;
 
 /* ── PROCESS ── */
@@ -14,23 +14,17 @@ function Process({ c, gold, navy, language }) {
     : `Step ${active + 1}/${totalSteps}`;
 
   return (
-    <section id="process" className="process-section" style={{
+    <section id="process" className="process-section" style={getSectionFrameStyle({
       background:'#fff',
-      padding:'42px 96px 58px',
-      minHeight:'calc(100vh - 72px)',
-      scrollMarginTop:'72px',
-      boxSizing:'border-box',
+      padding:SECTION_FRAME.padding.standard.desktop,
       display:'flex',
       alignItems:'flex-start',
       overflow:'hidden',
       boxShadow:'inset 0 -1px 0 rgba(226,181,111,0.12), inset 0 1px 0 rgba(226,181,111,0.08)',
-    }}>
+    })}>
       <style>{`
         #process.process-section {
           background:#fff !important;
-          scroll-margin-top:72px !important;
-          padding:42px 96px 58px !important;
-          min-height:calc(100vh - 72px) !important;
           height:auto !important;
           align-items:stretch !important;
         }
@@ -169,13 +163,11 @@ function Process({ c, gold, navy, language }) {
         }
         #process .process-visual-frame { height:100% !important; aspect-ratio:auto !important; }
         @media (max-width:1440px) {
-          #process.process-section { padding:40px 64px 54px !important; }
           #process .process-heading { height:176px !important; margin-bottom:22px !important; }
           #process .process-title { min-height:124px !important; }
           #process .process-grid { gap:44px !important; }
         }
         @media (max-height:820px) and (min-width:768px) {
-          #process.process-section { padding:26px 64px 0 !important; }
           #process .process-heading { height:148px !important; margin-bottom:14px !important; }
           #process .process-title { min-height:96px !important; font-size:clamp(38px, 5vw, 54px) !important; }
           #process .process-grid { gap:54px !important; }
@@ -192,9 +184,6 @@ function Process({ c, gold, navy, language }) {
         @media (max-width:1024px) {
           #process.process-section {
             height:auto !important;
-            min-height:auto !important;
-            scroll-margin-top:72px !important;
-            padding:58px 40px 58px !important;
             overflow:visible !important;
           }
           #process > div { display:block !important; }
@@ -211,7 +200,6 @@ function Process({ c, gold, navy, language }) {
           #process .process-visual-frame { height:auto !important; aspect-ratio:4/3 !important; }
         }
         @media (max-width:767px) {
-          #process.process-section { scroll-margin-top:72px !important; padding:46px 22px 48px !important; }
           #process .process-heading { min-height:148px !important; margin-bottom:28px !important; }
           #process .process-title { min-height:104px !important; font-size:clamp(38px, 11vw, 52px) !important; }
           #process .process-progress-row { justify-content:space-between !important; gap:14px !important; }
@@ -223,6 +211,7 @@ function Process({ c, gold, navy, language }) {
           #process .process-step-title { font-size:21px !important; }
           #process .process-visual-shell { width:94% !important; }
         }
+        ${getSectionFrameCss('#process.process-section', { compact:'44px 64px 32px' })}
       `}</style>
       <div style={{ width:'100%', maxWidth:'1400px', margin:'0 auto' }}>
         <div className="process-heading" style={{ marginBottom:'58px', textAlign:'center' }}>

@@ -1,6 +1,6 @@
 (function () {
   const { useState } = React;
-  const { StarIcon, SectionEyebrow } = window;
+  const { StarIcon, SectionEyebrow, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
 
   /* Line icons per feature, keyed by pillars.items[].icon. Stroke uses the gold accent. */
   const FeatureIcon = (key, color) => {
@@ -24,19 +24,14 @@ function WhyUs({ c, gold, navy }) {
   const features = c.pillars.items;
 
   return (
-    <section id="why" className="why-section" style={{
+    <section id="why" className="why-section" style={getSectionFrameStyle({
       background: `linear-gradient(160deg, ${navy} 0%, #0a1628 100%)`,
-      padding:'92px 96px 84px', position:'relative', overflow:'hidden',
-      minHeight:'calc(100vh - 72px)', boxSizing:'border-box',
+      padding:SECTION_FRAME.padding.standard.desktop,
+      position:'relative', overflow:'hidden',
       display:'flex', flexDirection:'column', justifyContent:'center',
-      scrollMarginTop:'72px',
       boxShadow:'inset 0 1px 0 rgba(226,181,111,0.1), inset 0 -1px 0 rgba(226,181,111,0.06)',
-    }}>
+    })}>
       <style>{`
-        #why.why-section {
-          padding:92px 96px 84px !important;
-          min-height:calc(100vh - 72px) !important;
-        }
         #why .why-inner { width:100%; max-width:1240px; margin:0 auto; position:relative; z-index:2; }
         #why .why-header { text-align:center; margin-bottom:64px; }
         #why .why-heading {
@@ -93,17 +88,14 @@ function WhyUs({ c, gold, navy }) {
           color:rgba(255,255,255,0.5); margin:0;
         }
         @media (max-width:1440px) {
-          #why.why-section { padding:78px 64px 70px !important; }
           #why .why-header { margin-bottom:54px; }
           #why .why-grid { column-gap:44px; row-gap:46px; }
         }
         @media (max-width:1024px) {
-          #why.why-section { padding:72px 40px 64px !important; min-height:auto !important; }
           #why .why-header { margin-bottom:48px; }
           #why .why-grid { grid-template-columns:repeat(2, 1fr); column-gap:40px; row-gap:44px; }
         }
         @media (max-width:767px) {
-          #why.why-section { padding:58px 22px 54px !important; }
           #why .why-header { margin-bottom:40px; }
           #why .why-heading { font-size:clamp(38px, 11vw, 52px); }
           #why .why-sub { font-size:14px; }
@@ -112,6 +104,7 @@ function WhyUs({ c, gold, navy }) {
           #why .why-feature-icon { width:52px; height:52px; margin-bottom:18px; }
           #why .why-feature-title { font-size:23px; }
         }
+        ${getSectionFrameCss('#why.why-section')}
       `}</style>
 
       <div style={{ position:'absolute', right:'-10vw', bottom:'-10vw', opacity:0.03, pointerEvents:'none' }}>

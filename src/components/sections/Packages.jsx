@@ -1,6 +1,6 @@
 (function () {
   const { useState } = React;
-  const { CardSwiper, StarIcon, SectionEyebrow } = window;
+  const { CardSwiper, StarIcon, SectionEyebrow, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
 
 /* ── PACKAGES ── */
 function Packages({ c, gold, navy }) {
@@ -8,13 +8,15 @@ function Packages({ c, gold, navy }) {
   const tierAccent = ['#a8a8a8', gold, '#e5e4e2'];
 
   return (
-    <section id="packages" style={{
+    <section id="packages" className="packages-section" style={getSectionFrameStyle({
       background:'#fff',
-      padding:'120px 96px',
-      minHeight:'100vh',
+      padding:SECTION_FRAME.padding.standard.desktop,
       display:'flex',
       alignItems:'center',
-      boxShadow:'inset 0 -1px 0 rgba(226,181,111,0.12), inset 0 1px 0 rgba(226,181,111,0.08)' }}>
+      boxShadow:'inset 0 -1px 0 rgba(226,181,111,0.12), inset 0 1px 0 rgba(226,181,111,0.08)' })}>
+      <style>{`
+        ${getSectionFrameCss('#packages.packages-section')}
+      `}</style>
       <div style={{ width:'100%', maxWidth:'1400px', margin:'0 auto' }}>
 
         {/* Header */}
@@ -22,11 +24,8 @@ function Packages({ c, gold, navy }) {
           <SectionEyebrow label={c.packages.label} gold={gold} centered style={{ marginBottom:'16px' }} />
           <h2 style={{
             fontFamily:'Cormorant Garamond, serif', fontSize:'clamp(36px, 4.5vw, 56px)',
-            fontWeight:300, color:navy, lineHeight:1.08, whiteSpace:'pre-line', marginBottom:'18px',
+            fontWeight:300, color:navy, lineHeight:1.08, whiteSpace:'pre-line', marginBottom:0,
           }}>{c.packages.title}</h2>
-          <p style={{ fontSize:'14px', color:'rgba(15,30,53,0.5)', fontFamily:'Jost', fontWeight:300, maxWidth:'480px', margin:'0 auto', lineHeight:1.75 }}>
-            {c.packages.sub}
-          </p>
         </div>
 
         {/* Cards grid */}
