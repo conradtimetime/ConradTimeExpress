@@ -9,11 +9,11 @@
 function Brands({ c, gold, navy }) {
   const brands = c.brands;
   const brandLogos = [
-    { src: 'brand-images/Logo-Mesub-normalized.png', alt: 'Mesub' },
-    { src: 'brand-images/Logo-Khunhua-normalized.png', alt: 'Khunhua' },
-    { src: 'brand-images/Logo-Conradtime-normalized.png', alt: 'Conrad Time' },
-    { src: 'brand-images/Logo-Timepiece-normalized.png', alt: 'Timepiece' },
-    { src: 'brand-images/Logo-Voyage-normalized.png', alt: 'Voyage' },
+    { src: 'brand-images/Logo-Mesub-normalized.png', alt: 'Mesub', href: 'https://www.facebook.com/visaservicebymesub/?locale=th_TH' },
+    { src: 'brand-images/Logo-Khunhua-normalized.png', alt: 'Khunhua', href: 'https://www.khunhuagroup.com/#' },
+    { src: 'brand-images/Logo-Conradtime-normalized.png', alt: 'Conrad Time', href: 'https://conradtime.com/' },
+    { src: 'brand-images/Logo-Timepiece-normalized.png', alt: 'Timepiece', href: 'https://timepiecerepairco.com/' },
+    { src: 'brand-images/Logo-Voyage-normalized.png', alt: 'Voyage', href: 'https://brandnamevoyage.com/' },
   ];
   if (!brands || !brandLogos.length) return null;
 
@@ -104,6 +104,12 @@ function Brands({ c, gold, navy }) {
           backdrop-filter:blur(8px);
           transition:transform 0.28s ease, background 0.28s ease, box-shadow 0.28s ease;
           overflow:hidden;
+          text-decoration:none;
+          cursor:pointer;
+        }
+        #brands .brand-logo-card:focus-visible {
+          outline:2px solid ${navy};
+          outline-offset:4px;
         }
         #brands .brand-logo-card:hover {
           transform:translateY(-2px);
@@ -153,9 +159,9 @@ function Brands({ c, gold, navy }) {
         {brands.title && <h2 className="brands-title">{brands.title}</h2>}
         <div className="brands-row">
           {brandLogos.map((logo) => (
-            <div className="brand-logo-card" key={logo.src}>
+            <a className="brand-logo-card" key={logo.src} href={logo.href} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${logo.alt}`}>
               <img className="brand-logo" src={logo.src} alt={logo.alt} />
-            </div>
+            </a>
           ))}
         </div>
       </div>
