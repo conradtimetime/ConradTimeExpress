@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /
+
+Sitemap: https://conrad-express.vercel.app/sitemap.xml

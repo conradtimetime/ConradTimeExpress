@@ -23,11 +23,24 @@ const fileExists = async (filePath) => {
 
 const read = (filePath) => fs.readFile(abs(filePath), 'utf8');
 
+const getSiteUrl = async () => {
+  const envText = await read('.env.local').catch(() => '');
+  const envMatch = envText.match(/^NEXT_PUBLIC_SITE_URL=(.+)$/m);
+  const rawUrl = process.env.NEXT_PUBLIC_SITE_URL || envMatch?.[1] || 'https://conrad-express.vercel.app';
+  return rawUrl.trim().replace(/^['"]|['"]$/g, '').replace(/\/+$/, '');
+};
+
 const htmlPath = 'index.html';
 const html = await read(htmlPath);
+const siteUrl = await getSiteUrl();
 
 assert(html.includes('Content-Security-Policy'), 'Missing Content-Security-Policy meta tag.');
 assert(html.includes('strict-origin-when-cross-origin'), 'Missing strict referrer policy.');
+assert(html.includes('SEO-META-BEGIN'), 'Missing generated SEO metadata block.');
+assert(html.includes('name="description"'), 'Missing SEO description meta tag.');
+assert(html.includes('property="og:image"'), 'Missing Open Graph image meta tag.');
+assert(html.includes('name="twitter:card" content="summary_large_image"'), 'Missing Twitter card metadata.');
+assert(html.includes('type="application/ld+json"'), 'Missing JSON-LD structured data.');
 assert(!html.includes('unsafe-eval'), 'CSP must not include unsafe-eval.');
 assert(!html.includes('@babel/standalone'), 'Runtime Babel must not be loaded.');
 assert(!html.includes('type="text/babel"'), 'HTML must not use type="text/babel" scripts.');
@@ -62,6 +75,16 @@ const bundlePath = rel('dist', 'conrad-express.bundle.js');
 const bundleStat = await fs.stat(abs(bundlePath)).catch(() => null);
 assert(Boolean(bundleStat), `Missing generated bundle: ${bundlePath}`);
 assert(!bundleStat || bundleStat.size > 1024, `Generated bundle looks too small: ${bundlePath}`);
+
+const sitemap = await read('sitemap.xml').catch(() => '');
+const robots = await read('robots.txt').catch(() => '');
+const expectedRobotsRule = siteUrl.includes('vercel.app') ? 'Disallow: /' : 'Allow: /';
+assert(sitemap.includes('<urlset'), 'Missing or invalid sitemap.xml.');
+assert(sitemap.includes(`<loc>${siteUrl}/</loc>`), 'Sitemap home URL does not match NEXT_PUBLIC_SITE_URL.');
+assert(robots.includes('User-agent: *'), 'Missing robots.txt user-agent rule.');
+assert(robots.includes(expectedRobotsRule), 'robots.txt index rule does not match NEXT_PUBLIC_SITE_URL.');
+assert(robots.includes(`Sitemap: ${siteUrl}/sitemap.xml`), 'robots.txt sitemap URL does not match NEXT_PUBLIC_SITE_URL.');
+assert(await fileExists('og-image.jpg'), 'Missing root OG image: og-image.jpg');
 
 const dataContext = { window: {} };
 for (const dataPath of expectedScriptOrder.slice(0, -1)) {

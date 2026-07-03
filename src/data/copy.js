@@ -42,13 +42,13 @@ const COPY = {
         },
         {
           name: 'Silver',
-          fit: 'Best for light monthly senders up to 5 trips',
+          fit: 'Best for light monthly senders up to 10 trips',
           price: '฿4,005',
           prices: [
             { label: 'Bangkok & vicinity', amount: '฿4,005', unit: '/month' },
             { label: 'Other provinces', amount: '฿44,550', unit: '/month' },
           ],
-          details: ['Up to 5 trips/month', '10% discount'],
+          details: ['Up to 10 trips/month', '10% discount'],
           features: ['Insurance ฿50,000++ based on actual value', 'Same-day delivery', 'Shipment tracking included'],
           cta: 'Choose This Plan',
         },
@@ -233,7 +233,7 @@ const COPY = {
     },
     services: {
       label: 'บริการของเรา',
-      title: 'การจัดส่งสินค้ามูลค่าสูง\nต้องการดูแลเป็นพิเศษ',
+      title: 'การจัดส่งสินค้ามูลค่าสูง\nต้องดูแลเป็นพิเศษ',
       items: [
         { title: 'นาฬิกาหรู', desc: 'ส่งนาฬิกาด้วยกล่องกันกระแทก จับด้วยความระมัดระวัง และถ่ายรูปสภาพก่อนส่ง เหมาะทั้งนาฬิกาเรือนเดียว คอลเลกชันสะสม หรือส่งเข้าศูนย์บริการ' },
         { title: 'งานศิลปะและของสะสม', desc: 'ส่งในอุณหภูมิควบคุม พร้อมลังไม้ทำพิเศษ สำหรับรูปปั้น ภาพวาด หนังสือหายาก และงานศิลป์ ดูแลถึงที่' },
