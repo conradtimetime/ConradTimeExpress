@@ -13,7 +13,7 @@ function App() {
 
   const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const [scrolled, setScrolled] = useState(false);
-  const [language, setLanguage] = useState(tweaks.language || 'en');
+  const [language, setLanguage] = useState(tweaks.language || 'th');
 
   const gold = tweaks.accentColor;
   const navy = tweaks.navyColor;

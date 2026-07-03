@@ -4,6 +4,6 @@
     "navyColor": "#0f1e35",
     "heroLayout": "dark",
     "font": "Cormorant Garamond",
-    "language": "en"
+    "language": "th"
   }/*EDITMODE-END*/;
 })();

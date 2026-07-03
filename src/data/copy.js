@@ -7,7 +7,7 @@ const COPY = {
     hero: {
       eyebrow: 'Conrad Time · Est. 2016',
       title: 'Conrad\nExpress',
-      sub: 'Specialised transport for high-value goods with the utmost security —\ncared for from pickup to recipient, delivered on time and professionally.',
+      sub: 'Door-to-door delivery for high-value parcels, with complete peace of mind from over 8 years of experience and meticulous care at every step, so your assets reach their destination safely, on time, and professionally.',
       cta1: 'Book a Service',
       cta2: 'Learn More',
     },
@@ -158,7 +158,7 @@ const COPY = {
     hero: {
       eyebrow: 'Conrad Time · ก่อตั้ง 2016',
       title: 'Conrad\nExpress',
-      sub: 'บริการขนส่งเฉพาะทางสำหรับของมูลค่าสูง โดยเน้นความปลอดภัยขั้นสูงสุด\nดูแลตั้งแต่รับสินค้าจนส่งถึงมือผู้รับ ตรงเวลาอย่างมืออาชีพ',
+      sub: 'บริการจัดส่งพัสดุมูลค่าสูงแบบส่งตรงถึงมือ อุ่นใจขั้นสุดด้วยประสบการณ์มากกว่า 8 ปีและการดูแลอย่างพิถีพิถันทุกขั้นตอน เพื่อให้ทรัพย์สินของคุณถึงปลายทางอย่างปลอดภัยและตรงเวลาอย่างมืออาชีพ',
       cta1: 'จองการใช้บริการ',
       cta2: 'เรียนรู้เพิ่มเติม',
     },

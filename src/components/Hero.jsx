@@ -132,12 +132,14 @@ function Hero({ c, gold, navy, layout }) {
         padding:'120px 56px 80px 96px',
         textAlign:'left',
       }}>
-        <div className="h1" style={{ display:'flex', alignItems:'center', justifyContent:'flex-start', gap:'14px', marginBottom:'24px' }}>
-          <StarIcon size={12} color='#e2b56f' />
-          <span style={{ fontSize:'10px', letterSpacing:'0.28em', color:'#e2b56f', fontFamily:'Jost', fontWeight:400 }}>
-            {c.hero.eyebrow.toUpperCase()}
-          </span>
-        </div>
+        {c.hero.eyebrow && (
+          <div className="h1" style={{ display:'flex', alignItems:'center', justifyContent:'flex-start', gap:'14px', marginBottom:'24px' }}>
+            <StarIcon size={12} color='#e2b56f' />
+            <span style={{ fontSize:'10px', letterSpacing:'0.28em', color:'#e2b56f', fontFamily:'Jost', fontWeight:400 }}>
+              {c.hero.eyebrow.toUpperCase()}
+            </span>
+          </div>
+        )}
 
         <h1 className="h2" style={{
           fontFamily:'Cormorant Garamond, serif',
