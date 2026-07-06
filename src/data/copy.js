@@ -51,7 +51,7 @@ const COPY = {
           price: '฿2,900+',
           unit: '/month',
           details: ['Valid for 5 Deliveries/month', 'Same-day delivery', 'Bangkok & vicinity delivery'],
-          features: ['Maximum compensation for damages ฿50,000', 'Same-day delivery', 'Shipment tracking included'],
+          features: ['Maximum compensation for damages ฿50,000', 'Shipment tracking included'],
           cta: 'Choose This Plan',
         },
         {
@@ -60,7 +60,7 @@ const COPY = {
           priceText: 'Contact Staff',
           priceTone: 'contact',
           details: ['Unlimited Deliveries', 'Custom Pricing', 'Same-day delivery', 'Nationwide delivery'],
-          features: ['Maximum compensation for damages ฿50,000', 'Same-day delivery', 'Shipment tracking included'],
+          features: ['Maximum compensation for damages ฿50,000', 'Shipment tracking included'],
           cta: 'Choose This Plan',
         },
       ]
@@ -187,7 +187,7 @@ const COPY = {
           price: '฿2,900+',
           unit: '/เดือน',
           details: ['ใช้ได้ 5 รอบ/เดือน', 'ส่งภายในวันเดียว', 'ส่งในกทม. และปริมณฑล'],
-          features: ['ค่าชดเชยความเสียหายสูงสุด ฿50,000', 'ส่งภายในวันเดียว', 'ติดตามการขนส่งได้'],
+          features: ['ค่าชดเชยความเสียหายสูงสุด ฿50,000', 'ติดตามการขนส่งได้'],
           cta: 'เลือกแพ็กเกจนี้',
         },
         {
@@ -196,7 +196,7 @@ const COPY = {
           priceText: 'ติดต่อพนักงาน',
           priceTone: 'contact',
           details: ['การส่ง/เดือน ไม่จำกัด', 'ราคาตามตกลง', 'ส่งภายในวันเดียว','จัดส่งครอบคลุมทั่วประเทศ'],
-          features: ['ค่าชดเชยความเสียหายตามตกลง', 'ส่งภายในวันเดียว', 'ติดตามการขนส่งได้'],
+          features: ['ค่าชดเชยความเสียหายตามตกลง', 'ติดตามการขนส่งได้'],
           cta: 'เลือกแพ็กเกจนี้',
         },
       ]
