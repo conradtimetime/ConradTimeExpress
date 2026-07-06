@@ -57,6 +57,7 @@ const expectedScriptOrder = [
   rel('src', 'data', 'copy.js'),
   rel('src', 'data', 'reviews.js'),
   rel('src', 'data', 'assets.js'),
+  rel('src', 'data', 'policies.js'),
   rel('src', 'data', 'site-data.js'),
   rel('src', 'data', 'tweaks.js'),
   rel('dist', 'conrad-express.bundle.js'),
@@ -102,6 +103,11 @@ assert(
   'Bilingual review cards are missing.'
 );
 assert(Array.isArray(data?.REVIEW_PHOTOS), 'Review photo registry is missing.');
+assert(
+  Array.isArray(data?.POLICIES?.order) && data.POLICIES.order.length === 3 &&
+    data.POLICIES.order.every((id) => Boolean(data.POLICIES.documents?.[id])),
+  'Policy documents are missing.'
+);
 assert(Boolean(dataContext.window.TWEAK_DEFAULTS?.language), 'Tweak defaults were not loaded.');
 
 const assetPaths = new Set([

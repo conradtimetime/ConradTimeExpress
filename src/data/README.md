@@ -6,6 +6,7 @@ This folder keeps page content and runtime configuration separate from UI compon
 - `copy.js`: bilingual EN/TH page copy.
 - `reviews.js`: testimonial card content.
 - `assets.js`: image paths and asset registries used by components.
+- `policies.js`: policy and legal document content shown from the contact footer.
 - `site-data.js`: compatibility aggregator that exposes `window.CONRAD_EXPRESS_DATA`.
 - `tweaks.js`: edit-mode defaults exposed as `window.TWEAK_DEFAULTS`.
 

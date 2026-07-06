@@ -5,7 +5,14 @@
 const BOOKING_TARGET = '#contact';
 
 function getTierTheme(pkg, index, gold) {
-  const key = String(pkg.name || '').trim().toLowerCase();
+  const rawKey = String(pkg.name || '').trim().toLowerCase();
+  const tierAliases = {
+    'other provinces':'silver',
+    '5 delivery':'gold',
+    monthly:'gold',
+    exclusive:'platinum',
+  };
+  const key = tierAliases[rawKey] || rawKey;
   const themes = {
     standard: {
       key:'standard',
@@ -63,16 +70,16 @@ function getTierTheme(pkg, index, gold) {
   return themes[key] || themes[Object.keys(themes)[index]] || themes.standard;
 }
 
-function getPriceRows(pkg) {
-  if (Array.isArray(pkg.prices) && pkg.prices.length) return pkg.prices;
-  return [{ label: pkg.label || '', amount: pkg.price, unit: pkg.unit || '' }];
-}
-
-function getPriceRegions(packagesCopy, items) {
-  if (Array.isArray(packagesCopy.priceRegions) && packagesCopy.priceRegions.length) {
-    return packagesCopy.priceRegions;
-  }
-  return getPriceRows(items[0] || {}).map((price) => ({ label: price.label }));
+function getPackagePrice(pkg) {
+  return {
+    label:pkg.label || '',
+    amount:pkg.amount || pkg.price || '',
+    text:pkg.priceText || '',
+    tone:pkg.priceTone || '',
+    unit:pkg.unit || '',
+    original:pkg.original || '',
+    promoLabel:pkg.promoLabel || '',
+  };
 }
 
 function getPackageFit(pkg) {
@@ -157,50 +164,7 @@ function CardCornerTag({ tag, gold, navy }) {
   );
 }
 
-function PriceRegionToggle({ options, activeIndex, onChange, gold, navy }) {
-  if (!options.length) return null;
-  return (
-    <div className="package-region-toggle" role="group" aria-label="Package price region" onClick={(event) => event.stopPropagation()} style={{
-      display:'inline-flex',
-      alignItems:'center',
-      justifyContent:'center',
-      gap:'4px',
-      maxWidth:'100%',
-      padding:'4px',
-      background:'rgba(15,30,53,0.04)',
-      border:'1px solid rgba(15,30,53,0.09)',
-    }}>
-      {options.map((option, index) => {
-        const active = activeIndex === index;
-        return (
-          <button
-            key={`${option.label}-${index}`}
-            type="button"
-            className="package-region-button"
-            aria-pressed={active}
-            onClick={() => onChange(index)}
-            style={{
-              minWidth:'132px',
-              padding:'10px 16px',
-              border:'none',
-              background:active ? gold : 'transparent',
-              color:active ? navy : 'rgba(15,30,53,0.58)',
-              fontSize:'10px',
-              letterSpacing:'0.14em',
-              fontFamily:'Jost',
-              fontWeight:500,
-              cursor:'pointer',
-              transition:'background 0.24s ease, color 0.24s ease',
-              whiteSpace:'nowrap',
-            }}
-          >{option.label.toUpperCase()}</button>
-        );
-      })}
-    </div>
-  );
-}
-
-function PricingCards({ items, activeIdx, priceIndex, onSelect, gold, navy }) {
+function PricingCards({ items, activeIdx, onSelect, gold, navy }) {
   return (
     <CardSwiper className="reveal-stagger packages-grid g-4 swipe" style={{ display:'grid', gridTemplateColumns:'repeat(4,minmax(0,1fr))', gap:'2px' }}>
       {items.map((pkg, index) => (
@@ -208,7 +172,6 @@ function PricingCards({ items, activeIdx, priceIndex, onSelect, gold, navy }) {
           key={pkg.name}
           pkg={pkg}
           active={activeIdx === index}
-          priceIndex={priceIndex}
           theme={getTierTheme(pkg, index, gold)}
           gold={gold}
           navy={navy}
@@ -219,13 +182,14 @@ function PricingCards({ items, activeIdx, priceIndex, onSelect, gold, navy }) {
   );
 }
 
-function PricingCard({ pkg, active, priceIndex, theme, gold, navy, onSelect }) {
+function PricingCard({ pkg, active, theme, gold, navy, onSelect }) {
   const highlighted = Boolean(pkg.highlight);
   const selected = active;
-  const prices = getPriceRows(pkg);
-  const currentPrice = prices[priceIndex] || prices[0] || {};
+  const currentPrice = getPackagePrice(pkg);
   const packageDetails = [...(pkg.details || []), ...(pkg.features || [])];
-  const priceSummary = `${currentPrice.label || ''}: ${currentPrice.amount || ''}${currentPrice.unit || ''}`;
+  const priceText = currentPrice.text || '';
+  const priceSummary = priceText || `${currentPrice.amount || ''}${currentPrice.unit || ''}`;
+  const priceTextLetterSpacing = /[A-Za-z]/.test(priceText) ? '0.08em' : 0;
   const cornerTag = getPackageCornerTag(pkg, currentPrice);
   const packageFit = getPackageFit(pkg);
 
@@ -246,7 +210,7 @@ function PricingCard({ pkg, active, priceIndex, theme, gold, navy, onSelect }) {
         position:'relative',
         padding:'48px 30px 38px',
         minWidth:0,
-        minHeight:'500px',
+        minHeight:'560px',
         background:selected
           ? `var(--tier-surface) padding-box, linear-gradient(135deg, ${navy} 0%, #243a5d 48%, ${navy} 100%) border-box`
           : 'var(--tier-surface) padding-box, var(--tier-frame) border-box',
@@ -255,8 +219,8 @@ function PricingCard({ pkg, active, priceIndex, theme, gold, navy, onSelect }) {
         boxShadow:theme.shadow,
         transition:'transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease',
         cursor:'pointer',
-        display:'flex',
-        flexDirection:'column',
+        display:'grid',
+        gridTemplateRows:'minmax(var(--package-title-row), auto) minmax(var(--package-price-row), auto) minmax(var(--package-details-row), 1fr) auto',
         isolation:'isolate',
       }}
     >
@@ -280,7 +244,7 @@ function PricingCard({ pkg, active, priceIndex, theme, gold, navy, onSelect }) {
 
       <CardCornerTag tag={cornerTag} gold={gold} navy={navy} />
 
-      <div style={{ display:'flex', alignItems:'center', gap:'10px', marginBottom:'12px', minWidth:0 }}>
+      <div className="package-card-head" style={{ display:'flex', alignItems:'flex-start', gap:'10px', minWidth:0 }}>
         <StarIcon size={12} color={theme.icon} style={{ opacity:selected ? 1 : 0.72, flexShrink:0 }} />
         <h3 style={{
           fontFamily:'Cormorant Garamond, serif',
@@ -295,40 +259,60 @@ function PricingCard({ pkg, active, priceIndex, theme, gold, navy, onSelect }) {
       </div>
 
       <div className="package-current-price" style={{
-        margin:'2px 0 16px',
-        paddingBottom:'16px',
+        margin:0,
+        paddingBottom:'10px',
         borderBottom:'1px solid rgba(15,30,53,0.1)',
         minWidth:0,
+        height:'100%',
+        boxSizing:'border-box',
+        display:'flex',
+        flexDirection:'column',
+        justifyContent:'flex-start',
       }}>
-        <div className="package-price-value" style={{ display:'flex', alignItems:'baseline', gap:'8px', flexWrap:'nowrap', minWidth:0, marginBottom:'8px' }}>
-          <span className="package-price-amount" style={{
-            fontFamily:'Cormorant Garamond, serif',
-            fontSize:'38px',
-            fontWeight:300,
-            color:theme.price,
-            lineHeight:1,
-            whiteSpace:'nowrap',
-            letterSpacing:0,
-            flexShrink:1,
-          }}>{currentPrice.amount}</span>
-          {currentPrice.unit && (
-            <span className="package-price-unit" style={{
-              fontSize:'12px',
-              color:'rgba(15,30,53,0.45)',
+        <div className="package-price-value" style={{ display:'flex', alignItems:priceText ? 'center' : 'baseline', gap:'8px', flexWrap:'nowrap', minWidth:0, marginBottom:'8px' }}>
+          {priceText ? (
+            <span className="package-price-contact" style={{
               fontFamily:'Jost',
-              whiteSpace:'nowrap',
-              flexShrink:0,
-            }}>{currentPrice.unit}</span>
-          )}
-          {currentPrice.original && (
-            <span className="package-price-original" style={{
-              fontSize:'13px',
-              color:'rgba(15,30,53,0.38)',
-              fontFamily:'Jost',
-              textDecoration:'line-through',
-              whiteSpace:'nowrap',
-              flexShrink:0,
-            }}>{currentPrice.original}</span>
+              fontSize:'30px',
+              fontWeight:500,
+              letterSpacing:priceTextLetterSpacing,
+              color:theme.price,
+              lineHeight:1.12,
+              whiteSpace:'normal',
+              overflowWrap:'anywhere',
+            }}>{priceText}</span>
+          ) : (
+            <>
+              <span className="package-price-amount" style={{
+                fontFamily:'Cormorant Garamond, serif',
+                fontSize:'38px',
+                fontWeight:300,
+                color:theme.price,
+                lineHeight:1,
+                whiteSpace:'nowrap',
+                letterSpacing:0,
+                flexShrink:1,
+              }}>{currentPrice.amount}</span>
+              {currentPrice.unit && (
+                <span className="package-price-unit" style={{
+                  fontSize:'12px',
+                  color:'rgba(15,30,53,0.45)',
+                  fontFamily:'Jost',
+                  whiteSpace:'nowrap',
+                  flexShrink:0,
+                }}>{currentPrice.unit}</span>
+              )}
+              {currentPrice.original && (
+                <span className="package-price-original" style={{
+                  fontSize:'13px',
+                  color:'rgba(15,30,53,0.38)',
+                  fontFamily:'Jost',
+                  textDecoration:'line-through',
+                  whiteSpace:'nowrap',
+                  flexShrink:0,
+                }}>{currentPrice.original}</span>
+              )}
+            </>
           )}
         </div>
         {packageFit && (
@@ -344,7 +328,7 @@ function PricingCard({ pkg, active, priceIndex, theme, gold, navy, onSelect }) {
         )}
       </div>
 
-      <div style={{ display:'flex', flexDirection:'column', gap:'8px', flex:1 }}>
+      <div className="package-details-list" style={{ display:'flex', flexDirection:'column', gap:'8px', minWidth:0, minHeight:0, paddingTop:'14px', boxSizing:'border-box' }}>
         {packageDetails.map((feature, featureIndex) => (
           <div key={featureIndex} style={{ display:'flex', alignItems:'flex-start', gap:'10px', minWidth:0 }}>
             <div style={{
@@ -384,7 +368,7 @@ function PricingCard({ pkg, active, priceIndex, theme, gold, navy, onSelect }) {
         style={{
           display:'block',
           textAlign:'center',
-          marginTop:'24px',
+          marginTop:0,
           padding:'13px 18px',
           fontSize:'11px',
           letterSpacing:'0.13em',
@@ -405,9 +389,7 @@ function PricingCard({ pkg, active, priceIndex, theme, gold, navy, onSelect }) {
 /* ── PACKAGES ── */
 function Packages({ c, gold, navy }) {
   const packages = c.packages.items || [];
-  const priceRegions = getPriceRegions(c.packages, packages);
   const [activeIdx, setActiveIdx] = useState(null);
-  const [priceIdx, setPriceIdx] = useState(0);
 
   return (
     <section id="packages" className="packages-section" style={getSectionFrameStyle({
@@ -432,6 +414,9 @@ function Packages({ c, gold, navy }) {
 
         #packages .package-card {
           overflow:hidden;
+          --package-title-row:52px;
+          --package-price-row:88px;
+          --package-details-row:226px;
         }
 
         #packages .package-card::before {
@@ -494,14 +479,14 @@ function Packages({ c, gold, navy }) {
         }
 
         #packages .package-fit-note,
+        #packages .package-price-note,
+        #packages .package-card-head,
+        #packages .package-details-list,
+        #packages .package-price-contact,
         #packages .package-price-value,
         #packages .package-price-original,
         #packages .package-price-unit {
           min-width:0;
-        }
-
-        #packages .package-region-button:hover {
-          color:${navy} !important;
         }
 
         @media (max-width:1180px) {
@@ -512,28 +497,15 @@ function Packages({ c, gold, navy }) {
         }
 
         @media (max-width:767px) {
-          #packages .package-region-toggle {
-            display:grid !important;
-            grid-template-columns:repeat(2,minmax(0,1fr)) !important;
-            width:100% !important;
-          }
-
-          #packages .package-region-button {
-            min-width:0 !important;
-            padding-left:10px !important;
-            padding-right:10px !important;
-            letter-spacing:0.08em !important;
-            line-height:1.25 !important;
-            white-space:normal !important;
-            overflow-wrap:anywhere !important;
-          }
-
           #packages .packages-grid {
             gap:12px !important;
           }
 
           #packages .package-card {
-            min-height:480px !important;
+            --package-title-row:48px;
+            --package-price-row:92px;
+            --package-details-row:238px;
+            min-height:540px !important;
             padding:44px 24px 34px !important;
           }
 
@@ -557,15 +529,28 @@ function Packages({ c, gold, navy }) {
             font-size:12px !important;
           }
 
+          #packages .package-price-contact {
+            font-size:28px !important;
+          }
+
           #packages .package-fit-note {
             font-size:11px !important;
             line-height:1.35 !important;
+          }
+
+          #packages .package-price-note {
+            font-size:11px !important;
+            line-height:1.55 !important;
+            margin-top:18px !important;
           }
         }
 
         @media (max-width:360px) {
           #packages .package-card {
-            min-height:460px !important;
+            --package-title-row:46px;
+            --package-price-row:88px;
+            --package-details-row:232px;
+            min-height:520px !important;
             padding-left:20px !important;
             padding-right:20px !important;
           }
@@ -573,21 +558,36 @@ function Packages({ c, gold, navy }) {
           #packages .package-price-amount {
             font-size:31px !important;
           }
+
+          #packages .package-price-contact {
+            font-size:26px !important;
+          }
         }
       `}</style>
       <div className="packages-shell">
-        <div className="reveal" style={{ textAlign:'center', marginBottom:'22px' }}>
+        <div className="reveal" style={{ textAlign:'center', marginBottom:'34px' }}>
           <SectionEyebrow label={c.packages.label} gold={gold} centered style={{ marginBottom:'16px' }} />
           <h2 className="packages-heading" style={{
             fontFamily:'Cormorant Garamond, serif', fontSize:'clamp(36px, 4.5vw, 56px)',
             fontWeight:300, color:navy, lineHeight:1.08, whiteSpace:'normal', marginBottom:0,
           }}>{c.packages.title}</h2>
-          <div style={{ marginTop:'22px', display:'flex', justifyContent:'center' }}>
-            <PriceRegionToggle options={priceRegions} activeIndex={priceIdx} onChange={setPriceIdx} gold={gold} navy={navy} />
-          </div>
         </div>
 
-        <PricingCards items={packages} activeIdx={activeIdx} priceIndex={priceIdx} onSelect={setActiveIdx} gold={gold} navy={navy} />
+        <PricingCards items={packages} activeIdx={activeIdx} onSelect={setActiveIdx} gold={gold} navy={navy} />
+        {c.packages.priceNote && (
+          <p className="package-price-note" style={{
+            margin:'22px auto 0',
+            maxWidth:'920px',
+            color:'rgba(15,30,53,0.42)',
+            fontFamily:'Jost',
+            fontSize:'12px',
+            fontWeight:300,
+            lineHeight:1.7,
+            letterSpacing:0,
+            textAlign:'center',
+            overflowWrap:'anywhere',
+          }}>{c.packages.priceNote}</p>
+        )}
       </div>
     </section>
   );

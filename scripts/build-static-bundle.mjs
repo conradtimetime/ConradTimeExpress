@@ -13,8 +13,8 @@ const indexFile = path.join(rootDir, 'index.html');
 const envFile = path.join(rootDir, '.env.local');
 
 const SEO = {
-  title: 'Conrad Express — Luxury & High-Value Logistics',
-  description: 'Insured, white-glove delivery for watches, jewelry, art and other high-value items across Thailand.',
+  title: 'Conrad Express | ขนส่งสินค้ามูลค่าสูงแบบพรีเมียม ส่งภายในหนึ่งวัน',
+  description: 'บริการขนส่งเฉพาะทางสำหรับนาฬิกาหรู จิวเวลรี่ งานศิลปะ และสินค้ามูลค่าสูงทั่วไทย ดูแลสินค้าอย่างมืออาชีพ ติดตามแบบเรียลไทม์ รวมถึงชดเชยความเสียหายสูงถึง 50,000 บาท',
   siteName: 'Conrad Express',
   imagePath: '/og-image.jpg',
   imageAlt: 'Conrad Express luxury and high-value logistics',
@@ -73,8 +73,8 @@ const renderSeoMeta = ({ siteUrl, organizationJson }) => {
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="${escapeHtml(SEO.imageAlt)}">
-<meta property="og:locale" content="en_US">
-<meta property="og:locale:alternate" content="th_TH">
+<meta property="og:locale" content="th_TH">
+<meta property="og:locale:alternate" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${escapeHtml(SEO.title)}">
 <meta name="twitter:description" content="${escapeHtml(SEO.description)}">
@@ -125,7 +125,7 @@ const updateIndexSeo = async ({ siteUrl, organizationJson }) => {
     "form-action 'self'",
   ].join('; ');
 
-  const htmlWithLang = html.replace(/<html\s+lang="[^"]*">/, '<html lang="en">');
+  const htmlWithLang = html.replace(/<html\s+lang="[^"]*">/, '<html lang="th">');
   const htmlWithCsp = htmlWithLang.replace(
     /<meta http-equiv="Content-Security-Policy" content="[^"]*">/,
     `<meta http-equiv="Content-Security-Policy" content="${csp}">`
