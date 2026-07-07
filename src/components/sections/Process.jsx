@@ -414,10 +414,9 @@ function Process({ c, gold, navy, language }) {
                   zIndex:3,
                   pointerEvents:'none',
                   background:`
-                    linear-gradient(120deg, rgba(4,18,34,0.18) 0%, transparent 34%, rgba(35,90,132,0.16) 100%),
-                    repeating-linear-gradient(135deg, rgba(255,255,255,0.024) 0px, rgba(255,255,255,0.024) 1px, transparent 1px, transparent 22px)
+                    linear-gradient(120deg, rgba(4,18,34,0.12) 0%, transparent 34%, rgba(35,90,132,0.10) 100%),
+                    repeating-linear-gradient(135deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 22px)
                   `,
-                  mixBlendMode:'soft-light',
                 }} />
 
                 <div style={{

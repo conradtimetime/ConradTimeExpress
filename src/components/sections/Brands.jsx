@@ -35,16 +35,6 @@ function Brands({ c, gold, navy }) {
             linear-gradient(135deg, #f9e5b8 0%, #e2b56f 42%, #fff0c9 58%, #c99752 100%) !important;
           padding:56px 96px 40px !important;
         }
-        #brands.brands-section::before {
-          content:'';
-          position:absolute;
-          inset:-20% -30%;
-          z-index:0;
-          pointer-events:none;
-          background:linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.34) 45%, rgba(255,255,255,0.16) 54%, transparent 68%);
-          transform:translateX(-115%) skewX(-14deg);
-          animation:brandsSheen 7.5s ease-in-out infinite;
-        }
         #brands.brands-section::after {
           content:'';
           position:absolute;
@@ -53,11 +43,6 @@ function Brands({ c, gold, navy }) {
           pointer-events:none;
           border-top:1px solid rgba(15,30,53,0.18);
           border-bottom:1px solid rgba(255,255,255,0.28);
-        }
-        @keyframes brandsSheen {
-          0%, 34% { opacity:0; transform:translateX(-115%) skewX(-14deg); }
-          48%, 62% { opacity:1; }
-          78%, 100% { opacity:0; transform:translateX(115%) skewX(-14deg); }
         }
         #brands .brands-inner {
           position:relative;
@@ -99,9 +84,8 @@ function Brands({ c, gold, navy }) {
           padding:12px 18px;
           border:1px solid rgba(15,30,53,0.18);
           border-radius:8px;
-          background:rgba(255,255,255,0.28);
+          background:rgba(252,250,246,0.72);
           box-shadow:0 1px 0 rgba(255,255,255,0.38) inset, 0 18px 42px rgba(70,43,12,0.13);
-          backdrop-filter:blur(8px);
           transition:transform 0.28s ease, background 0.28s ease, box-shadow 0.28s ease;
           overflow:hidden;
           text-decoration:none;

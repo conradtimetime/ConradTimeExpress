@@ -339,8 +339,7 @@ function Contact({ c, gold, navy, language }) {
           display:flex;
           align-items:center;
           justify-content:center;
-          background:rgba(6,14,26,0.9);
-          backdrop-filter:blur(18px) saturate(140%);
+          background:rgba(6,14,26,0.97);
         }
         #contact .contact-policy-panel {
           width:min(980px, 100%);

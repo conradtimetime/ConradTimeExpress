@@ -118,9 +118,9 @@ const updateIndexSeo = async ({ siteUrl, organizationJson }) => {
     "base-uri 'none'",
     "object-src 'none'",
     "img-src 'self' data:",
-    "font-src 'self' https://fonts.gstatic.com",
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-    `script-src 'self' https://unpkg.com 'sha256-${jsonLdHash}'`,
+    "font-src 'self'",
+    "style-src 'self' 'unsafe-inline'",
+    `script-src 'self' 'sha256-${jsonLdHash}'`,
     "connect-src 'self' https://script.google.com https://script.googleusercontent.com",
     "form-action 'self'",
   ].join('; ');

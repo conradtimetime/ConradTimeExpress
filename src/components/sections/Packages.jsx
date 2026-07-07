@@ -449,19 +449,6 @@ function Packages({ c, gold, navy }) {
           z-index:1;
         }
 
-        #packages .package-corner-tag::after {
-          content:'';
-          position:absolute;
-          inset:-1px;
-          background:linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.68) 42%, transparent 72%);
-          transform:translateX(-130%);
-          animation:package-tag-sheen 3.8s ease-in-out infinite;
-        }
-
-        @keyframes package-tag-sheen {
-          0%, 42% { transform:translateX(-130%); }
-          68%, 100% { transform:translateX(130%); }
-        }
 
         @media (min-width:768px) {
           #packages .packages-heading {

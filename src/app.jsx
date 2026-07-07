@@ -78,6 +78,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   function initReveal() {
     const els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-stagger');
     if (!els.length) { setTimeout(initReveal, 300); return; }
+    // Fallback: if IntersectionObserver is unavailable, reveal everything immediately
+    // so content never stays stuck at opacity:0.
+    if (!('IntersectionObserver' in window)) { els.forEach(el => el.classList.add('visible')); return; }
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
@@ -121,7 +124,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);
     }, { threshold: 0.5 });
     counterEls.forEach(el => counterObs.observe(el));
   }
-  setTimeout(initReveal, 800);
+  // Bundle is deferred, so the DOM is already parsed — start revealing right away
+  // instead of waiting 800ms (polling inside handles React's async first paint).
+  initReveal();
 })();
 
 })();

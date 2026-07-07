@@ -1,20 +1,29 @@
 (function () {
-  const { useEffect, useState } = React;
+  const { useEffect, useState, useRef } = React;
   const { REVIEW_CARDS, REVIEW_PHOTOS } = window.CONRAD_EXPRESS_DATA;
   const { PhotoPlaceholder, StarIcon, SectionEyebrow, CornerMarks, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
 
 /* ── TESTIMONIALS ── */
 function Testimonials({ c, gold, navy, language }) {
   const [activeIdx, setActiveIdx] = useState(0);
+  const sectionRef = useRef(null);
 
   const reviews = language === 'th' ? REVIEW_CARDS.th : REVIEW_CARDS.en;
   const reviewPhotos = REVIEW_PHOTOS;
   const total = reviews.length;
 
-  /* Shared auto-advance for both carousels */
+  /* Auto-advance — only while the carousel is on screen, so the 3D re-render
+     doesn't run every 6s when the section is scrolled out of view. */
   useEffect(() => {
-    const t = setInterval(() => setActiveIdx(i => (i + 1) % total), 6000);
-    return () => clearInterval(t);
+    const el = sectionRef.current;
+    if (!el) return;
+    let timer = null;
+    const start = () => { if (!timer) timer = setInterval(() => setActiveIdx(i => (i + 1) % total), 6000); };
+    const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
+    if (!('IntersectionObserver' in window)) { start(); return stop; }
+    const io = new IntersectionObserver(([e]) => { e.isIntersecting ? start() : stop(); }, { threshold: 0.1 });
+    io.observe(el);
+    return () => { stop(); io.disconnect(); };
   }, [total]);
 
   /* Normalized offset for infinite loop */
@@ -49,7 +58,7 @@ function Testimonials({ c, gold, navy, language }) {
       {/* ══════════════════════════════════════════
           SECTION 2 — DARK 3D PHOTO CARD CAROUSEL
       ══════════════════════════════════════════ */}
-      <section id="testimonials" className="testimonials-section" style={getSectionFrameStyle({
+      <section ref={sectionRef} id="testimonials" className="testimonials-section" style={getSectionFrameStyle({
         background:`radial-gradient(ellipse 55% 40% at 8% 5%, rgba(226,181,111,0.07) 0%, transparent 55%), radial-gradient(ellipse 45% 55% at 92% 95%, rgba(226,181,111,0.05) 0%, transparent 55%), ${navy}`,
         padding:SECTION_FRAME.padding.fullBleed.desktop,
         display:'flex', flexDirection:'column', justifyContent:'center',
@@ -72,13 +81,10 @@ function Testimonials({ c, gold, navy, language }) {
           }}>{c.testimonials.title}</h2>
         </div>
 
-        {/* 3D COVERFLOW STAGE */}
+        {/* COVERFLOW STAGE — 2D (translateX + scale + opacity) for GPU-light compositing */}
         <div style={{
           position:'relative',
           height:`${CARD_H + 80}px`,
-          perspective:'1100px',
-          perspectiveOrigin:'50% 50%',
-          willChange:'transform',
         }}>
           {reviews.map((rev, i) => {
             const adj    = normAdj(i, activeIdx, total);
@@ -86,8 +92,6 @@ function Testimonials({ c, gold, navy, language }) {
             const isActive  = adj === 0;
             const isVisible = absOff <= 2;
             const tx = adj * H_STEP;
-            const tz = -absOff * 80;
-            const ry = -adj * 20;
             const sc = isActive ? 1.04 : absOff===1 ? 0.84 : 0.70;
             const op = isActive ? 1 : absOff===1 ? 0.70 : isVisible ? 0.28 : 0;
             const zi = 10 - absOff;
@@ -102,15 +106,13 @@ function Testimonials({ c, gold, navy, language }) {
                   height:`${CARD_H}px`,
                   left:`calc(50% - ${CARD_W / 2}px)`,
                   top:'50%',
-                  transform:`translateY(-50%) translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg) scale(${sc})`,
+                  transform:`translateY(-50%) translateX(${tx}px) scale(${sc})`,
                   transformOrigin:'center center',
-                  backfaceVisibility:'hidden',
                   opacity: op,
                   zIndex: zi,
                   transition:'transform 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.5s cubic-bezier(0.16,1,0.3,1)',
                   cursor: isActive ? 'default' : 'pointer',
                   overflow:'visible',
-                  willChange:'transform, opacity',
                 }}
               >
                 {/* Offset shadow block — HOW IT WORKS style */}

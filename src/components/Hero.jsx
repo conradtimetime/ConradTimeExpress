@@ -32,9 +32,6 @@ function Hero({ c, gold, navy, layout }) {
           to   { opacity:1; transform:translateY(0); }
         }
         @keyframes lineGrow { from{width:0;opacity:0} to{width:48px;opacity:0.7} }
-        @keyframes scrollPulse {
-          0%,100%{opacity:.3;transform:scaleY(.8)} 50%{opacity:1;transform:scaleY(1)}
-        }
         .h1{animation:heroFadeUp .7s cubic-bezier(.16,1,.3,1) .10s both}
         .h2{animation:heroFadeUp .7s cubic-bezier(.16,1,.3,1) .24s both}
         .h3{animation:heroFadeUp .7s cubic-bezier(.16,1,.3,1) .38s both}
@@ -167,12 +164,11 @@ function Hero({ c, gold, navy, layout }) {
           display:'inline-flex', alignItems:'center', gap:'18px',
           padding:'16px 24px 16px 20px',
           background: isDark
-            ? 'linear-gradient(135deg, rgba(226,181,111,0.22) 0%, rgba(10,18,36,0.6) 58%)'
-            : 'linear-gradient(135deg, rgba(226,181,111,0.16) 0%, rgba(255,255,255,0.4) 60%)',
+            ? 'linear-gradient(135deg, rgba(226,181,111,0.28) 0%, rgba(10,18,36,0.82) 58%)'
+            : 'linear-gradient(135deg, rgba(226,181,111,0.2) 0%, rgba(255,255,255,0.72) 60%)',
           border:'1px solid rgba(226,181,111,0.6)',
           borderLeft:'3px solid #fff0c9',
           borderRadius:'4px',
-          backdropFilter:'blur(10px)',
           boxShadow: isDark
             ? '0 20px 46px rgba(0,0,0,0.34), inset 0 0 26px rgba(226,181,111,0.14), 0 0 0 1px rgba(226,181,111,0.1)'
             : '0 14px 32px rgba(15,30,53,0.12)',
@@ -206,7 +202,7 @@ function Hero({ c, gold, navy, layout }) {
 
       {/* SCROLL INDICATOR */}
       <div className="hero-aside" style={{ position:'absolute', bottom:'32px', left:'96px', zIndex:5, display:'flex', alignItems:'center', gap:'10px', pointerEvents:'none' }}>
-        <div style={{ width:'1px', height:'36px', background:'linear-gradient(to bottom, transparent, rgba(226,181,111,0.8))', animation:'scrollPulse 2s ease infinite' }} />
+        <div style={{ width:'1px', height:'36px', background:'linear-gradient(to bottom, transparent, rgba(226,181,111,0.8))', opacity:0.7 }} />
         <span style={{ fontSize:'9px', letterSpacing:'0.25em', color:'rgba(226,181,111,0.5)', fontFamily:'Jost' }}>SCROLL</span>
       </div>
     </section>

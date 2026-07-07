@@ -67,8 +67,8 @@ function FloatingLine({ gold, lang }) {
         .fabx-act:hover .fabx-circle { transform:scale(1.08); }
         .fabx-base { display:flex; align-items:center; gap:12px; }
         .fabx-top { width:42px; height:42px; border-radius:50%; border:1px solid ${gold}44;
-          background:rgba(15,30,53,0.9); color:${gold}; cursor:pointer; font-size:15px;
-          display:flex; align-items:center; justify-content:center; backdrop-filter:blur(8px);
+          background:rgba(15,30,53,0.96); color:${gold}; cursor:pointer; font-size:15px;
+          display:flex; align-items:center; justify-content:center;
           box-shadow:0 4px 16px rgba(0,0,0,0.3); transition:all 0.25s ease; }
         .fabx-top:hover { background:${gold}; color:#0f1e35; }
         .fabx-main { width:62px; height:62px; border-radius:50%; border:none; cursor:pointer; position:relative;
