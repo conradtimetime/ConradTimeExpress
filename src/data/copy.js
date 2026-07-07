@@ -33,7 +33,7 @@ const COPY = {
           unit: '',
           details: ['Pay per trip', 'Same-day delivery', 'Bangkok & vicinity delivery'],
           features: ['Maximum compensation for damages ฿50,000', 'Shipment tracking included'],
-          cta: 'Choose This Plan',
+          cta: 'Book a Service',
         },
         {
           name: 'Other Provinces',
@@ -41,7 +41,7 @@ const COPY = {
           price: '฿5,900+',
           details: ['Pay per trip', 'Same-day delivery','Nationwide delivery'],
           features: ['Maximum compensation for damages ฿50,000', 'Shipment tracking included'],
-          cta: 'Choose This Plan',
+          cta: 'Book a Service',
         },
         {
           name: '5 Delivery',
@@ -52,7 +52,7 @@ const COPY = {
           unit: '/month',
           details: ['Valid for 5 Deliveries/month', 'Same-day delivery', 'Bangkok & vicinity delivery'],
           features: ['Maximum compensation for damages ฿50,000', 'Shipment tracking included'],
-          cta: 'Choose This Plan',
+          cta: 'Book a Service',
         },
         {
           name: 'Exclusive',
@@ -61,7 +61,7 @@ const COPY = {
           priceTone: 'contact',
           details: ['Unlimited Deliveries', 'Custom Pricing', 'Same-day delivery', 'Nationwide delivery'],
           features: ['Maximum compensation for damages ฿50,000', 'Shipment tracking included'],
-          cta: 'Choose This Plan',
+          cta: 'Book a Service',
         },
       ]
     },
@@ -69,12 +69,16 @@ const COPY = {
       label: 'Our Services',
       title: 'High-Value Shipment\nRequire Special Care',
       items: [
-        { title: 'Luxury Watches', desc: 'We move watches in shock-proof packing, handle them gently, and photograph their condition before sending. Great for a single watch, a full collection, or a trip to the service centre.' },
-        { title: 'Art & Collectibles', desc: 'Temperature-controlled transport with custom crates for sculptures, paintings, rare books, and art — museum-level care, door to door.' },
-        { title: 'Jewellery & Gems', desc: 'Safe transport for diamond jewellery, gems, gold, and accessories — between shops, homes, safes, banks, and showrooms, tracked every step of the way.' },
-        { title: 'Luxury Fashion', desc: 'Secure transport for luxury handbags, apparel, and shoes, protected from scratches and humidity with careful packing and suitable temperature control to preserve shape and condition until handover.' },
-        { title: 'Confidential Documents', desc: 'Confidential delivery for private documents, land deeds, passports, purchase agreements, and cashier’s cheques, with real-time status tracking and secure hand delivery to the recipient.' },
-        { title: 'Gadgets & IT', desc: 'Delivery for professional cameras, high-value lenses, cinema drones, MacBooks, iPads, and premium gadgets, using shock-resistant packing, secure car transport, or express motorcycle delivery with a locked rear box.' },
+        { title: 'Luxury Watches', desc: 'Shock-proof packing, condition photos, and careful handover for single watches, full collections, or service-centre trips.' },
+        { title: 'Fine Art', desc: 'Special handling for paintings, sculptures, framed works, and fragile art pieces, with careful pickup and direct handover.' },
+        { title: 'Collectibles', desc: 'Dedicated care for rare books, limited editions, memorabilia, and display pieces that need controlled handling and clear proof of delivery.' },
+        { title: 'Gemstones', desc: 'Secure delivery for diamonds, coloured stones, loose gems, and certified stones between homes, shops, banks, and showrooms.' },
+        { title: 'Gold', desc: 'Discreet transport for gold bars, gold jewellery, bullion, and other precious metal items with verified pickup and recipient handover.' },
+        { title: 'Luxury Fashion', desc: 'Protected delivery for designer bags, apparel, and shoes, with careful packing to preserve shape and condition.' },
+        { title: 'Confidential Documents', desc: 'Private hand delivery for deeds, passports, contracts, and cashier’s cheques, with real-time tracking and proof of handover.' },
+        { title: 'Gadgets', desc: 'Safe delivery for cameras, lenses, drones, tablets, and premium devices using shock-resistant packing and close route tracking.' },
+        { title: 'IT Equipment', desc: 'Careful transport for MacBooks, laptops, servers, storage devices, and sensitive office hardware that requires extra protection.' },
+        { title: 'Express Delivery', desc: 'Special-care express delivery for other urgent items outside these categories, planned case by case for safer handover.' },
       ]
     },
     why: {
@@ -113,7 +117,7 @@ const COPY = {
       title: 'Start Shipping\nWith Us Now',
       sub: 'We’re here Mon–Sat, 9:00–18:00 ICT.\nNeed it urgent? Our hotline is open 24/7.',
       fields: { name: 'Full Name', phone: 'Phone Number', type: 'Shipment Type', message: 'Tell us about your item', cta: 'Send Request' },
-      types: ['Watches & Jewellery', 'Art & Collectibles', 'Vault Transfer', 'International Express', 'Other'],
+      types: ['Other'],
     },
     footer: {
       tagline: 'Careful. Private. On time.',
@@ -169,7 +173,7 @@ const COPY = {
           unit: '',
           details: ['จ่ายต่อรอบ', 'ส่งภายในวันเดียว','จัดส่งครอบคลุมในกทม. และปริมณฑล'],
           features: ['ค่าชดเชยความเสียหายสูงสุด ฿50,000', 'ติดตามการขนส่งได้'],
-          cta: 'เลือกแพ็กเกจนี้',
+          cta: 'จองการใช้บริการ',
         },
         {
           name: 'Other Provinces',
@@ -177,7 +181,7 @@ const COPY = {
           price: '฿5,900+',
           details: ['จ่ายต่อรอบ', 'ส่งภายในวันเดียว','จัดส่งครอบคลุมทั่วประเทศ'],
           features: ['ค่าชดเชยความเสียหายสูงสุด ฿50,000', 'ติดตามการขนส่งได้'],
-          cta: 'เลือกแพ็กเกจนี้',
+          cta: 'จองการใช้บริการ',
         },
         {
           name: '5 Delivery',
@@ -188,7 +192,7 @@ const COPY = {
           unit: '/เดือน',
           details: ['ใช้ได้ 5 รอบ/เดือน', 'ส่งภายในวันเดียว', 'ส่งในกทม. และปริมณฑล'],
           features: ['ค่าชดเชยความเสียหายสูงสุด ฿50,000', 'ติดตามการขนส่งได้'],
-          cta: 'เลือกแพ็กเกจนี้',
+          cta: 'จองการใช้บริการ',
         },
         {
           name: 'Exclusive',
@@ -197,7 +201,7 @@ const COPY = {
           priceTone: 'contact',
           details: ['การส่ง/เดือน ไม่จำกัด', 'ราคาตามตกลง', 'ส่งภายในวันเดียว','จัดส่งครอบคลุมทั่วประเทศ'],
           features: ['ค่าชดเชยความเสียหายตามตกลง', 'ติดตามการขนส่งได้'],
-          cta: 'เลือกแพ็กเกจนี้',
+          cta: 'จองการใช้บริการ',
         },
       ]
     },
@@ -205,12 +209,16 @@ const COPY = {
       label: 'บริการของเรา',
       title: 'การจัดส่งสินค้ามูลค่าสูง\nต้องดูแลเป็นพิเศษ',
       items: [
-        { title: 'นาฬิกาหรู', desc: 'ส่งนาฬิกาด้วยกล่องกันกระแทก จับด้วยความระมัดระวัง และถ่ายรูปสภาพก่อนส่ง เหมาะทั้งนาฬิกาเรือนเดียว คอลเลกชันสะสม หรือส่งเข้าศูนย์บริการ' },
-        { title: 'งานศิลปะและของสะสม', desc: 'ส่งในอุณหภูมิควบคุม พร้อมลังไม้ทำพิเศษ สำหรับรูปปั้น ภาพวาด หนังสือหายาก และงานศิลป์ ดูแลถึงที่' },
-        { title: 'จิวเวลรี่และอัญมณี', desc: 'ส่งเครื่องประดับ เพชร พลอย ทอง และของมีค่า ระหว่างร้าน บ้าน ตู้เซฟ ธนาคาร หรือโชว์รูม ตามดูได้ทุกขั้นตอน' },
-        { title: 'แฟชั่นลักชัวรี', desc: 'ขนส่งกระเป๋า เสื้อผ้า และรองเท้าแบรนด์เนมระดับลักชัวรี ป้องกันรอยขีดข่วนและความชื้นด้วยการแพ็กและควบคุมอุณหภูมิที่เหมาะสม เพื่อรักษาทรงและสภาพของสินค้าให้สมบูรณ์แบบที่สุดจนถึงมือผู้รับ' },
-        { title: 'เอกสารสำคัญ', desc: 'บริการจัดส่งเอกสารลับ โฉนดที่ดิน พาสปอร์ต สัญญาซื้อขาย หรือเช็คเงินสด ที่ประเมินค่าไม่ได้ ด้วยระบบติดตามสถานะแบบเรียลไทม์ และการส่งมอบตรงถึงมือผู้รับอย่างปลอดภัย (Confidential & Express)' },
-        { title: 'แกดเจ็ตและไอที', desc: 'จัดส่งกล้องถ่ายภาพระดับมืออาชีพ เลนส์ราคาสูง โดรนถ่ายภาพยนตร์ หรือ MacBook/iPad รุ่นท็อป แพ็กเกจจิ้งแน่นหนาป้องกันแรงสั่นสะเทือน จัดส่งด้วยรถยนต์เพื่อความปลอดภัย หรือส่งด่วนด้วยมอเตอร์ไซค์พร้อมกล่องท้ายนิรภัยล็อกมิดชิด' },
+        { title: 'นาฬิกาหรู', desc: 'แพ็กกันกระแทก ถ่ายรูปสภาพก่อนส่ง และส่งมอบอย่างระมัดระวัง ทั้งเรือนเดียว คอลเลกชัน หรือส่งเข้าศูนย์บริการ' },
+        { title: 'งานศิลปะ', desc: 'ดูแลภาพวาด รูปปั้น งานกรอบ และชิ้นงานเปราะบางแบบส่งตรงถึงที่ พร้อมการรับและส่งมอบอย่างระมัดระวัง' },
+        { title: 'ของสะสม', desc: 'ขนส่งหนังสือหายาก รุ่นลิมิเต็ด ของสะสม และชิ้นจัดแสดงที่ต้องดูแลเฉพาะทาง พร้อมหลักฐานการส่งมอบ' },
+        { title: 'อัญมณี', desc: 'ส่งเพชร พลอย อัญมณีแยกเม็ด และหินมีใบรับรอง ระหว่างบ้าน ร้าน ธนาคาร หรือโชว์รูมอย่างปลอดภัย' },
+        { title: 'ทอง', desc: 'ส่งทองคำแท่ง เครื่องประดับทอง โลหะมีค่า และสินทรัพย์ประเภททองแบบเป็นส่วนตัว พร้อมยืนยันผู้รับปลายทาง' },
+        { title: 'แฟชั่นลักชัวรี', desc: 'ขนส่งกระเป๋า เสื้อผ้า และรองเท้าแบรนด์เนม ด้วยการแพ็กที่ช่วยป้องกันรอยและรักษาทรงจนถึงมือผู้รับ' },
+        { title: 'เอกสารสำคัญ', desc: 'ส่งโฉนด พาสปอร์ต สัญญา เช็คเงินสด และเอกสารลับแบบส่งถึงมือ พร้อมติดตามสถานะและหลักฐานส่งมอบ' },
+        { title: 'แกดเจ็ต', desc: 'จัดส่งกล้อง เลนส์ โดรน แท็บเล็ต และอุปกรณ์พรีเมียม ด้วยแพ็กเกจจิ้งป้องกันแรงสั่นสะเทือน' },
+        { title: 'ไอที', desc: 'ขนส่ง MacBook แล็ปท็อป เซิร์ฟเวอร์ อุปกรณ์จัดเก็บข้อมูล และฮาร์ดแวร์สำนักงานที่ต้องการการปกป้องเป็นพิเศษ' },
+        { title: 'ส่งด่วน', desc: 'บริการส่งด่วนสำหรับสินค้าอื่นที่ไม่อยู่ในรายการ แต่ต้องการการดูแลพิเศษ วางแผนการรับส่งเป็นรายเคส' },
       ]
     },
     why: {
@@ -249,7 +257,7 @@ const COPY = {
       title: 'เริ่มส่งของ\nกับเราเลย',
       sub: 'เราพร้อมช่วยคุณ จันทร์–เสาร์ 9:00–18:00 น.\nถ้าด่วน โทรสายด่วนได้ตลอด 24 ชั่วโมง',
       fields: { name: 'ชื่อ-นามสกุล', phone: 'หมายเลขโทรศัพท์', type: 'ประเภทการจัดส่ง', message: 'บอกเราเกี่ยวกับสินค้าของคุณ', cta: 'ส่งคำขอ' },
-      types: ['นาฬิกาและเครื่องประดับ', 'งานศิลปะและของสะสม', 'โอนย้ายระหว่างห้องนิรภัย', 'ด่วนระหว่างประเทศ', 'อื่นๆ'],
+      types: ['อื่นๆ'],
     },
     footer: {
       tagline: 'แม่นยำ · ใส่ใจ · ส่งถึงมือ',

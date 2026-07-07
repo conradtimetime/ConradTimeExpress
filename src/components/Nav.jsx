@@ -42,7 +42,7 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
       height: '72px',
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       background: scrolled ? `${navy}f2` : 'transparent',
-      backdropFilter: scrolled ? 'blur(16px) saturate(180%)' : 'none',
+      backdropFilter: scrolled ? 'blur(8px)' : 'none',
       borderBottom: scrolled ? `1px solid rgba(226,181,111,0.18)` : 'none',
       boxShadow: scrolled ? '0 4px 24px rgba(0,0,0,0.3), 0 1px 0 rgba(226,181,111,0.12) inset' : 'none',
       transition: 'all 0.4s ease',

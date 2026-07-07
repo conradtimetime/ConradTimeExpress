@@ -27,8 +27,17 @@ function Testimonials({ c, gold, navy, language }) {
   /* Card dimensions — scale to the viewport so the 3D carousel never overflows */
   const [vw, setVw] = useState(typeof window !== 'undefined' ? window.innerWidth : 1440);
   useEffect(() => {
-    const onResize = () => setVw(window.innerWidth);
-    window.addEventListener('resize', onResize);
+    // rAF-throttled — avoid recomputing the 3D carousel on every resize event
+    let ticking = false;
+    const onResize = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setVw(window.innerWidth);
+        ticking = false;
+      });
+    };
+    window.addEventListener('resize', onResize, { passive: true });
     return () => window.removeEventListener('resize', onResize);
   }, []);
   const CARD_W = Math.min(400, Math.round(vw * 0.78));
@@ -133,6 +142,8 @@ function Testimonials({ c, gold, navy, language }) {
                     <img
                       src={reviewPhotos[i]}
                       alt={rev.author}
+                      loading="lazy"
+                      decoding="async"
                       onError={(e) => { e.target.style.display = 'none'; }}
                       style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 22%', display:'block', zIndex:1 }}
                     />

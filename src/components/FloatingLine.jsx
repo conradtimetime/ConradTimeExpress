@@ -47,10 +47,11 @@ function FloatingLine({ gold, lang }) {
       transition:'opacity 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.5s cubic-bezier(0.16,1,0.3,1)',
     }}>
       <style>{`
+        /* GPU-composited ring (transform+opacity) instead of animating box-shadow spread,
+           which forces a full repaint every frame. */
         @keyframes fabxPulse {
-          0%   { box-shadow:0 8px 26px rgba(6,199,85,0.5), 0 0 0 0 rgba(6,199,85,0.34); }
-          70%  { box-shadow:0 8px 26px rgba(6,199,85,0.5), 0 0 0 14px rgba(6,199,85,0); }
-          100% { box-shadow:0 8px 26px rgba(6,199,85,0.5), 0 0 0 0 rgba(6,199,85,0); }
+          0%       { transform:scale(1);   opacity:0.5; }
+          70%,100% { transform:scale(1.8); opacity:0; }
         }
         .fabx-actions { position:absolute; right:5px; bottom:74px; display:flex; flex-direction:column; align-items:flex-end; gap:14px; }
         .fabx-act { display:flex; align-items:center; gap:12px; text-decoration:none;
@@ -73,10 +74,12 @@ function FloatingLine({ gold, lang }) {
         .fabx-main { width:62px; height:62px; border-radius:50%; border:none; cursor:pointer; position:relative;
           background:linear-gradient(135deg, #0bd968 0%, #06C755 100%); color:#fff;
           display:flex; align-items:center; justify-content:center;
-          box-shadow:0 8px 26px rgba(6,199,85,0.5); transition:transform 0.3s ease, box-shadow 0.25s ease;
-          animation:fabxPulse 2.6s ease-out infinite; }
+          box-shadow:0 8px 26px rgba(6,199,85,0.5); transition:transform 0.3s ease, box-shadow 0.25s ease; }
+        .fabx-main::after { content:''; position:absolute; inset:0; border-radius:50%;
+          background:#06C755; z-index:-1; animation:fabxPulse 2.6s ease-out infinite; }
         .fabx-main:hover { transform:scale(1.06); }
-        .fabx-main.is-open { animation:none; box-shadow:0 8px 26px rgba(15,30,53,0.4); transform:rotate(0deg); }
+        .fabx-main.is-open { box-shadow:0 8px 26px rgba(15,30,53,0.4); transform:rotate(0deg); }
+        .fabx-main.is-open::after { animation:none; opacity:0; }
         .fabx-main .fabx-ic { position:absolute; display:flex; transition:opacity 0.25s ease, transform 0.3s ease; }
         .fabx-main .fabx-ic-chat { opacity:1; transform:scale(1); }
         .fabx-main .fabx-ic-close { opacity:0; transform:scale(0.6) rotate(-90deg); }

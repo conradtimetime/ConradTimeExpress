@@ -2,7 +2,7 @@
   "use strict";
 
   const SITE_CONFIG = {
-    heroBackground: "brand-images/Section_Hero.png",
+    heroBackground: "brand-images/Section_Hero.jpg",
     contact: {
       email: "conradtime.time@gmail.com",
       lineUrl: "https://line.me/ti/p/~@ConradExpress",

@@ -2,7 +2,12 @@
   const { useState } = React;
   const { CardSwiper, StarIcon, SectionEyebrow, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
 
-const BOOKING_TARGET = '#contact';
+const BOOKING_TARGET =
+  (window.CONRAD_EXPRESS_DATA &&
+    window.CONRAD_EXPRESS_DATA.SITE_CONFIG &&
+    window.CONRAD_EXPRESS_DATA.SITE_CONFIG.contact &&
+    window.CONRAD_EXPRESS_DATA.SITE_CONFIG.contact.lineUrl) ||
+  '#contact';
 
 function getTierTheme(pkg, index, gold) {
   const rawKey = String(pkg.name || '').trim().toLowerCase();
@@ -192,6 +197,8 @@ function PricingCard({ pkg, active, theme, gold, navy, onSelect }) {
   const priceTextLetterSpacing = /[A-Za-z]/.test(priceText) ? '0.08em' : 0;
   const cornerTag = getPackageCornerTag(pkg, currentPrice);
   const packageFit = getPackageFit(pkg);
+  const ctaHref = pkg.ctaHref || BOOKING_TARGET;
+  const externalCta = /^https?:\/\//.test(ctaHref);
 
   return (
     <article
@@ -359,7 +366,9 @@ function PricingCard({ pkg, active, theme, gold, navy, onSelect }) {
       </div>
 
       <a
-        href={pkg.ctaHref || BOOKING_TARGET}
+        href={ctaHref}
+        target={externalCta ? '_blank' : undefined}
+        rel={externalCta ? 'noopener noreferrer' : undefined}
         className="package-cta"
         onClick={(event) => {
           event.stopPropagation();

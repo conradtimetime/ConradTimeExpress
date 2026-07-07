@@ -160,7 +160,7 @@ function Brands({ c, gold, navy }) {
         <div className="brands-row">
           {brandLogos.map((logo) => (
             <a className="brand-logo-card" key={logo.src} href={logo.href} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${logo.alt}`}>
-              <img className="brand-logo" src={logo.src} alt={logo.alt} />
+              <img className="brand-logo" src={logo.src} alt={logo.alt} loading="lazy" decoding="async" />
             </a>
           ))}
         </div>

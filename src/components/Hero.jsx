@@ -9,7 +9,7 @@
    The image is rendered object-fit:cover so it always fills the full-screen
    hero; keep the key subject toward the LEFT/CENTER half (the right side is
    covered by the headline + a controlled scrim for legibility). */
-const HERO_BG = SITE_CONFIG.heroBackground || 'brand-images/Section_Hero.png';
+const HERO_BG = SITE_CONFIG.heroBackground || 'brand-images/Section_Hero.jpg';
 
 function Hero({ c, gold, navy, layout }) {
   const isDark = layout === 'dark';
@@ -29,40 +29,6 @@ function Hero({ c, gold, navy, layout }) {
         @keyframes heroFadeUp {
           from { opacity:0; transform:translateY(22px); }
           to   { opacity:1; transform:translateY(0); }
-        }
-        /* Single animation per layer: X scroll + Y bob combined — pure 2D, max GPU perf */
-        @keyframes waveA {
-          0%    { transform:translate(0,       0px); }
-          12.5% { transform:translate(-6.25%,  -8px); }
-          25%   { transform:translate(-12.5%, -12px); }
-          37.5% { transform:translate(-18.75%, -8px); }
-          50%   { transform:translate(-25%,     0px); }
-          62.5% { transform:translate(-31.25%,  8px); }
-          75%   { transform:translate(-37.5%,  12px); }
-          87.5% { transform:translate(-43.75%,  8px); }
-          100%  { transform:translate(-50%,     0px); }
-        }
-        @keyframes waveB {
-          0%    { transform:translate(0,        8px); }
-          12.5% { transform:translate(-6.25%,  -4px); }
-          25%   { transform:translate(-12.5%, -14px); }
-          37.5% { transform:translate(-18.75%,-10px); }
-          50%   { transform:translate(-25%,    -2px); }
-          62.5% { transform:translate(-31.25%, 10px); }
-          75%   { transform:translate(-37.5%,  16px); }
-          87.5% { transform:translate(-43.75%, 12px); }
-          100%  { transform:translate(-50%,     8px); }
-        }
-        @keyframes waveC {
-          0%    { transform:translate(0,       -4px); }
-          12.5% { transform:translate(-6.25%,   8px); }
-          25%   { transform:translate(-12.5%,  14px); }
-          37.5% { transform:translate(-18.75%, 10px); }
-          50%   { transform:translate(-25%,    -2px); }
-          62.5% { transform:translate(-31.25%, -12px); }
-          75%   { transform:translate(-37.5%,  -18px); }
-          87.5% { transform:translate(-43.75%,-12px); }
-          100%  { transform:translate(-50%,    -4px); }
         }
         @keyframes lineGrow { from{width:0;opacity:0} to{width:48px;opacity:0.7} }
         @keyframes scrollPulse {

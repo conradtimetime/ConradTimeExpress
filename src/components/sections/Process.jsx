@@ -362,6 +362,8 @@ function Process({ c, gold, navy, language }) {
                   <img
                     src={activeImage.src}
                     alt={c.process.steps[active].title}
+                    loading="lazy"
+                    decoding="async"
                     style={{
                       position:'absolute',
                       inset:0,
@@ -391,6 +393,8 @@ function Process({ c, gold, navy, language }) {
                     <img
                       src={activeImage.src}
                       alt={c.process.steps[active].title}
+                      loading="lazy"
+                      decoding="async"
                       style={{
                         height:'100%',
                         width:'auto',
