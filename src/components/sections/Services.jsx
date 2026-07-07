@@ -288,19 +288,45 @@ function Services({ c, gold, navy }) {
           }
           #services .services-sub { max-width:640px !important; }
           #services .services-marquee {
-            overflow:visible;
-            padding:0 40px 10px;
+            overflow-x:auto;
+            overflow-y:visible;
+            padding:0 40px 14px;
+            scroll-snap-type:x mandatory;
+            scroll-padding-left:40px;
+            -webkit-overflow-scrolling:touch;
+            overscroll-behavior-x:contain;
+            scrollbar-width:thin;
+            scrollbar-color:rgba(226,181,111,0.48) rgba(15,30,53,0.08);
+          }
+          #services .services-marquee::-webkit-scrollbar {
+            height:6px;
+          }
+          #services .services-marquee::-webkit-scrollbar-track {
+            background:rgba(15,30,53,0.08);
+            border-radius:999px;
+          }
+          #services .services-marquee::-webkit-scrollbar-thumb {
+            background:rgba(226,181,111,0.5);
+            border-radius:999px;
           }
           #services .services-track {
-            width:100%;
-            display:grid;
-            grid-template-columns:repeat(2, minmax(0, 1fr));
+            width:max-content;
+            max-width:none;
+            display:flex;
             gap:14px;
-            contain:none;
+            contain:layout paint;
           }
           #services .service-card {
-            width:100%;
+            width:auto;
+            flex:0 0 calc((100vw - 82px) / 3);
             aspect-ratio:1 / 0.88;
+            scroll-snap-align:start;
+            scroll-snap-stop:always;
+          }
+        }
+        @media (max-width:900px) {
+          #services .service-card {
+            flex-basis:calc((100vw - 68px) / 2);
           }
         }
         @media (max-width:767px) {
@@ -312,15 +338,16 @@ function Services({ c, gold, navy }) {
           #services .services-title { font-size:clamp(40px, 12vw, 54px) !important; }
           #services .services-sub { font-size:13px !important; line-height:1.65 !important; }
           #services .services-marquee {
-            padding:0 22px 10px;
+            padding:0 22px 14px;
+            scroll-padding-left:22px;
           }
           #services .services-track {
-            display:grid;
-            grid-template-columns:1fr;
+            display:flex;
             gap:14px;
           }
           #services .service-card {
-            width:100%;
+            width:auto;
+            flex-basis:calc(100vw - 36px);
             aspect-ratio:1 / 0.86;
           }
           #services .service-frame { inset:13px; }

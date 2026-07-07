@@ -15,6 +15,7 @@ function Hero({ c, gold, navy, layout }) {
   const isDark = layout === 'dark';
   const sameDayPackage = c.packages.items.find((pkg) => pkg.name === 'Same Day') || c.packages.items[0];
   const startingPrice = sameDayPackage?.price || c.pricing.price;
+  const lineUrl = SITE_CONFIG.contact.lineUrl;
 
   return (
     <section id="hero" style={{
@@ -125,7 +126,7 @@ function Hero({ c, gold, navy, layout }) {
         }}>{c.hero.sub}</p>
 
         <div className="h4" style={{ display:'flex', gap:'14px', alignItems:'center', justifyContent:'flex-start', marginBottom:'44px', flexWrap:'wrap' }}>
-          <a href="#contact" style={{
+          <a href={lineUrl} target="_blank" rel="noopener noreferrer" style={{
             background:'#e2b56f', color:navy,
             padding:'13px 28px', fontSize:'11px', letterSpacing:'0.14em',
             textDecoration:'none', fontFamily:'Jost', fontWeight:500, transition:'all 0.25s',

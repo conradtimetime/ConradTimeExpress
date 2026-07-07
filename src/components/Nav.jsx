@@ -1,10 +1,11 @@
 (function () {
   const { useState } = React;
-  const { COPY } = window.CONRAD_EXPRESS_DATA;
+  const { COPY, SITE_CONFIG } = window.CONRAD_EXPRESS_DATA;
 
 /* ── NAV ── */
 function Nav({ c, gold, navy, scrolled, lang, setLang }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const lineUrl = SITE_CONFIG.contact.lineUrl;
   /* Each link carries BOTH languages so its box can size to the wider of the two —
      guarantees the navbar never reflows / shifts when language changes. */
   const links = [
@@ -87,7 +88,7 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
           <img src={nextLanguage.flag} alt="" aria-hidden="true" style={flagStyle} />
         </button>
 
-        <a href="#contact" style={{
+        <a href={lineUrl} target="_blank" rel="noopener noreferrer" style={{
           background: gold, color: navy,
           padding: '10px 24px', fontSize: '11px', letterSpacing: '0.12em',
           textDecoration: 'none', fontWeight: 500,
@@ -144,7 +145,7 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
             >
               <img src={nextLanguage.flag} alt="" aria-hidden="true" style={flagStyle} />
             </button>
-            <a href="#contact" onClick={() => setMenuOpen(false)} style={{
+            <a href={lineUrl} target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)} style={{
               flex:1, textAlign:'center', background:gold, color:navy,
               padding:'13px 20px', fontSize:'11px', letterSpacing:'0.12em',
               textDecoration:'none', fontWeight:500, fontFamily:'Jost, sans-serif',
