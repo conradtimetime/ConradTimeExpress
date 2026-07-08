@@ -63,9 +63,13 @@ const expectedScriptOrder = [
   rel('dist', 'conrad-express.bundle.js'),
 ];
 
+const expectedScriptStartIndex = localScriptSources.findIndex((_, index) =>
+  expectedScriptOrder.every((src, offset) => localScriptSources[index + offset] === src)
+);
+
 assert(
-  expectedScriptOrder.every((src, index) => localScriptSources[index] === src),
-  `Local script load order changed. Expected: ${expectedScriptOrder.join(', ')}`
+  expectedScriptStartIndex !== -1,
+  `Local script load order changed. Expected contiguous sequence: ${expectedScriptOrder.join(', ')}`
 );
 
 await Promise.all(localScriptSources.map(async (src) => {

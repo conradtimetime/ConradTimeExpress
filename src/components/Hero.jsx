@@ -39,6 +39,17 @@ function Hero({ c, gold, navy, layout }) {
         .h5{animation:heroFadeUp .7s cubic-bezier(.16,1,.3,1) .66s both}
         .h6{animation:heroFadeUp .7s cubic-bezier(.16,1,.3,1) .80s both}
         .hl{animation:lineGrow   .6s cubic-bezier(.16,1,.3,1) .38s both}
+        .hero-sub{
+          font-size:30px;
+          line-height:1.32;
+          letter-spacing:0;
+        }
+        @media (max-width:767px){
+          .hero-sub{
+            font-size:23px;
+            line-height:1.38;
+          }
+        }
       `}</style>
 
       {/* ── BACKGROUND IMAGE (swap HERO_BG above to replace) ── */}
@@ -116,10 +127,10 @@ function Hero({ c, gold, navy, layout }) {
 
         <div className="hl" style={{ height:'1px', background:'#e2b56f', marginBottom:'22px', alignSelf:'flex-start' }} />
 
-        <p className="h3" style={{
-          fontSize:'13.5px', lineHeight:1.85, letterSpacing:'0.03em',
-          color: isDark ? 'rgba(255,255,255,0.68)' : 'rgba(15,30,53,0.6)',
-          maxWidth:'440px', fontFamily:'Jost', fontWeight:300, whiteSpace:'pre-line', marginBottom:'40px',
+        <p className="h3 hero-sub" style={{
+          color: isDark ? '#fff5dd' : navy,
+          maxWidth:'620px', fontFamily:'Jost', fontWeight:600, whiteSpace:'pre-line', marginBottom:'36px',
+          textShadow: isDark ? '0 3px 20px rgba(0,0,0,0.55)' : 'none',
         }}>{c.hero.sub}</p>
 
         <div className="h4" style={{ display:'flex', gap:'14px', alignItems:'center', justifyContent:'flex-start', marginBottom:'44px', flexWrap:'wrap' }}>
@@ -160,43 +171,58 @@ function Hero({ c, gold, navy, layout }) {
           ))}
         </div>
 
-        <div className="h6" style={{
-          display:'inline-flex', alignItems:'center', gap:'18px',
-          padding:'16px 24px 16px 20px',
+        <div className="h6 hero-price-card" style={{
+          display:'inline-grid', gridTemplateColumns:'42px 1fr', alignItems:'center', columnGap:'16px',
+          padding:'18px 24px',
           background: isDark
-            ? 'linear-gradient(135deg, rgba(226,181,111,0.28) 0%, rgba(10,18,36,0.82) 58%)'
-            : 'linear-gradient(135deg, rgba(226,181,111,0.2) 0%, rgba(255,255,255,0.72) 60%)',
-          border:'1px solid rgba(226,181,111,0.6)',
-          borderLeft:'3px solid #fff0c9',
-          borderRadius:'4px',
+            ? 'linear-gradient(145deg, rgba(7,15,29,0.95) 0%, rgba(15,30,53,0.9) 58%, rgba(226,181,111,0.14) 100%)'
+            : 'linear-gradient(145deg, rgba(255,255,255,0.92) 0%, rgba(250,246,236,0.9) 58%, rgba(226,181,111,0.16) 100%)',
+          border:'1px solid rgba(226,181,111,0.72)',
+          borderRadius:'6px',
           boxShadow: isDark
-            ? '0 20px 46px rgba(0,0,0,0.34), inset 0 0 26px rgba(226,181,111,0.14), 0 0 0 1px rgba(226,181,111,0.1)'
-            : '0 14px 32px rgba(15,30,53,0.12)',
-          maxWidth:'fit-content',
-          position:'relative',
+            ? '0 24px 58px rgba(0,0,0,0.46), inset 0 1px 0 rgba(255,255,255,0.1)'
+            : '0 18px 42px rgba(15,30,53,0.16), inset 0 1px 0 rgba(255,255,255,0.82)',
+          maxWidth:'min(100%, 420px)',
+          minWidth:'min(100%, 360px)',
+          boxSizing:'border-box',
+          position:'relative', overflow:'hidden',
         }}>
-          <StarIcon size={20} color="#fff0c9" style={{ flexShrink:0, opacity:0.95, filter:'drop-shadow(0 0 6px rgba(226,181,111,0.6))' }} />
+          <span aria-hidden="true" style={{
+            position:'absolute', top:0, left:'18px', right:'18px', height:'1px',
+            background:'linear-gradient(90deg, transparent, rgba(255,240,201,0.86), transparent)',
+          }} />
+          <div style={{
+            width:'42px', height:'42px', display:'flex', alignItems:'center', justifyContent:'center',
+            border:'1px solid rgba(226,181,111,0.58)',
+            background:'rgba(226,181,111,0.08)',
+            boxShadow:'inset 0 0 18px rgba(226,181,111,0.08)',
+          }}>
+            <StarIcon size={18} color="#e2b56f" style={{ opacity:0.95 }} />
+          </div>
           <div>
-            <div style={{ fontSize:'9.5px', letterSpacing:'0.24em', color:'#fff0c9', fontFamily:'Jost', fontWeight:500, marginBottom:'4px' }}>
+            <div style={{
+              fontSize:'10px', letterSpacing:'0.24em', color:'#e2b56f',
+              fontFamily:'Jost', fontWeight:600, marginBottom:'6px',
+            }}>
               {c.pricing.label.toUpperCase()}
             </div>
             <div style={{ display:'flex', alignItems:'baseline', gap:'6px' }}>
               <span style={{
-                fontFamily:'Cormorant Garamond, serif', fontSize:'42px', fontWeight:400,
-                color:'#f9e5b8', lineHeight:1,
-                textShadow:'0 0 20px rgba(226,181,111,0.6), 0 0 50px rgba(226,181,111,0.28)',
+                fontFamily:'Cormorant Garamond, serif', fontSize:'58px', fontWeight:600,
+                color: isDark ? '#fff7df' : navy, lineHeight:0.9,
+                textShadow: isDark ? '0 0 24px rgba(226,181,111,0.22)' : 'none',
               }}>
                 {startingPrice}
               </span>
-              <span style={{ fontSize:'11px', color: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(15,30,53,0.45)', fontFamily:'Jost', fontWeight:400 }}>
+              <span style={{
+                fontSize:'12px',
+                color: isDark ? 'rgba(255,255,255,0.64)' : 'rgba(15,30,53,0.62)',
+                fontFamily:'Jost', fontWeight:500,
+              }}>
                 {c.pricing.unit}
               </span>
             </div>
           </div>
-          <div style={{ width:'1px', height:'40px', background:'linear-gradient(to bottom, transparent, rgba(226,181,111,0.5), transparent)' }} />
-          <span style={{ fontSize:'10px', color: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(15,30,53,0.45)', fontFamily:'Jost', fontWeight:300, maxWidth:'160px', lineHeight:1.55 }}>
-            {c.pricing.note}
-          </span>
         </div>
       </div>
 

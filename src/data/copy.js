@@ -7,7 +7,7 @@ const COPY = {
     hero: {
       eyebrow: 'Conrad Time · Est. 2016',
       title: 'Conrad\nExpress',
-      sub: 'Door-to-door delivery for high-value parcels, with complete peace of mind from over 8 years of experience and meticulous care at every step, so your assets reach their destination safely, on time, and professionally.',
+      sub: 'Premium high-value goods delivery\nNationwide delivery within one day',
       cta1: 'Book a Service',
       cta2: 'Learn More',
     },
@@ -17,7 +17,7 @@ const COPY = {
       title: 'Brands That Trust Us',
       items: ['Aurélien', 'Monteverde', 'Valmont & Co.', 'House of Sévigné', 'Lantana', 'Belmont Rowe'],
     },
-    pricing: { label: 'Starting from', price: '฿500', unit: '/ shipment', note: 'All plans include insurance and real-time tracking' },
+    pricing: { label: 'Starting from', price: '฿500', unit: '/ shipment', note: '' },
     packages: {
       label: 'Service Packages',
       title: 'Pick the Plan\nThat Fits You',
@@ -48,7 +48,7 @@ const COPY = {
           badge: 'MOST POPULAR',
           highlight: true,
           fit: 'Best for frequent monthly high-value deliveries',
-          price: '฿2,900+',
+          price: '฿3,900+',
           unit: '/month',
           details: ['Valid for 5 Deliveries/month', 'Same-day delivery', 'Bangkok & vicinity delivery'],
           features: ['Maximum compensation for damages ฿50,000', 'Shipment tracking included'],
@@ -147,7 +147,7 @@ const COPY = {
     hero: {
       eyebrow: 'Conrad Time · ก่อตั้ง 2016',
       title: 'Conrad\nExpress',
-      sub: 'บริการจัดส่งพัสดุมูลค่าสูงแบบส่งตรงถึงมือ อุ่นใจขั้นสุดด้วยประสบการณ์มากกว่า 8 ปีและการดูแลอย่างพิถีพิถันทุกขั้นตอน เพื่อให้ทรัพย์สินของคุณถึงปลายทางอย่างปลอดภัยและตรงเวลาอย่างมืออาชีพ',
+      sub: 'ขนส่งสินค้ามูลค่าสูงแบบพรีเมียม\nส่งทั่วไทย ถึงภายในหนึ่งวัน',
       cta1: 'จองการใช้บริการ',
       cta2: 'เรียนรู้เพิ่มเติม',
     },
@@ -157,7 +157,7 @@ const COPY = {
       title: 'แบรนด์ที่ไว้วางใจเรา',
       items: ['Aurélien', 'Monteverde', 'Valmont & Co.', 'House of Sévigné', 'Lantana', 'Belmont Rowe'],
     },
-    pricing: { label: 'เริ่มต้นที่', price: '฿500', unit: '/ การจัดส่ง', note: 'ทุกแพ็กเกจมีประกันและติดตามการขนส่งได้' },
+    pricing: { label: 'เริ่มต้นที่', price: '฿500', unit: '/ การจัดส่ง', note: '' },
     packages: {
       label: 'แพ็กเกจบริการ',
       title: 'เลือกแพ็กเกจที่ใช่สำหรับคุณ',
@@ -188,7 +188,7 @@ const COPY = {
           badge: 'MOST POPULAR',
           highlight: true,
           fit: 'เหมาะกับธุรกิจที่ส่งของมูลค่าสูงรายเดือน',
-          price: '฿2,900+',
+          price: '฿3,900+',
           unit: '/เดือน',
           details: ['ใช้ได้ 5 รอบ/เดือน', 'ส่งภายในวันเดียว', 'ส่งในกทม. และปริมณฑล'],
           features: ['ค่าชดเชยความเสียหายสูงสุด ฿50,000', 'ติดตามการขนส่งได้'],
