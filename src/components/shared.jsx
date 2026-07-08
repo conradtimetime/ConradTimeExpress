@@ -113,6 +113,46 @@ function SectionEyebrow({ label, gold, centered = false, className = '', style =
   );
 }
 
+function SectionCta({ label, gold, navy, className = '', style = {} }) {
+  return (
+    <a
+      href="#contact"
+      className={className}
+      style={{
+        display:'inline-flex',
+        alignItems:'center',
+        justifyContent:'center',
+        minHeight:'46px',
+        padding:'0 28px',
+        background:gold,
+        color:navy,
+        border:`1px solid ${gold}`,
+        textDecoration:'none',
+        fontSize:'12px',
+        letterSpacing:'0.14em',
+        fontFamily:'Jost, sans-serif',
+        fontWeight:500,
+        textTransform:'uppercase',
+        boxShadow:`0 12px 28px ${gold}24`,
+        transition:'background 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease',
+        ...style,
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = '#f0c77f';
+        e.currentTarget.style.transform = 'translateY(-2px)';
+        e.currentTarget.style.boxShadow = `0 16px 34px ${gold}36`;
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = gold;
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.boxShadow = `0 12px 28px ${gold}24`;
+      }}
+    >
+      {label}
+    </a>
+  );
+}
+
 /* ── STANDARD SECTION FRAME ──
    Shared spacing contract for the main non-hero content sections. Sections can
    still opt into a full-bleed variant when their cards/carousel need edge fade. */
@@ -212,6 +252,7 @@ function CornerMarks({ size = 24, gold, opacity = 0.8, zIndex = 4 }) {
     PhotoPlaceholder,
     CardSwiper,
     SectionEyebrow,
+    SectionCta,
     SECTION_FRAME,
     getSectionFrameStyle,
     getSectionFrameCss,

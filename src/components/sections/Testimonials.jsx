@@ -1,7 +1,7 @@
 (function () {
   const { useEffect, useState, useRef } = React;
   const { REVIEW_CARDS, REVIEW_PHOTOS } = window.CONRAD_EXPRESS_DATA;
-  const { PhotoPlaceholder, StarIcon, SectionEyebrow, CornerMarks, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
+  const { PhotoPlaceholder, StarIcon, SectionEyebrow, SectionCta, CornerMarks, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
 
 /* ── TESTIMONIALS ── */
 function Testimonials({ c, gold, navy, language }) {
@@ -67,6 +67,16 @@ function Testimonials({ c, gold, navy, language }) {
       })}>
         <style>{`
           ${getSectionFrameCss('#testimonials.testimonials-section', { variant:'fullBleed' })}
+          #testimonials .testimonials-cta-row {
+            display:flex;
+            justify-content:center;
+            margin-top:28px;
+            position:relative;
+            z-index:2;
+          }
+          @media (max-width:767px) {
+            #testimonials .testimonials-cta-row { margin-top:24px; }
+          }
         `}</style>
         <div style={{ position:'absolute', right:'-10vw', top:'50%', transform:'translateY(-50%)', opacity:0.02, pointerEvents:'none' }}>
           <StarIcon size={560} color={gold} />
@@ -213,6 +223,9 @@ function Testimonials({ c, gold, navy, language }) {
               }} />
             ))}
           </div>
+        </div>
+        <div className="testimonials-cta-row">
+          <SectionCta label={c.nav.cta} gold={gold} navy={navy} />
         </div>
       </section>
 

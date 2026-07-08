@@ -1,6 +1,6 @@
 (function () {
   const { useState } = React;
-  const { SectionEyebrow, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
+  const { SectionEyebrow, SectionCta, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
 
   const serviceImages = [
     'brand-images/services/luxury-watches.jpg',
@@ -246,6 +246,13 @@ function Services({ c, gold, navy }) {
           transform-origin:top right;
         }
 
+        #services .services-cta-row {
+          display:flex;
+          justify-content:center;
+          margin-top:34px;
+          padding:0 24px;
+        }
+
         @media (max-width:1180px) {
           #services .services-track {
             grid-template-columns:repeat(4, minmax(0, 1fr));
@@ -341,6 +348,7 @@ function Services({ c, gold, navy }) {
             padding:0 22px 14px;
             scroll-padding-left:22px;
           }
+          #services .services-cta-row { margin-top:28px; }
           #services .services-track {
             display:flex;
             gap:14px;
@@ -404,6 +412,9 @@ function Services({ c, gold, navy }) {
               </article>
             ))}
           </div>
+        </div>
+        <div className="services-cta-row">
+          <SectionCta label={c.nav.cta} gold={gold} navy={navy} />
         </div>
       </div>
     </section>

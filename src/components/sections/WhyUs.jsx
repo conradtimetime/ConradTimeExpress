@@ -1,6 +1,6 @@
 (function () {
   const { useState } = React;
-  const { StarIcon, SectionEyebrow, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
+  const { StarIcon, SectionEyebrow, SectionCta, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
 
   /* Line icons per feature, keyed by pillars.items[].icon. Stroke uses the gold accent. */
   const FeatureIcon = (key, color) => {
@@ -87,6 +87,11 @@ function WhyUs({ c, gold, navy }) {
           font-size:13.5px; line-height:1.68; font-weight:300;
           color:rgba(255,255,255,0.5); margin:0;
         }
+        #why .why-cta-row {
+          display:flex;
+          justify-content:center;
+          margin-top:52px;
+        }
         @media (max-width:1440px) {
           #why .why-header { margin-bottom:54px; }
           #why .why-grid { column-gap:44px; row-gap:46px; }
@@ -103,6 +108,7 @@ function WhyUs({ c, gold, navy }) {
           #why .why-feature { padding-top:22px; }
           #why .why-feature-icon { width:52px; height:52px; margin-bottom:18px; }
           #why .why-feature-title { font-size:23px; }
+          #why .why-cta-row { margin-top:38px; }
         }
         ${getSectionFrameCss('#why.why-section')}
       `}</style>
@@ -129,6 +135,9 @@ function WhyUs({ c, gold, navy }) {
               <p className="why-feature-desc">{f.desc}</p>
             </div>
           ))}
+        </div>
+        <div className="why-cta-row">
+          <SectionCta label={c.nav.cta} gold={gold} navy={navy} />
         </div>
       </div>
     </section>

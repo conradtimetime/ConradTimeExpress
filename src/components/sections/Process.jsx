@@ -1,6 +1,6 @@
 (function () {
   const { useState } = React;
-  const { StarIcon, SectionEyebrow, CornerMarks, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
+  const { StarIcon, SectionEyebrow, SectionCta, CornerMarks, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
   const { processImages } = window.CONRAD_EXPRESS_DATA.ASSETS;
 
 /* ── PROCESS ── */
@@ -162,6 +162,11 @@ function Process({ c, gold, navy, language }) {
           margin-left:auto;
         }
         #process .process-visual-frame { height:100% !important; aspect-ratio:auto !important; }
+        #process .process-cta-row {
+          display:flex;
+          justify-content:center;
+          margin-top:34px;
+        }
         @media (max-width:1440px) {
           #process .process-heading { height:176px !important; margin-bottom:22px !important; }
           #process .process-title { min-height:124px !important; }
@@ -210,6 +215,7 @@ function Process({ c, gold, navy, language }) {
           #process .process-step-check { width:30px !important; height:30px !important; flex-basis:42px !important; }
           #process .process-step-title { font-size:21px !important; }
           #process .process-visual-shell { width:94% !important; }
+          #process .process-cta-row { margin-top:28px; }
         }
         ${getSectionFrameCss('#process.process-section', { compact:'44px 64px 32px' })}
       `}</style>
@@ -483,6 +489,9 @@ function Process({ c, gold, navy, language }) {
               </div>
             </div>
           </div>
+        </div>
+        <div className="process-cta-row">
+          <SectionCta label={c.nav.cta} gold={gold} navy={navy} />
         </div>
       </div>
     </section>
