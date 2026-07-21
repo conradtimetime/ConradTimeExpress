@@ -41,9 +41,11 @@ assert(html.includes('name="description"'), 'Missing SEO description meta tag.')
 assert(html.includes('property="og:image"'), 'Missing Open Graph image meta tag.');
 assert(html.includes('name="twitter:card" content="summary_large_image"'), 'Missing Twitter card metadata.');
 assert(html.includes('type="application/ld+json"'), 'Missing JSON-LD structured data.');
+assert(html.includes('<link rel="icon" href="/favicon.svg" type="image/svg+xml">'), 'Missing crawlable favicon link.');
 assert(!html.includes('unsafe-eval'), 'CSP must not include unsafe-eval.');
 assert(!html.includes('@babel/standalone'), 'Runtime Babel must not be loaded.');
 assert(!html.includes('type="text/babel"'), 'HTML must not use type="text/babel" scripts.');
+assert(!html.includes('rel="icon" href="data:'), 'Favicon must not use an inline data URI.');
 assert(!html.includes('react.development'), 'React development build must not be loaded.');
 assert(!html.includes('react-dom.development'), 'ReactDOM development build must not be loaded.');
 
@@ -90,6 +92,7 @@ assert(robots.includes('User-agent: *'), 'Missing robots.txt user-agent rule.');
 assert(robots.includes(expectedRobotsRule), 'robots.txt index rule does not match NEXT_PUBLIC_SITE_URL.');
 assert(robots.includes(`Sitemap: ${siteUrl}/sitemap.xml`), 'robots.txt sitemap URL does not match NEXT_PUBLIC_SITE_URL.');
 assert(await fileExists('og-image.jpg'), 'Missing root OG image: og-image.jpg');
+assert(await fileExists('favicon.svg'), 'Missing root favicon: favicon.svg');
 
 const dataContext = { window: {} };
 for (const dataPath of expectedScriptOrder.slice(0, -1)) {
