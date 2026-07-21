@@ -1,5 +1,4 @@
 (function () {
-  const { useState } = React;
   const { SectionEyebrow, SectionCta, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
 
   const serviceImages = [
@@ -40,7 +39,6 @@
 
 /* ── SERVICES ── */
 function Services({ c, gold, navy }) {
-  const [activeService, setActiveService] = useState(null);
   const serviceCards = c.services.items.map((service, index) => ({
     ...service,
     baseIndex: index,
@@ -95,7 +93,7 @@ function Services({ c, gold, navy }) {
           background:#0f1e35;
           border:1px solid rgba(226,181,111,0.28);
           box-shadow:0 8px 18px rgba(15,30,53,0.1);
-          cursor:pointer;
+          cursor:default;
           isolation:isolate;
           contain:layout paint;
           transition:box-shadow 0.2s ease, border-color 0.2s ease;
@@ -106,7 +104,7 @@ function Services({ c, gold, navy }) {
           box-shadow:0 10px 22px rgba(15,30,53,0.14);
         }
 
-        #services .service-card:focus {
+        #services .service-card:focus-visible {
           outline:1px solid rgba(226,181,111,0.72);
           outline-offset:4px;
         }
@@ -150,8 +148,8 @@ function Services({ c, gold, navy }) {
         }
 
         #services .service-card:hover .service-shade::after,
-        #services .service-card.is-active .service-shade::after,
-        #services .service-card:focus .service-shade::after {
+        #services .service-card:active .service-shade::after,
+        #services .service-card:focus-visible .service-shade::after {
           opacity:1;
         }
 
@@ -223,14 +221,14 @@ function Services({ c, gold, navy }) {
         }
 
         #services .service-card:hover .service-title,
-        #services .service-card.is-active .service-title,
-        #services .service-card:focus .service-title {
+        #services .service-card:active .service-title,
+        #services .service-card:focus-visible .service-title {
           margin-bottom:14px;
         }
 
         #services .service-card:hover .service-copy,
-        #services .service-card.is-active .service-copy,
-        #services .service-card:focus .service-copy {
+        #services .service-card:active .service-copy,
+        #services .service-card:focus-visible .service-copy {
           max-height:190px;
           opacity:1;
           transform:translateY(0);
@@ -386,11 +384,9 @@ function Services({ c, gold, navy }) {
           <div className="services-track">
             {serviceCards.map((s, index) => (
               <article key={s.title}
-                className={`service-card${activeService === index ? ' is-active' : ''}`}
+                className="service-card"
                 tabIndex="0"
-                aria-expanded={activeService === index}
-                aria-label={`${s.title}. ${s.desc}`}
-                onClick={() => setActiveService(activeService === index ? null : index)}>
+                aria-label={`${s.title}. ${s.desc}`}>
                 <div className="service-fallback" />
                 <img
                   className="service-photo"
