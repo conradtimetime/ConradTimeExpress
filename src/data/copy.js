@@ -75,10 +75,10 @@ const COPY = {
         { title: 'Gemstones', desc: 'Secure delivery for diamonds, coloured stones, loose gems, and certified stones between homes, shops, banks, and showrooms.' },
         { title: 'Gold', desc: 'Discreet transport for gold bars, gold jewellery, bullion, and other precious metal items with verified pickup and recipient handover.' },
         { title: 'Luxury Fashion', desc: 'Protected delivery for designer bags, apparel, and shoes, with careful packing to preserve shape and condition.' },
-        { title: 'Confidential Documents', desc: 'Private hand delivery for deeds, passports, contracts, and cashier’s cheques, with real-time tracking and proof of handover.' },
+        { title: 'Confidential', desc: 'Private hand delivery for deeds, passports, contracts, and cashier’s cheques, with real-time tracking and proof of handover.' },
         { title: 'Gadgets', desc: 'Safe delivery for cameras, lenses, drones, tablets, and premium devices using shock-resistant packing and close route tracking.' },
         { title: 'IT Equipment', desc: 'Careful transport for MacBooks, laptops, servers, storage devices, and sensitive office hardware that requires extra protection.' },
-        { title: 'Express Delivery', desc: 'Special-care express delivery for other urgent items outside these categories, planned case by case for safer handover.' },
+        { title: 'Other', desc: 'Special-care delivery for other urgent items outside these categories, planned case by case for safer handover.' },
       ]
     },
     why: {
@@ -215,10 +215,10 @@ const COPY = {
         { title: 'อัญมณี', desc: 'ส่งเพชร พลอย อัญมณีแยกเม็ด และหินมีใบรับรอง ระหว่างบ้าน ร้าน ธนาคาร หรือโชว์รูมอย่างปลอดภัย' },
         { title: 'ทอง', desc: 'ส่งทองคำแท่ง เครื่องประดับทอง โลหะมีค่า และสินทรัพย์ประเภททองแบบเป็นส่วนตัว พร้อมยืนยันผู้รับปลายทาง' },
         { title: 'แฟชั่นลักชัวรี', desc: 'ขนส่งกระเป๋า เสื้อผ้า และรองเท้าแบรนด์เนม ด้วยการแพ็กที่ช่วยป้องกันรอยและรักษาทรงจนถึงมือผู้รับ' },
-        { title: 'เอกสารสำคัญ', desc: 'ส่งโฉนด พาสปอร์ต สัญญา เช็คเงินสด และเอกสารลับแบบส่งถึงมือ พร้อมติดตามสถานะและหลักฐานส่งมอบ' },
+        { title: 'เอกสารลับ', desc: 'ส่งโฉนด พาสปอร์ต สัญญา เช็คเงินสด และเอกสารลับแบบส่งถึงมือ พร้อมติดตามสถานะและหลักฐานส่งมอบ' },
         { title: 'แกดเจ็ต', desc: 'จัดส่งกล้อง เลนส์ โดรน แท็บเล็ต และอุปกรณ์พรีเมียม ด้วยแพ็กเกจจิ้งป้องกันแรงสั่นสะเทือน' },
         { title: 'ไอที', desc: 'ขนส่ง MacBook แล็ปท็อป เซิร์ฟเวอร์ อุปกรณ์จัดเก็บข้อมูล และฮาร์ดแวร์สำนักงานที่ต้องการการปกป้องเป็นพิเศษ' },
-        { title: 'ส่งด่วน', desc: 'บริการส่งด่วนสำหรับสินค้าอื่นที่ไม่อยู่ในรายการ แต่ต้องการการดูแลพิเศษ วางแผนการรับส่งเป็นรายเคส' },
+        { title: 'อื่นๆ', desc: 'บริการสำหรับสินค้าอื่นที่ไม่อยู่ในรายการ แต่ต้องการการดูแลพิเศษ วางแผนการรับส่งเป็นรายเคส' },
       ]
     },
     why: {

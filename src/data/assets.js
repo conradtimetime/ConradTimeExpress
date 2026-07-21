@@ -7,6 +7,12 @@
     'brand-images/review-3.jpg',
     'brand-images/review-4.jpg',
     'brand-images/review-5.jpg',
+    'brand-images/review-6.jpg',
+    'brand-images/review-7.jpg',
+    'brand-images/review-8.jpg',
+    'brand-images/review-9.jpg',
+    'brand-images/review-10.jpg',
+    'brand-images/review-11.jpg',
   ];
 
   const whyImage = 'brand-images/WHY_CONRAD-EXPRESS.jpg';

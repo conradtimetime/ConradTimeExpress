@@ -3,6 +3,35 @@
   const { REVIEW_CARDS, REVIEW_PHOTOS } = window.CONRAD_EXPRESS_DATA;
   const { PhotoPlaceholder, StarIcon, SectionEyebrow, SectionCta, CornerMarks, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
 
+function getWeeklySeed(date = new Date()) {
+  const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const day = d.getDay() || 7;
+  d.setDate(d.getDate() + 4 - day);
+  const yearStart = new Date(d.getFullYear(), 0, 1);
+  const week = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+  return (d.getFullYear() * 100) + week;
+}
+
+function seededShuffle(items, seed) {
+  const shuffled = [...items];
+  let state = seed >>> 0;
+  const next = () => {
+    state = (state * 1664525 + 1013904223) >>> 0;
+    return state / 4294967296;
+  };
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(next() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+function getWeeklyReviewPhotos(photos, count) {
+  if (!photos.length || count <= 0) return [];
+  const pool = seededShuffle(photos, getWeeklySeed());
+  return Array.from({ length: count }, (_, index) => pool[index % pool.length]);
+}
+
 /* ── TESTIMONIALS ── */
 function Testimonials({ c, gold, navy, language }) {
   const [activeIdx, setActiveIdx] = useState(0);
@@ -10,6 +39,7 @@ function Testimonials({ c, gold, navy, language }) {
 
   const reviews = language === 'th' ? REVIEW_CARDS.th : REVIEW_CARDS.en;
   const reviewPhotos = REVIEW_PHOTOS;
+  const weeklyReviewPhotos = getWeeklyReviewPhotos(reviewPhotos, reviews.length);
   const total = reviews.length;
 
   /* Auto-advance — only while the carousel is on screen, so the 3D re-render
@@ -150,9 +180,9 @@ function Testimonials({ c, gold, navy, language }) {
                   <div style={{ position:'absolute', inset:0, zIndex:0 }}>
                     <PhotoPlaceholder label={`PORTRAIT · ${rev.author.toUpperCase()}`} height="100%" />
                   </div>
-                  {reviewPhotos[i] && (
+                  {weeklyReviewPhotos[i] && (
                     <img
-                      src={reviewPhotos[i]}
+                      src={weeklyReviewPhotos[i]}
                       alt={rev.author}
                       loading="lazy"
                       decoding="async"
@@ -178,7 +208,7 @@ function Testimonials({ c, gold, navy, language }) {
                     transition:'color 0.5s',
                     userSelect:'none',
                   }}>
-                    0{i + 1}
+                    {String(i + 1).padStart(2, '0')}
                   </div>
 
                   {/* Active gold top bar */}

@@ -138,8 +138,8 @@ await collectSourceFiles('scripts');
 
 for (const sourceFile of sourceFiles) {
   const source = await read(sourceFile);
-  for (const match of source.matchAll(/brand-images\/[^'"`)>\s]+/g)) {
-    assetPaths.add(match[0]);
+  for (const match of source.matchAll(/['"`](brand-images\/[^'"`\n]+)['"`]/g)) {
+    assetPaths.add(match[1]);
   }
 }
 

@@ -3,16 +3,16 @@
   const { SectionEyebrow, SectionCta, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
 
   const serviceImages = [
-    'brand-images/services/luxury-watches.jpg',
-    'brand-images/services/art-collectibles.jpg',
-    'brand-images/services/art-collectibles.jpg',
-    'brand-images/services/jewellery-gems.jpg',
-    'brand-images/services/jewellery-gems.jpg',
-    'brand-images/services/luxury-fashion.jpg',
-    'brand-images/services/confidential-documents.jpg',
-    'brand-images/services/gadgets-it.jpg',
-    'brand-images/services/gadgets-it.jpg',
-    'brand-images/services/nationwide-same-day.jpg',
+    'brand-images/services/Luxury Watches.jpg',
+    'brand-images/services/Fine Art.jpg',
+    'brand-images/services/Collection.jpg',
+    'brand-images/services/Gemstones.jpg',
+    'brand-images/services/Gold.jpg',
+    'brand-images/services/Luxury Fashion.jpg',
+    'brand-images/services/Confidential.jpg',
+    'brand-images/services/Gadgets.jpg',
+    'brand-images/services/IT.jpg',
+    'brand-images/services/Other.jpg',
   ];
 
   const serviceImagePositions = ['center center', 'center center', 'center center', 'center center', 'center center', 'center center', 'center center', 'center center', 'center center', 'center center'];
