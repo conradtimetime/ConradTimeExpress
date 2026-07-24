@@ -11,7 +11,7 @@ const COPY = {
       cta1: 'Book a Service',
       cta2: 'Learn More',
     },
-    trust: ['Insurance from 50K+', 'Beyond standard delivery', 'Real-Time Tracking'],
+    trust: ['Compensation up to ฿50K', 'Beyond standard delivery', 'Real-Time Tracking'],
     brands: {
       label: 'Trusted By',
       title: 'Brands That Trust Us',
@@ -32,7 +32,7 @@ const COPY = {
           original: '฿890+',
           unit: '',
           details: ['Pay per trip', 'Same-day delivery', 'Bangkok & vicinity delivery'],
-          features: ['Maximum compensation for damages ฿50,000', 'Shipment tracking included'],
+          features: ['Maximum compensation ฿50,000', 'Shipment tracking included'],
           cta: 'Book a Service',
         },
         {
@@ -40,7 +40,7 @@ const COPY = {
           fit: 'Best for one-off shipments outside Bangkok',
           price: '฿5,900+',
           details: ['Pay per trip', 'Same-day delivery','Nationwide delivery'],
-          features: ['Maximum compensation for damages ฿50,000', 'Shipment tracking included'],
+          features: ['Maximum compensation ฿50,000', 'Shipment tracking included'],
           cta: 'Book a Service',
         },
         {
@@ -51,7 +51,7 @@ const COPY = {
           price: '฿3,900+',
           unit: '/month',
           details: ['Valid for 5 Deliveries/month', 'Same-day delivery', 'Bangkok & vicinity delivery'],
-          features: ['Maximum compensation for damages ฿50,000', 'Shipment tracking included'],
+          features: ['Maximum compensation ฿50,000', 'Shipment tracking included'],
           cta: 'Book a Service',
         },
         {
@@ -60,7 +60,7 @@ const COPY = {
           priceText: 'Contact Staff',
           priceTone: 'contact',
           details: ['Unlimited Deliveries', 'Custom Pricing', 'Same-day delivery', 'Nationwide delivery'],
-          features: ['Maximum compensation for damages ฿50,000', 'Shipment tracking included'],
+          features: ['Custom compensation by agreement', 'Shipment tracking included'],
           cta: 'Book a Service',
         },
       ]
@@ -121,7 +121,7 @@ const COPY = {
     },
     footer: {
       tagline: 'Careful. Private. On time.',
-      links: ['Privacy Policy', 'Terms of Service', 'Insurance Policy'],
+      links: ['Privacy Policy', 'Terms of Service', 'Compensation Policy'],
       copy: '© 2026 Conrad Express. A Conrad Time Company.',
       line: '@ConradExpress',
       tel: '+66 2 016 9950',
@@ -151,7 +151,7 @@ const COPY = {
       cta1: 'จองการใช้บริการ',
       cta2: 'เรียนรู้เพิ่มเติม',
     },
-    trust: ['ประกันภัยเริ่มต้น 50K+', 'บริการขนส่งที่เหนือกว่ามาตรฐานทั่วไป', 'ติดตามแบบเรียลไทม์'],
+    trust: ['วงเงินชดเชยสูงสุด ฿50,000', 'บริการขนส่งที่เหนือกว่ามาตรฐานทั่วไป', 'ติดตามแบบเรียลไทม์'],
     brands: {
       label: 'ได้รับความไว้วางใจจาก',
       title: 'แบรนด์ที่ไว้วางใจเรา',
@@ -161,7 +161,7 @@ const COPY = {
     packages: {
       label: 'แพ็กเกจบริการ',
       title: 'เลือกแพ็กเกจที่ใช่สำหรับคุณ',
-      sub: 'ทุกแพ็กเกจดูแลของอย่างดี มีประกันครบ และมีทีมงานคอยช่วยคุณ',
+      sub: 'ทุกแพ็กเกจดูแลของอย่างดี มีเงื่อนไขชดเชยชัดเจน และมีทีมงานคอยช่วยคุณ',
       priceNote: 'หมายเหตุราคา: ราคาอาจมีการเปลี่ยนแปลงขึ้นอยู่กับมูลค่าสินค้าที่ส่งและวันที่ส่งสินค้า',
       items: [
         {
@@ -261,7 +261,7 @@ const COPY = {
     },
     footer: {
       tagline: 'แม่นยำ · ใส่ใจ · ส่งถึงมือ',
-      links: ['นโยบายความเป็นส่วนตัว', 'ข้อกำหนดการใช้บริการ', 'นโยบายประกันภัย'],
+      links: ['นโยบายความเป็นส่วนตัว', 'ข้อกำหนดการใช้บริการ', 'นโยบายชดเชยสินค้า'],
       copy: '© 2026 Conrad Express บริษัทในเครือ Conrad Time',
       line: '@ConradExpress',
       tel: '+66 2 016 9950',

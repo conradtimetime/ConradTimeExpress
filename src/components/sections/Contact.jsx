@@ -1,5 +1,6 @@
 (function () {
   const { useEffect, useState } = React;
+  const { createPortal } = ReactDOM;
   const { SITE_CONFIG, POLICIES } = window.CONRAD_EXPRESS_DATA;
   const { SectionEyebrow } = window;
 
@@ -89,7 +90,7 @@ function PolicyBlock({ block, gold, navy }) {
 function PolicyPanel({ policy, ui, gold, navy, onClose }) {
   const titleId = `contact-policy-title-${policy.id}`;
 
-  return (
+  const modal = (
     <div
       className="contact-policy-overlay"
       role="presentation"
@@ -157,7 +158,7 @@ function PolicyPanel({ policy, ui, gold, navy, onClose }) {
 
         <div className="contact-policy-content">
           {policy.sections.map((section) => (
-            <section key={section.heading} style={{ marginBottom:'34px' }}>
+            <section className="contact-policy-section" key={section.heading}>
               <h4 style={{
                 color:gold,
                 fontSize:'18px',
@@ -190,6 +191,8 @@ function PolicyPanel({ policy, ui, gold, navy, onClose }) {
       </article>
     </div>
   );
+
+  return createPortal(modal, document.body);
 }
 
 /* ── CONTACT ── */
@@ -234,9 +237,6 @@ function Contact({ c, gold, navy, language }) {
   const openPolicy = (policyId) => {
     if (!policyId || !POLICIES.documents?.[policyId]) return;
     setActivePolicyId(policyId);
-    requestAnimationFrame(() => {
-      document.getElementById('contact')?.scrollIntoView({ block:'start' });
-    });
   };
 
   const handleSubmit = async (e) => {
@@ -331,34 +331,40 @@ function Contact({ c, gold, navy, language }) {
         #contact .contact-copy {
           align-self:flex-start !important;
         }
-        #contact .contact-policy-overlay {
-          position:absolute;
+        .contact-policy-overlay {
+          position:fixed;
           inset:0;
-          z-index:260;
-          padding:88px 96px 78px;
+          z-index:1000;
+          width:100vw;
+          min-height:100vh;
+          height:100dvh;
+          padding:clamp(18px, 3vh, 34px) clamp(18px, 4vw, 56px);
           display:flex;
           align-items:center;
           justify-content:center;
-          background:rgba(6,14,26,0.97);
+          overflow:hidden;
+          overscroll-behavior:contain;
+          background:rgba(6,14,26,0.88);
+          backdrop-filter:blur(14px) saturate(130%);
         }
-        #contact .contact-policy-panel {
-          width:min(980px, 100%);
-          max-height:100%;
+        .contact-policy-panel {
+          width:min(1080px, 100%);
+          max-height:min(820px, calc(100dvh - 48px));
           border-radius:8px;
           box-shadow:0 26px 80px rgba(0,0,0,0.46);
           display:flex;
           flex-direction:column;
           overflow:hidden;
         }
-        #contact .contact-policy-head {
+        .contact-policy-head {
           flex:0 0 auto;
-          padding:30px 34px 26px;
+          padding:24px 28px 20px;
           display:grid;
           grid-template-columns:1fr auto;
-          gap:24px;
+          gap:18px;
           align-items:start;
         }
-        #contact .contact-policy-close {
+        .contact-policy-close {
           min-width:72px;
           height:40px;
           border-radius:8px;
@@ -369,24 +375,32 @@ function Contact({ c, gold, navy, language }) {
           text-transform:uppercase;
           transition:background 0.2s, color 0.2s, border-color 0.2s;
         }
-        #contact .contact-policy-content {
+        .contact-policy-content {
+          flex:1 1 auto;
           min-height:0;
           overflow:auto;
-          padding:30px 34px 36px;
+          padding:0 28px;
           scrollbar-width:thin;
           scrollbar-color:rgba(226,181,111,0.45) transparent;
         }
-        #contact .contact-policy-content::-webkit-scrollbar,
-        #contact .contact-policy-table-wrap::-webkit-scrollbar {
+        section.contact-policy-section:not(#hero) {
+          padding:48px 0 !important;
+          margin:0 !important;
+        }
+        section.contact-policy-section:not(#hero) + section.contact-policy-section:not(#hero) {
+          border-top:1px solid rgba(226,181,111,0.12);
+        }
+        .contact-policy-content::-webkit-scrollbar,
+        .contact-policy-table-wrap::-webkit-scrollbar {
           width:6px;
           height:6px;
         }
-        #contact .contact-policy-content::-webkit-scrollbar-thumb,
-        #contact .contact-policy-table-wrap::-webkit-scrollbar-thumb {
+        .contact-policy-content::-webkit-scrollbar-thumb,
+        .contact-policy-table-wrap::-webkit-scrollbar-thumb {
           background:rgba(226,181,111,0.45);
           border-radius:999px;
         }
-        #contact .contact-policy-table-wrap {
+        .contact-policy-table-wrap {
           width:100%;
           overflow-x:auto;
           margin:0 0 20px;
@@ -428,9 +442,11 @@ function Contact({ c, gold, navy, language }) {
             padding-right:40px !important;
           }
           #contact .contact-footer-inner { align-items:flex-start !important; }
-          #contact .contact-policy-overlay {
-            position:fixed;
-            padding:88px 40px 34px;
+          .contact-policy-overlay {
+            padding:24px;
+          }
+          .contact-policy-panel {
+            max-height:calc(100dvh - 48px);
           }
         }
         @media (max-width:767px) {
@@ -445,17 +461,20 @@ function Contact({ c, gold, navy, language }) {
             padding-right:22px !important;
           }
           #contact .contact-footer-inner { flex-direction:column !important; gap:16px !important; }
-          #contact .contact-policy-overlay { padding:82px 16px 22px; }
-          #contact .contact-policy-head {
+          .contact-policy-overlay { padding:14px; }
+          .contact-policy-head {
             grid-template-columns:1fr;
             gap:18px;
-            padding:24px 22px 22px;
+            padding:20px 18px 18px;
           }
-          #contact .contact-policy-close {
+          .contact-policy-close {
             width:100%;
           }
-          #contact .contact-policy-content {
-            padding:24px 22px 28px;
+          .contact-policy-content {
+            padding:0 18px;
+          }
+          section.contact-policy-section:not(#hero) {
+            padding:36px 0 !important;
           }
         }
       `}</style>
