@@ -6,8 +6,8 @@ const COPY = {
     nav: { services: 'Services', about: 'About', process: 'Process', packages: 'Packages', contact: 'Contact', cta: 'Book a Service' },
     hero: {
       eyebrow: 'Conrad Time · Est. 2016',
-      title: 'Conrad\nExpress',
-      sub: 'Premium high-value goods delivery\nNationwide delivery within one day',
+      title: 'Conrad Express\nPremium high-value goods delivery\nNationwide within one day',
+      sub: '',
       cta1: 'Book a Service',
       cta2: 'Learn More',
     },
@@ -130,12 +130,12 @@ const COPY = {
       label: 'Our Standards',
       title: 'Four Things\nWe Promise You',
       items: [
-        { icon: 'privacy', title: 'Privacy', sub: 'Protected shipment information', desc: 'Every shipment is kept confidential, with no details disclosed.' },
+        { icon: 'accountable', title: 'Responsible for every delivery', sub: '10K+ parcels delivered', desc: 'End-to-end care for every delivery, with close problem-solving support by your side at every step.' },
+        { icon: 'tracking', title: 'Status Tracking at Every Step', sub: 'Photographed & confirmed', desc: 'Every journey is secured by GPS tracking, verifiable from origin to recipient handoff.' },
         { icon: 'time', title: 'Always On Time', sub: '99.8% on-time delivery', desc: 'On time, every time. We treat your schedule with the same care as your goods.' },
-        { icon: 'expert', title: 'Expert Handling', sub: '8 years with luxury goods', desc: 'A trained team that knows high-value items and exactly how to keep them safe.' },
         { icon: 'coverage', title: 'Nationwide Coverage', sub: 'All 77 provinces', desc: 'Secure door-to-door delivery anywhere in Thailand, city or province.' },
-        { icon: 'tracking', title: 'Status Tracking at Every Step', sub: 'Photographed & confirmed', desc: 'Shipments are tracked by GPS, with status updates from origin to destination.' },
-        { icon: 'accountable', title: 'Responsible for every delivery', sub: '10K+ parcels delivered', desc: 'If any problems occur during delivery, our team will work closely to resolve them.' },
+        { icon: 'privacy', title: 'Privacy', sub: 'Protected shipment information', desc: 'Maximum privacy protection to prevent data leaks and keep every delivery detail confidential.' },
+        { icon: 'expert', title: 'Expert Handling', sub: '8 years with luxury goods', desc: 'We carry your trust forward with a professional team specializing in high-value goods for over 8 years.' },
       ]
     },
     misc: {
@@ -146,8 +146,8 @@ const COPY = {
     nav: { services: 'บริการ', about: 'เกี่ยวกับเรา', process: 'ขั้นตอน', packages: 'แพ็กเกจ', contact: 'ติดต่อ', cta: 'จองการใช้บริการ' },
     hero: {
       eyebrow: 'Conrad Time · ก่อตั้ง 2016',
-      title: 'Conrad\nExpress',
-      sub: 'ขนส่งสินค้ามูลค่าสูงแบบพรีเมียม\nส่งทั่วไทย ถึงภายในหนึ่งวัน',
+      title: 'Conrad Express\nส่งสินค้ามูลค่าสูงแบบพรีเมียม\nทั่วไทยภายในหนึ่งวัน',
+      sub: '',
       cta1: 'จองการใช้บริการ',
       cta2: 'เรียนรู้เพิ่มเติม',
     },
@@ -270,12 +270,12 @@ const COPY = {
       label: 'มาตรฐานของเรา',
       title: 'สี่สิ่งที่เรา\nสัญญากับคุณ',
       items: [
-        { icon: 'privacy', title: 'ความเป็นส่วนตัว', sub: 'ป้องกันข้อมูลการส่ง', desc: 'ทุกการส่งเก็บเป็นความลับ ไม่เปิดเผยรายละเอียด' },
+        { icon: 'accountable', title: 'รับผิดชอบทุกการส่ง', sub: 'ส่งแล้วกว่า 10K+ ชิ้น', desc: 'ดูแลครบจบทุกการจัดส่ง พร้อมแก้ปัญหาอย่างใกล้ชิด เคียงข้างคุณทุกขั้นตอน' },
+        { icon: 'tracking', title: 'ติดตามสถานะทุกขั้นตอน', sub: 'ถ่ายรูป+ยืนยันทุกขั้น', desc: 'เดินทางปลอดภัยด้วย GPS ตรวจสอบได้ตั้งแต่ต้นทางถึงมือผู้รับ' },
         { icon: 'time', title: 'ตรงเวลาเสมอ', sub: 'ส่งตรงเวลา 99.8%', desc: 'ตรงเวลาทุกครั้ง เราใส่ใจเวลาของคุณเท่ากับของที่ส่ง' },
-        { icon: 'expert', title: 'มืออาชีพดูแล', sub: 'ดูแลของหรูมา 8 ปี', desc: 'ทีมงานมืออาชีพ รู้จักของมูลค่าสูงและวิธีดูแลให้ปลอดภัย' },
         { icon: 'coverage', title: 'ครอบคลุมทั่วประเทศ', sub: 'ครบ 77 จังหวัด', desc: 'ส่งถึงหน้าประตูอย่างปลอดภัยทุกที่ในไทย ทั้งในเมืองและต่างจังหวัด' },
-        { icon: 'tracking', title: 'ติดตามสถานะทุกขั้นตอน', sub: 'ถ่ายรูป+ยืนยันทุกขั้น', desc: 'มีการติดตามพัสดุด้วย GPS อัปเดตสถานะตั้งแต่ต้นทางถึงปลายทาง' },
-        { icon: 'accountable', title: 'รับผิดชอบทุกการส่ง', sub: 'ส่งแล้วกว่า 10K+ ชิ้น', desc: 'ปัญหาใดๆ ระหว่างการจัดส่ง ทีมงานของเราจะร่วมมืออย่างใกล้ชิดเพื่อแก้ไขปัญหา' },
+        { icon: 'privacy', title: 'ความเป็นส่วนตัว', sub: 'ป้องกันข้อมูลการส่ง', desc: 'ความเป็นส่วนตัวขั้นสูงสุด ป้องกันข้อมูลรั่วไหล และเก็บรายละเอียดทุกการจัดส่งไว้เป็นความลับ' },
+        { icon: 'expert', title: 'มืออาชีพดูแล', sub: 'ดูแลของหรูมา 8 ปี', desc: 'ส่งต่อความไว้วางใจ ด้วยทีมงานมืออาชีพผู้เชี่ยวชาญการดูแลสินค้ามูลค่าสูงกว่า 8 ปี' },
       ]
     },
     misc: {

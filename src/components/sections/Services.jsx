@@ -362,7 +362,7 @@ function Services({ c, gold, navy }) {
           #services .service-title { font-size:28px !important; }
           #services .service-copy { max-width:100%; font-size:12px !important; line-height:1.46 !important; }
         }
-        ${getSectionFrameCss('#services.services-section', { variant:'fullBleed' })}
+        ${getSectionFrameCss('#services.services-section', { variant:'midPageFullBleed' })}
       `}</style>
       <div className="services-inner" style={{ width:'100%', maxWidth:'1450px', margin:'0 auto' }}>
         <div className="reveal services-heading" style={{ marginBottom:'60px', textAlign:'center' }}>

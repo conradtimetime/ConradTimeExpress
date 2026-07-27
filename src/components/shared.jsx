@@ -114,6 +114,8 @@ function SectionEyebrow({ label, gold, centered = false, className = '', style =
 }
 
 function SectionCta({ label, gold, navy, className = '', style = {} }) {
+  const lineGreen = '#06C755';
+  const lineGreenHover = '#05b84f';
   return (
     <a
       href="#contact"
@@ -123,29 +125,31 @@ function SectionCta({ label, gold, navy, className = '', style = {} }) {
         alignItems:'center',
         justifyContent:'center',
         minHeight:'46px',
+        minWidth:'220px',
+        boxSizing:'border-box',
         padding:'0 28px',
-        background:gold,
-        color:navy,
-        border:`1px solid ${gold}`,
+        background:lineGreen,
+        color:'#fff',
+        border:`1px solid ${lineGreen}`,
         textDecoration:'none',
         fontSize:'12px',
         letterSpacing:'0.14em',
         fontFamily:'Jost, sans-serif',
         fontWeight:500,
         textTransform:'uppercase',
-        boxShadow:`0 12px 28px ${gold}24`,
+        boxShadow:'0 12px 28px rgba(6,199,85,0.24)',
         transition:'background 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease',
         ...style,
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.background = '#f0c77f';
+        e.currentTarget.style.background = lineGreenHover;
         e.currentTarget.style.transform = 'translateY(-2px)';
-        e.currentTarget.style.boxShadow = `0 16px 34px ${gold}36`;
+        e.currentTarget.style.boxShadow = '0 16px 34px rgba(6,199,85,0.34)';
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.background = gold;
+        e.currentTarget.style.background = lineGreen;
         e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = `0 12px 28px ${gold}24`;
+        e.currentTarget.style.boxShadow = '0 12px 28px rgba(6,199,85,0.24)';
       }}
     >
       {label}
@@ -168,12 +172,26 @@ const SECTION_FRAME = {
       mobile: '56px 22px',
       compact: '64px 64px 52px',
     },
+    midPage: {
+      desktop: '48px 96px',
+      laptop: '48px 64px',
+      tablet: '48px 40px',
+      mobile: '48px 22px',
+      compact: '48px 64px 40px',
+    },
     fullBleed: {
       desktop: '88px 0',
       laptop: '84px 0',
       tablet: '72px 0',
       mobile: '56px 0',
       compact: '64px 0 52px',
+    },
+    midPageFullBleed: {
+      desktop: '48px 0',
+      laptop: '48px 0',
+      tablet: '48px 0',
+      mobile: '48px 0',
+      compact: '48px 0 40px',
     },
   },
 };

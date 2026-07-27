@@ -217,7 +217,7 @@ function Process({ c, gold, navy, language }) {
           #process .process-visual-shell { width:94% !important; }
           #process .process-cta-row { margin-top:28px; }
         }
-        ${getSectionFrameCss('#process.process-section', { compact:'44px 64px 32px' })}
+        ${getSectionFrameCss('#process.process-section', { variant:'midPage', compact:'44px 64px 32px' })}
       `}</style>
       <div style={{ width:'100%', maxWidth:'1400px', margin:'0 auto' }}>
         <div className="process-heading" style={{ marginBottom:'58px', textAlign:'center' }}>

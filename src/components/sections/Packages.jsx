@@ -409,7 +409,7 @@ function Packages({ c, gold, navy }) {
       boxShadow:'inset 0 -1px 0 rgba(226,181,111,0.12), inset 0 1px 0 rgba(226,181,111,0.08)' })}
       onClick={() => setActiveIdx(null)}>
       <style>{`
-        ${getSectionFrameCss('#packages.packages-section')}
+        ${getSectionFrameCss('#packages.packages-section', { variant:'midPage' })}
 
         #packages .packages-shell {
           width:100%;

@@ -6,6 +6,8 @@
 function Nav({ c, gold, navy, scrolled, lang, setLang }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const lineUrl = SITE_CONFIG.contact.lineUrl;
+  const lineGreen = '#06C755';
+  const lineGreenHover = '#05b84f';
   /* Each link carries BOTH languages so its box can size to the wider of the two —
      guarantees the navbar never reflows / shifts when language changes. */
   const links = [
@@ -88,13 +90,16 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
         </button>
 
         <a href={lineUrl} target="_blank" rel="noopener noreferrer" style={{
-          background: gold, color: navy,
-          padding: '10px 24px', fontSize: '11px', letterSpacing: '0.12em',
+          background: lineGreen, color: '#fff',
+          width:'184px',
+          boxSizing:'border-box',
+          padding: '10px 20px', fontSize: '11px', letterSpacing: '0.12em',
           textDecoration: 'none', fontWeight: 500,
           transition: 'all 0.2s', display:'grid', placeItems:'center',
+          boxShadow:'0 10px 24px rgba(6,199,85,0.24)',
         }}
-        onMouseEnter={e => { e.currentTarget.style.background = '#fff0c9'; }}
-        onMouseLeave={e => { e.currentTarget.style.background = gold; }}
+        onMouseEnter={e => { e.currentTarget.style.background = lineGreenHover; e.currentTarget.style.boxShadow = '0 12px 28px rgba(6,199,85,0.34)'; }}
+        onMouseLeave={e => { e.currentTarget.style.background = lineGreen; e.currentTarget.style.boxShadow = '0 10px 24px rgba(6,199,85,0.24)'; }}
         >
           {['en','th'].map(L => (
             <span key={L} style={{
@@ -145,9 +150,11 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
               <img src={nextLanguage.flag} alt="" aria-hidden="true" style={flagStyle} />
             </button>
             <a href={lineUrl} target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)} style={{
-              flex:1, textAlign:'center', background:gold, color:navy,
+              flex:1, textAlign:'center', background:lineGreen, color:'#fff',
+              boxSizing:'border-box',
               padding:'13px 20px', fontSize:'11px', letterSpacing:'0.12em',
               textDecoration:'none', fontWeight:500, fontFamily:'Jost, sans-serif',
+              boxShadow:'0 10px 24px rgba(6,199,85,0.24)',
             }}>{COPY[lang].nav.cta.toUpperCase()}</a>
           </div>
         </div>

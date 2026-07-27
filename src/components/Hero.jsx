@@ -16,6 +16,9 @@ function Hero({ c, gold, navy, layout }) {
   const sameDayPackage = c.packages.items.find((pkg) => pkg.name === 'Same Day') || c.packages.items[0];
   const startingPrice = sameDayPackage?.price || c.pricing.price;
   const lineUrl = SITE_CONFIG.contact.lineUrl;
+  const usesMarketingHeroTitle = c.hero.title !== 'Conrad\nExpress';
+  const lineGreen = '#06C755';
+  const lineGreenHover = '#05b84f';
 
   return (
     <section id="hero" style={{
@@ -44,7 +47,30 @@ function Hero({ c, gold, navy, layout }) {
           line-height:1.32;
           letter-spacing:0;
         }
+        #hero .hero-title-marketing{
+          font-family:Jost, sans-serif !important;
+          font-size:clamp(42px, 4vw, 62px) !important;
+          line-height:1.16 !important;
+          font-weight:700 !important;
+          letter-spacing:0.012em !important;
+          width:min(900px, calc(100vw - 170px));
+          max-width:none;
+          white-space:pre !important;
+        }
+        @media (max-width:1024px){
+          #hero .hero-title-marketing{
+            font-size:clamp(34px, 5.2vw, 52px) !important;
+            width:min(760px, calc(100vw - 120px));
+          }
+        }
         @media (max-width:767px){
+          #hero .hero-title-marketing{
+            font-size:clamp(30px, 9.4vw, 44px) !important;
+            line-height:1.22 !important;
+            width:min(100%, calc(100vw - 44px));
+            max-width:100%;
+            white-space:pre-line !important;
+          }
           .hero-sub{
             font-size:23px;
             line-height:1.38;
@@ -145,31 +171,36 @@ function Hero({ c, gold, navy, layout }) {
           </div>
         )}
 
-        <h1 className="h2" style={{
-          fontFamily:'Cormorant Garamond, serif',
-          fontSize:'clamp(58px, 6vw, 100px)',
-          lineHeight:0.9, fontWeight:300,
+        <h1 className={`h2 ${usesMarketingHeroTitle ? 'hero-title-marketing' : ''}`} style={{
+          fontFamily: usesMarketingHeroTitle ? 'Jost, sans-serif' : 'Cormorant Garamond, serif',
+          fontSize: usesMarketingHeroTitle ? 'clamp(42px, 4vw, 62px)' : 'clamp(58px, 6vw, 100px)',
+          lineHeight: usesMarketingHeroTitle ? 1.16 : 0.9,
+          fontWeight: usesMarketingHeroTitle ? 700 : 300,
           color: isDark ? '#ffffff' : navy,
-          marginBottom:'26px', letterSpacing:'-0.02em', whiteSpace:'pre-line',
+          marginBottom:'26px', letterSpacing: usesMarketingHeroTitle ? '0.012em' : '-0.02em', whiteSpace: usesMarketingHeroTitle ? 'pre' : 'pre-line',
           textShadow: isDark ? '0 3px 18px rgba(0,0,0,0.42), 0 0 42px rgba(226,181,111,0.12)' : 'none',
         }}>{c.hero.title}</h1>
 
         <div className="hl" style={{ height:'1px', background:'#e2b56f', marginBottom:'22px', alignSelf:'flex-start' }} />
 
-        <p className="h3 hero-sub" style={{
-          color: isDark ? '#fff5dd' : navy,
-          maxWidth:'620px', fontFamily:'Jost', fontWeight:600, whiteSpace:'pre-line', marginBottom:'36px',
-          textShadow: isDark ? '0 3px 20px rgba(0,0,0,0.55)' : 'none',
-        }}>{c.hero.sub}</p>
+        {c.hero.sub && (
+          <p className="h3 hero-sub" style={{
+            color: isDark ? '#fff5dd' : navy,
+            maxWidth:'620px', fontFamily:'Jost', fontWeight:600, whiteSpace:'pre-line', marginBottom:'36px',
+            textShadow: isDark ? '0 3px 20px rgba(0,0,0,0.55)' : 'none',
+          }}>{c.hero.sub}</p>
+        )}
 
         <div className="h4" style={{ display:'flex', gap:'14px', alignItems:'center', justifyContent:'flex-start', marginBottom:'44px', flexWrap:'wrap' }}>
           <a href={lineUrl} target="_blank" rel="noopener noreferrer" style={{
-            background:'#e2b56f', color:navy,
+            background:lineGreen, color:'#fff',
+            width:'200px', boxSizing:'border-box', textAlign:'center',
             padding:'13px 28px', fontSize:'11px', letterSpacing:'0.14em',
             textDecoration:'none', fontFamily:'Jost', fontWeight:500, transition:'all 0.25s',
+            boxShadow:'0 10px 26px rgba(6,199,85,0.28)',
           }}
-          onMouseEnter={e => { e.currentTarget.style.background='#fff0c9'; e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.boxShadow='0 8px 24px rgba(226,181,111,0.35)'; }}
-          onMouseLeave={e => { e.currentTarget.style.background='#e2b56f'; e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='none'; }}
+          onMouseEnter={e => { e.currentTarget.style.background=lineGreenHover; e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.boxShadow='0 14px 30px rgba(6,199,85,0.36)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background=lineGreen; e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='0 10px 26px rgba(6,199,85,0.28)'; }}
           >{c.hero.cta1.toUpperCase()}</a>
           <a href="#services" style={{
             color: isDark ? 'rgba(255,255,255,0.68)' : navy,

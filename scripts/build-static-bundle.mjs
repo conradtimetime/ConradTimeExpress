@@ -13,7 +13,7 @@ const indexFile = path.join(rootDir, 'index.html');
 const envFile = path.join(rootDir, '.env.local');
 
 const SEO = {
-  title: 'Conrad Express | ขนส่งสินค้ามูลค่าสูงแบบพรีเมียม ส่งทั่วไทย ภายในหนึ่งวัน เริ่มต้น 500 บาท',
+  title: 'Conrad Express | ส่งสินค้ามูลค่าสูงแบบพรีเมียม ทั่วไทยภายในหนึ่งวัน เริ่มต้น 500 บาท',
   description: 'บริการส่งพัสดุมูลค่าสูงทั่วไทย เช่น นาฬิกาหรู จิวเวลรี่ งานศิลปะ ปลอดภัยถึงมือโดยมืออาชีพ ประสบการณ์กว่า 8 ปี ติดตามเรียลไทม์ พร้อมวงเงินชดเชยสูงสุด 50,000 บาท',
   siteName: 'Conrad Express',
   imagePath: '/og-image.jpg',

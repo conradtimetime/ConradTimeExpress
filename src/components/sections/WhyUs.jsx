@@ -110,7 +110,7 @@ function WhyUs({ c, gold, navy }) {
           #why .why-feature-title { font-size:23px; }
           #why .why-cta-row { margin-top:38px; }
         }
-        ${getSectionFrameCss('#why.why-section')}
+        ${getSectionFrameCss('#why.why-section', { variant:'midPage' })}
       `}</style>
 
       <div style={{ position:'absolute', right:'-10vw', bottom:'-10vw', opacity:0.03, pointerEvents:'none' }}>

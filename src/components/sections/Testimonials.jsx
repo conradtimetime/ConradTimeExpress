@@ -96,7 +96,7 @@ function Testimonials({ c, gold, navy, language }) {
         overflow:'hidden',
       })}>
         <style>{`
-          ${getSectionFrameCss('#testimonials.testimonials-section', { variant:'fullBleed' })}
+          ${getSectionFrameCss('#testimonials.testimonials-section', { variant:'midPageFullBleed' })}
           #testimonials .testimonials-cta-row {
             display:flex;
             justify-content:center;
