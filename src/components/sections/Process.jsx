@@ -15,16 +15,16 @@ function Process({ c, gold, navy, language }) {
 
   return (
     <section id="process" className="process-section" style={getSectionFrameStyle({
-      background:'#fff',
+      background:`linear-gradient(160deg, ${navy} 0%, #0a1628 100%)`,
       padding:SECTION_FRAME.padding.standard.desktop,
       display:'flex',
       alignItems:'flex-start',
       overflow:'hidden',
-      boxShadow:'inset 0 -1px 0 rgba(226,181,111,0.12), inset 0 1px 0 rgba(226,181,111,0.08)',
+      boxShadow:'inset 0 1px 0 rgba(226,181,111,0.1), inset 0 -1px 0 rgba(226,181,111,0.06)',
     })}>
       <style>{`
         #process.process-section {
-          background:#fff !important;
+          background:linear-gradient(160deg, ${navy} 0%, #0a1628 100%) !important;
           height:auto !important;
           align-items:stretch !important;
         }
@@ -65,7 +65,7 @@ function Process({ c, gold, navy, language }) {
           width:148px;
           height:6px;
           border-radius:999px;
-          background:rgba(15,30,53,0.10);
+          background:rgba(255,255,255,0.16);
           overflow:hidden;
         }
         #process .process-progress-fill {
@@ -224,7 +224,7 @@ function Process({ c, gold, navy, language }) {
           <SectionEyebrow label={c.process.label} gold={gold} centered />
           <h2 className="process-title" style={{
             fontFamily:'Cormorant Garamond, serif', fontSize:'clamp(40px, 5vw, 64px)',
-            fontWeight:300, color:navy, lineHeight:1.1, whiteSpace:'pre-line', margin:'0 auto',
+            fontWeight:300, color:'#fff', lineHeight:1.1, whiteSpace:'pre-line', margin:'0 auto',
           }}>{c.process.title}</h2>
         </div>
 
@@ -236,7 +236,7 @@ function Process({ c, gold, navy, language }) {
                 fontSize:'13px',
                 letterSpacing:'0.12em',
                 textTransform:'uppercase',
-                color:'rgba(15,30,53,0.74)',
+                color:'rgba(255,255,255,0.74)',
                 fontWeight:500,
                 whiteSpace:'nowrap',
               }}>

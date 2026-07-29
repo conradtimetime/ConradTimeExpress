@@ -51,9 +51,9 @@ function App() {
       <Hero c={c} gold={gold} navy={navy} layout={tweaks.heroLayout} />
       <Brands c={c} gold={gold} navy={navy} />
       <Services c={c} gold={gold} navy={navy} />
+      <Testimonials c={c} gold={gold} navy={navy} language={language} />
       <WhyUs c={c} gold={gold} navy={navy} />
       <Process c={c} gold={gold} navy={navy} language={language} />
-      <Testimonials c={c} gold={gold} navy={navy} language={language} />
       <Packages c={c} gold={gold} navy={navy} />
       <Contact c={c} gold={gold} navy={navy} language={language} />
       <FloatingLine gold={gold} lang={language} />

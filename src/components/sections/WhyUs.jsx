@@ -25,11 +25,11 @@ function WhyUs({ c, gold, navy }) {
 
   return (
     <section id="why" className="why-section" style={getSectionFrameStyle({
-      background: `linear-gradient(160deg, ${navy} 0%, #0a1628 100%)`,
+      background:'#fff',
       padding:SECTION_FRAME.padding.standard.desktop,
       position:'relative', overflow:'hidden',
       display:'flex', flexDirection:'column', justifyContent:'center',
-      boxShadow:'inset 0 1px 0 rgba(226,181,111,0.1), inset 0 -1px 0 rgba(226,181,111,0.06)',
+      boxShadow:'inset 0 -1px 0 rgba(226,181,111,0.12), inset 0 1px 0 rgba(226,181,111,0.08)',
     })}>
       <style>{`
         #why .why-inner { width:100%; max-width:1240px; margin:0 auto; position:relative; z-index:2; }
@@ -37,13 +37,13 @@ function WhyUs({ c, gold, navy }) {
         #why .why-heading {
           font-family:'Cormorant Garamond', serif;
           font-size:clamp(40px, 4vw, 60px);
-          font-weight:300; color:#fff; line-height:1.1;
+          font-weight:300; color:${navy}; line-height:1.1;
           white-space:pre-line; margin:0 auto;
         }
         #why .why-sub {
           margin:22px auto 0; max-width:640px;
           font-size:15px; line-height:1.8; font-weight:300;
-          color:rgba(255,255,255,0.55); font-family:Jost;
+          color:rgba(15,30,53,0.58); font-family:Jost;
         }
         #why .why-grid {
           display:grid;
@@ -75,7 +75,7 @@ function WhyUs({ c, gold, navy }) {
         #why .why-feature-title {
           font-family:'Cormorant Garamond', serif;
           font-size:25px; font-weight:500; line-height:1.2;
-          color:#fff; margin:0 0 6px;
+          color:${navy}; margin:0 0 6px;
         }
         #why .why-feature-sub {
           font-family:Jost, sans-serif;
@@ -85,7 +85,7 @@ function WhyUs({ c, gold, navy }) {
         #why .why-feature-desc {
           font-family:Jost, sans-serif;
           font-size:13.5px; line-height:1.68; font-weight:300;
-          color:rgba(255,255,255,0.5); margin:0;
+          color:rgba(15,30,53,0.58); margin:0;
         }
         #why .why-cta-row {
           display:flex;
