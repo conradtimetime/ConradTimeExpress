@@ -3,33 +3,17 @@
   const { REVIEW_CARDS, REVIEW_PHOTOS } = window.CONRAD_EXPRESS_DATA;
   const { PhotoPlaceholder, StarIcon, SectionEyebrow, SectionCta, CornerMarks, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
 
-function getWeeklySeed(date = new Date()) {
-  const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  const day = d.getDay() || 7;
-  d.setDate(d.getDate() + 4 - day);
-  const yearStart = new Date(d.getFullYear(), 0, 1);
-  const week = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-  return (d.getFullYear() * 100) + week;
-}
+const FEATURED_REVIEW_PHOTO_ORDER = [9, 10, 11, 2, 4, 5];
 
-function seededShuffle(items, seed) {
-  const shuffled = [...items];
-  let state = seed >>> 0;
-  const next = () => {
-    state = (state * 1664525 + 1013904223) >>> 0;
-    return state / 4294967296;
-  };
-  for (let i = shuffled.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(next() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-}
-
-function getWeeklyReviewPhotos(photos, count) {
-  if (!photos.length || count <= 0) return [];
-  const pool = seededShuffle(photos, getWeeklySeed());
-  return Array.from({ length: count }, (_, index) => pool[index % pool.length]);
+function getFeaturedReviewPhotos(photos) {
+  const byReviewNumber = new Map();
+  photos.forEach((photo) => {
+    const match = photo.match(/review-(\d+)\.jpg$/i);
+    if (match) byReviewNumber.set(Number(match[1]), photo);
+  });
+  return FEATURED_REVIEW_PHOTO_ORDER
+    .map((reviewNumber) => byReviewNumber.get(reviewNumber))
+    .filter(Boolean);
 }
 
 /* ── TESTIMONIALS ── */
@@ -39,8 +23,9 @@ function Testimonials({ c, gold, navy, language }) {
 
   const reviews = language === 'th' ? REVIEW_CARDS.th : REVIEW_CARDS.en;
   const reviewPhotos = REVIEW_PHOTOS;
-  const weeklyReviewPhotos = getWeeklyReviewPhotos(reviewPhotos, reviews.length);
-  const total = reviews.length;
+  const featuredReviewPhotos = getFeaturedReviewPhotos(reviewPhotos);
+  const displayReviews = reviews.slice(0, featuredReviewPhotos.length);
+  const total = displayReviews.length;
 
   /* Auto-advance — only while the carousel is on screen, so the 3D re-render
      doesn't run every 6s when the section is scrolled out of view. */
@@ -126,7 +111,7 @@ function Testimonials({ c, gold, navy, language }) {
           position:'relative',
           height:`${CARD_H + 80}px`,
         }}>
-          {reviews.map((rev, i) => {
+          {displayReviews.map((rev, i) => {
             const adj    = normAdj(i, activeIdx, total);
             const absOff = Math.abs(adj);
             const isActive  = adj === 0;
@@ -138,7 +123,7 @@ function Testimonials({ c, gold, navy, language }) {
 
             return (
               <div
-                key={i}
+                key={`${featuredReviewPhotos[i]}-${i}`}
                 onClick={() => !isActive && setActiveIdx(i)}
                 style={{
                   position:'absolute',
@@ -178,11 +163,11 @@ function Testimonials({ c, gold, navy, language }) {
                 }}>
                   {/* Placeholder sits behind — shows if the photo is missing */}
                   <div style={{ position:'absolute', inset:0, zIndex:0 }}>
-                    <PhotoPlaceholder label={`PORTRAIT · ${rev.author.toUpperCase()}`} height="100%" />
+                    <PhotoPlaceholder label="" height="100%" />
                   </div>
-                  {weeklyReviewPhotos[i] && (
+                  {featuredReviewPhotos[i] && (
                     <img
-                      src={weeklyReviewPhotos[i]}
+                      src={featuredReviewPhotos[i]}
                       alt={rev.author}
                       loading="lazy"
                       decoding="async"
@@ -200,17 +185,6 @@ function Testimonials({ c, gold, navy, language }) {
 
                   <CornerMarks size={22} gold={gold} opacity={isActive ? 0.9 : 0.4} zIndex={4} />
 
-                  {/* Review number overlay */}
-                  <div style={{
-                    position:'absolute', top:'20px', left:'20px', zIndex:4,
-                    fontFamily:'Cormorant Garamond, serif', fontSize:'64px', fontWeight:300,
-                    color:`${gold}${isActive ? '30' : '18'}`, lineHeight:1,
-                    transition:'color 0.5s',
-                    userSelect:'none',
-                  }}>
-                    {String(i + 1).padStart(2, '0')}
-                  </div>
-
                   {/* Active gold top bar */}
                   {isActive && (
                     <div style={{
@@ -219,22 +193,6 @@ function Testimonials({ c, gold, navy, language }) {
                       pointerEvents:'none', zIndex:4,
                     }} />
                   )}
-
-                  {/* Bottom caption bar */}
-                  <div style={{
-                    position:'absolute', bottom:0, left:0, right:0, zIndex:3,
-                    padding:'32px 20px 18px',
-                    background:'linear-gradient(to top, rgba(10,22,40,0.95) 0%, rgba(10,22,40,0.5) 55%, transparent 100%)',
-                    display:'flex', alignItems:'flex-end', justifyContent:'space-between', gap:'12px',
-                  }}>
-                    <div style={{ minWidth:0 }}>
-                      <div style={{
-                        fontSize:'9px', letterSpacing:'0.14em', fontWeight:500,
-                        color:`${gold}cc`, fontFamily:'Jost',
-                        whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis',
-                      }}>{rev.tags[0]}</div>
-                    </div>
-                  </div>
                 </div>
               </div>
             );
@@ -244,7 +202,7 @@ function Testimonials({ c, gold, navy, language }) {
         {/* NAVIGATION */}
         <div style={{ display:'flex', justifyContent:'center', marginTop:'8px' }}>
           <div style={{ display:'flex', gap:'8px' }}>
-            {reviews.map((_, i) => (
+            {displayReviews.map((_, i) => (
               <button key={i} onClick={() => setActiveIdx(i)} style={{
                 width: activeIdx===i ? '28px' : '6px', height:'2px',
                 border:'none', cursor:'pointer', padding:0,
