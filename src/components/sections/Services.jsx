@@ -1,5 +1,5 @@
 (function () {
-  const { SectionEyebrow, SectionCta, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
+  const { CardSwiper, SectionEyebrow, SectionCta, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
 
   const serviceImages = [
     'brand-images/services/Luxury Watches.jpg',
@@ -72,6 +72,12 @@ function Services({ c, gold, navy }) {
           width:100%;
           overflow:visible;
           padding:0 72px 10px;
+        }
+
+        #services .services-marquee .swipe-wrap {
+          width:100%;
+          max-width:1320px;
+          margin:0 auto;
         }
 
         #services .services-track {
@@ -293,33 +299,29 @@ function Services({ c, gold, navy }) {
           }
           #services .services-sub { max-width:640px !important; }
           #services .services-marquee {
-            overflow-x:auto;
-            overflow-y:visible;
-            padding:0 40px 14px;
-            scroll-snap-type:x mandatory;
-            scroll-padding-left:40px;
-            -webkit-overflow-scrolling:touch;
-            overscroll-behavior-x:contain;
-            scrollbar-width:thin;
-            scrollbar-color:rgba(226,181,111,0.48) rgba(15,30,53,0.08);
+            overflow:visible;
+            padding:0 40px 34px;
           }
-          #services .services-marquee::-webkit-scrollbar {
-            height:6px;
-          }
-          #services .services-marquee::-webkit-scrollbar-track {
-            background:rgba(15,30,53,0.08);
-            border-radius:999px;
-          }
-          #services .services-marquee::-webkit-scrollbar-thumb {
-            background:rgba(226,181,111,0.5);
-            border-radius:999px;
+          #services .services-marquee .swipe-wrap {
+            max-width:none;
           }
           #services .services-track {
-            width:max-content;
+            width:100%;
             max-width:none;
             display:flex;
             gap:14px;
+            overflow-x:auto;
+            overflow-y:visible;
+            scroll-snap-type:x mandatory;
+            scroll-padding-left:0;
+            -webkit-overflow-scrolling:touch;
+            overscroll-behavior-x:contain;
+            scrollbar-width:none;
+            -ms-overflow-style:none;
             contain:layout paint;
+          }
+          #services .services-track::-webkit-scrollbar {
+            display:none;
           }
           #services .service-card {
             width:auto;
@@ -327,6 +329,58 @@ function Services({ c, gold, navy }) {
             aspect-ratio:1 / 0.88;
             scroll-snap-align:start;
             scroll-snap-stop:always;
+          }
+          #services .swipe-nav {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            position:absolute;
+            top:50%;
+            transform:translateY(-50%);
+            z-index:8;
+            width:38px;
+            height:54px;
+            padding:0;
+            border:none;
+            background:transparent;
+            color:${gold};
+            cursor:pointer;
+            font-family:'Cormorant Garamond', serif;
+            font-size:46px;
+            line-height:1;
+            text-shadow:0 2px 10px rgba(15,30,53,0.34), 0 0 18px rgba(226,181,111,0.24);
+            transition:opacity 0.2s ease, transform 0.2s ease;
+          }
+          #services .swipe-nav:active {
+            transform:translateY(-50%) scale(0.88);
+          }
+          #services .swipe-prev {
+            left:6px;
+          }
+          #services .swipe-next {
+            right:6px;
+          }
+          #services .swipe-dots {
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:7px;
+            margin-top:18px;
+          }
+          #services .swipe-dot {
+            width:6px;
+            height:6px;
+            border-radius:50%;
+            padding:0;
+            cursor:pointer;
+            background:rgba(226,181,111,0.34);
+            border:none;
+            transition:all 0.25s ease;
+          }
+          #services .swipe-dot.on {
+            width:20px;
+            border-radius:999px;
+            background:${gold};
           }
         }
         @media (max-width:900px) {
@@ -343,8 +397,7 @@ function Services({ c, gold, navy }) {
           #services .services-title { font-size:clamp(40px, 12vw, 54px) !important; }
           #services .services-sub { font-size:13px !important; line-height:1.65 !important; }
           #services .services-marquee {
-            padding:0 22px 14px;
-            scroll-padding-left:22px;
+            padding:0 22px 34px;
           }
           #services .services-cta-row { margin-top:28px; }
           #services .services-track {
@@ -381,7 +434,7 @@ function Services({ c, gold, navy }) {
         </div>
 
         <div className="services-marquee" aria-label={c.services.label}>
-          <div className="services-track">
+          <CardSwiper className="services-track swipe">
             {serviceCards.map((s, index) => (
               <article key={s.title}
                 className="service-card"
@@ -407,7 +460,7 @@ function Services({ c, gold, navy }) {
                 </div>
               </article>
             ))}
-          </div>
+          </CardSwiper>
         </div>
         <div className="services-cta-row">
           <SectionCta label={c.nav.cta} gold={gold} navy={navy} />

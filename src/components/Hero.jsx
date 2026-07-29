@@ -76,34 +76,23 @@ function Hero({ c, gold, navy, layout }) {
             line-height:1.38;
           }
           .hero-price-card{
-            width:min(100%, 370px) !important;
+            width:auto !important;
             min-width:0 !important;
-            padding:18px 20px 19px !important;
+            padding:0 !important;
           }
           .hero-price-amount{
-            font-size:54px !important;
+            font-size:46px !important;
+          }
+          .hero-price-unit{
+            font-size:11.5px !important;
+            padding-bottom:8px !important;
           }
         }
         .hero-price-card::before{
-          content:'';
-          position:absolute;
-          inset:1px;
-          border-radius:15px;
-          border:1px solid rgba(255,255,255,0.86);
-          pointer-events:none;
-          z-index:0;
+          content:none;
         }
         .hero-price-card::after{
-          content:'';
-          position:absolute;
-          left:22px;
-          right:22px;
-          top:0;
-          height:1px;
-          background:linear-gradient(90deg, transparent, rgba(255,255,255,0.98), rgba(190,177,145,0.4), transparent);
-          opacity:.9;
-          pointer-events:none;
-          z-index:1;
+          content:none;
         }
       `}</style>
 
@@ -232,73 +221,57 @@ function Hero({ c, gold, navy, layout }) {
         </div>
 
         <div className="h6 hero-price-card" style={{
-          display:'inline-block',
-          padding:'20px 24px 21px',
-          background:'linear-gradient(145deg, #ffffff 0%, #fbfbf8 38%, #f0eee7 72%, #ded8c8 100%)',
-          border:'1px solid rgba(244,241,233,0.95)',
-          borderRadius:'16px',
-          boxShadow:'0 26px 62px rgba(0,0,0,0.42), 0 12px 28px rgba(255,255,255,0.12), inset 0 1px 0 rgba(255,255,255,0.96)',
-          maxWidth:'min(100%, 390px)',
-          minWidth:'min(100%, 330px)',
+          display:'inline-flex',
+          flexDirection:'row',
+          alignItems:'flex-start',
+          padding:0,
+          background:'transparent',
+          border:'none',
+          borderRadius:0,
+          boxShadow:'none',
+          maxWidth:'min(100%, 460px)',
+          minWidth:0,
           boxSizing:'border-box',
-          position:'relative', overflow:'hidden',
+          position:'relative', overflow:'visible',
           transform:'translateY(-2px)',
         }}>
-          <span aria-hidden="true" style={{
-            position:'absolute', inset:0,
-            background:'radial-gradient(circle at 10% 12%, rgba(255,255,255,0.92), transparent 28%), radial-gradient(circle at 92% 86%, rgba(255,255,255,0.38), transparent 32%)',
-            opacity:0.9,
-            zIndex:1,
-          }} />
-          <span aria-hidden="true" style={{
-            position:'absolute', left:0, top:'18px', bottom:'18px', width:'3px',
-            background:'linear-gradient(to bottom, transparent, rgba(185,169,128,0.72), transparent)',
-            zIndex:2,
-          }} />
-          <div style={{ position:'relative', zIndex:1 }}>
+          <div style={{ position:'relative', zIndex:1, width:'auto' }}>
             <div style={{
-              display:'flex', alignItems:'center', justifyContent:'space-between', gap:'14px', marginBottom:'2px',
+              display:'flex', alignItems:'flex-end', justifyContent:'flex-start', gap:'10px',
+              whiteSpace:'nowrap',
             }}>
               <span style={{
-                fontSize:'10.5px', letterSpacing:'0.24em',
-                color:'#7d725f',
+                paddingBottom:'10px',
+                fontSize:'13px',
+                letterSpacing:'0.08em',
+                color:'#e2b56f',
                 fontFamily:'Jost', fontWeight:700,
+                textShadow:'0 2px 12px rgba(0,0,0,0.42), 0 0 18px rgba(226,181,111,0.16)',
               }}>
                 {c.pricing.label.toUpperCase()}
               </span>
-              <span aria-hidden="true" style={{ display:'inline-flex', alignItems:'center', gap:'4px' }}>
-                {[0, 1, 2].map((dot) => (
-                  <span key={dot} style={{
-                    width:'4px', height:'4px', borderRadius:'50%',
-                    background:'rgba(126,113,92,0.32)',
-                    display:'block',
-                  }} />
-                ))}
-              </span>
-            </div>
-            <div style={{
-              display:'grid', gridTemplateColumns:'auto 1fr', alignItems:'end', columnGap:'12px',
-              borderTop:'1px solid rgba(126,113,92,0.14)', marginTop:'8px', paddingTop:'9px',
-            }}>
               <span className="hero-price-amount" style={{
-                fontFamily:'Cormorant Garamond, serif', fontSize:'66px', fontWeight:700,
-                color:navy, lineHeight:0.86,
-                textShadow:'0 1px 0 rgba(255,255,255,0.7)',
+                display:'inline-block',
+                fontFamily:'Cormorant Garamond, serif', fontSize:'62px', fontWeight:700,
+                lineHeight:1,
+                paddingBottom:'2px',
+                letterSpacing:'0',
+                background:'linear-gradient(180deg, #fff2bf 0%, #e2b56f 46%, #9f641e 100%)',
+                WebkitBackgroundClip:'text',
+                backgroundClip:'text',
+                color:'transparent',
+                textShadow:'0 4px 20px rgba(0,0,0,0.45), 0 0 24px rgba(226,181,111,0.16)',
               }}>
                 {startingPrice}
               </span>
-              <span style={{
-                justifySelf:'start', alignSelf:'center',
-                padding:'7px 10px',
-                border:'1px solid rgba(126,113,92,0.18)',
-                borderRadius:'999px',
-                background:'rgba(255,255,255,0.48)',
-                boxShadow:'inset 0 1px 0 rgba(255,255,255,0.78)',
-                fontSize:'11.5px',
-                color:'rgba(15,30,53,0.68)',
+              <span className="hero-price-unit" style={{
+                paddingBottom:'10px',
+                fontSize:'14px',
+                color:'#e2b56f',
                 fontFamily:'Jost', fontWeight:700,
-                letterSpacing:'0.02em',
+                letterSpacing:'0.045em',
                 whiteSpace:'nowrap',
+                textShadow:'0 2px 12px rgba(0,0,0,0.42), 0 0 18px rgba(226,181,111,0.14)',
               }}>
                 {c.pricing.unit}
               </span>

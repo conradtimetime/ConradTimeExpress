@@ -157,7 +157,7 @@ const COPY = {
       title: 'แบรนด์ที่ไว้วางใจเรา',
       items: ['Aurélien', 'Monteverde', 'Valmont & Co.', 'House of Sévigné', 'Lantana', 'Belmont Rowe'],
     },
-    pricing: { label: 'เริ่มต้นที่', price: '฿500', unit: '/ การจัดส่ง', note: '' },
+    pricing: { label: 'ราคาเริ่มต้น', price: '฿500', unit: '/ การจัดส่ง', note: '' },
     packages: {
       label: 'แพ็กเกจบริการ',
       title: 'เลือกแพ็กเกจที่ใช่สำหรับคุณ',
