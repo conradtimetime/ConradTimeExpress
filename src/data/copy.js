@@ -146,7 +146,7 @@ const COPY = {
     nav: { services: 'บริการ', about: 'เกี่ยวกับเรา', process: 'ขั้นตอน', packages: 'แพ็กเกจ', contact: 'ติดต่อ', cta: 'จองการใช้บริการ' },
     hero: {
       eyebrow: 'Conrad Time · ก่อตั้ง 2016',
-      title: 'Conrad Express\nส่งสินค้ามูลค่าสูงแบบพรีเมียม\nทั่วไทยภายในหนึ่งวัน',
+      title: 'Conrad Express\nส่งสินค้ามูลค่าสูงพรีเมียม\nทั่วไทยภายในหนึ่งวัน',
       sub: '',
       cta1: 'จองการใช้บริการ',
       cta2: 'เรียนรู้เพิ่มเติม',
