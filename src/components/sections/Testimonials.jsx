@@ -5,6 +5,12 @@
 
 const FEATURED_REVIEW_PHOTO_ORDER = [9, 10, 11, 2, 4, 5];
 
+// Accessible names for the photo navigation bars (they have no visible text).
+const NAV_LABELS = {
+  en: (n, total, author) => `Show review ${n} of ${total}: ${author}`,
+  th: (n, total, author) => `ดูรีวิวที่ ${n} จาก ${total}: ${author}`,
+};
+
 function getFeaturedReviewPhotos(photos) {
   const byReviewNumber = new Map();
   photos.forEach((photo) => {
@@ -202,8 +208,11 @@ function Testimonials({ c, gold, navy, language }) {
         {/* NAVIGATION */}
         <div style={{ display:'flex', justifyContent:'center', marginTop:'8px' }}>
           <div style={{ display:'flex', gap:'8px' }}>
-            {displayReviews.map((_, i) => (
-              <button key={i} onClick={() => setActiveIdx(i)} style={{
+            {displayReviews.map((rev, i) => (
+              <button key={i} type="button" onClick={() => setActiveIdx(i)}
+                aria-label={(NAV_LABELS[language] || NAV_LABELS.en)(i + 1, total, rev.author)}
+                aria-current={activeIdx === i ? 'true' : undefined}
+                style={{
                 width: activeIdx===i ? '28px' : '6px', height:'2px',
                 border:'none', cursor:'pointer', padding:0,
                 background: activeIdx===i ? gold : 'rgba(255,255,255,0.2)',

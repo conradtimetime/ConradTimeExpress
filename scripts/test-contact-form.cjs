@@ -36,6 +36,7 @@ function text(node) {
 function mount({
   fetchResult, language = 'en', analyticsThrows = false, endpoint = '/api/contact',
   pageUrl = 'https://conradexpress.com/', userAgent = 'Contact regression test',
+  dom = { activeElement: null, querySelector: () => null },
 } = {}) {
   const slots = [];
   const requests = [];
@@ -77,7 +78,9 @@ function mount({
   const context = {
     React,
     ReactDOM: { createPortal: (node) => node },
-    document: { body: { style: { overflow: 'auto' } } },
+    // `dom` stands in for the live document: the tests read and change its
+    // activeElement, and querySelector returns stub elements.
+    document: Object.assign(dom, { body: { style: { overflow: 'auto' } } }),
     setTimeout(callback, delay = 0) {
       const id = nextTimer++;
       timers.set(id, { callback, due: clock + delay });
@@ -440,4 +443,40 @@ test('TC-PO06 consent policy event opens Privacy and invalid policy IDs are igno
   assert.equal(text(title), policies.documents.privacy.title);
   form.closePolicy();
   assert.equal(form.bodyOverflow(), 'auto');
+});
+
+test('TC-PO07 policy dialog moves focus to Close, traps Tab inside and returns focus to its opener', () => {
+  const element = (name) => ({ name, isConnected: true, focus() { dom.activeElement = this; } });
+  const opener = element('footer link');
+  const close = element('close');
+  const content = element('content');
+  const panel = {
+    querySelector: (selector) => (selector === '.contact-policy-close' ? close : null),
+    querySelectorAll: () => [close, content],
+    contains: (node) => node === close || node === content,
+  };
+  const dom = { activeElement: opener, querySelector: (selector) => (selector === '.contact-policy-panel' ? panel : null) };
+  const form = mount({ dom });
+  const tab = (shiftKey) => {
+    let prevented = false;
+    form.dispatch('keydown', { key: 'Tab', shiftKey, preventDefault() { prevented = true; } });
+    return prevented;
+  };
+
+  form.openPolicy(0);
+  assert.equal(dom.activeElement, close, 'Focus starts on Close');
+  assert.equal(tab(false), false, 'Tab from Close moves on to the content normally');
+  dom.activeElement = content;
+  assert.equal(tab(false), true);
+  assert.equal(dom.activeElement, close, 'Tab from the last item wraps to Close');
+  assert.equal(tab(true), true);
+  assert.equal(dom.activeElement, content, 'Shift+Tab from Close wraps to the last item');
+  dom.activeElement = opener;
+  assert.equal(tab(false), true);
+  assert.equal(dom.activeElement, close, 'Focus outside the dialog is pulled back in');
+
+  const contentNode = [...descendants(form.policyTree())].find((node) => node.props.className === 'contact-policy-content');
+  assert.equal(contentNode.props.tabIndex, 0, 'Policy text is keyboard scrollable');
+  form.closePolicy();
+  assert.equal(dom.activeElement, opener, 'Closing returns focus to the footer link');
 });

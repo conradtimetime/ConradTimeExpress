@@ -223,6 +223,20 @@ test('TC-RV02: every testimonial navigation control selects its photo and langua
   assert.equal(activeReview(reviews), 5);
 });
 
+test('TC-RV05: testimonial navigation buttons have localized accessible names and mark the current photo', () => {
+  for (const [language, pattern] of [['en', /^Show review 3 of 6: .+/], ['th', /^ดูรีวิวที่ 3 จาก 6: .+/]]) {
+    const reviews = mount('Testimonials', { language });
+    const buttons = reviewButtons(reviews);
+    assert.equal(buttons.length, 6);
+    assert.match(buttons[2].props['aria-label'], pattern);
+    assert.equal(new Set(buttons.map(button => button.props['aria-label'])).size, 6, 'Each name is unique');
+    assert.ok(buttons.every(button => button.props.type === 'button'));
+    reviews.fire(buttons[2]);
+    assert.deepEqual(reviewButtons(reviews).map(button => button.props['aria-current']),
+      [undefined, undefined, 'true', undefined, undefined, undefined]);
+  }
+});
+
 test('TC-RV03: testimonials auto-advance only while visible and wrap after the final photo', () => {
   const reviews = mount('Testimonials');
   reviews.advanceTimers(12000);

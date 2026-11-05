@@ -87,6 +87,25 @@ function PolicyBlock({ block, gold, navy }) {
   return <p style={paragraphStyle}>{renderInline(block.text)}</p>;
 }
 
+const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+// Wrap Tab / Shift+Tab around the focusable elements inside `container`.
+function trapFocus(event, container) {
+  const items = [...container.querySelectorAll(FOCUSABLE)];
+  if (!items.length) return;
+  const first = items[0];
+  const last = items[items.length - 1];
+  const active = document.activeElement;
+  const outside = !container.contains(active);
+  if (event.shiftKey && (outside || active === first)) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && (outside || active === last)) {
+    event.preventDefault();
+    first.focus();
+  }
+}
+
 function PolicyPanel({ policy, ui, gold, navy, onClose }) {
   const titleId = `contact-policy-title-${policy.id}`;
 
@@ -156,7 +175,8 @@ function PolicyPanel({ policy, ui, gold, navy, onClose }) {
           >{ui.close}</button>
         </div>
 
-        <div className="contact-policy-content">
+        {/* Focusable so keyboard users can scroll the policy text. */}
+        <div className="contact-policy-content" tabIndex={0} aria-labelledby={titleId}>
           {policy.sections.map((section) => (
             <section className="contact-policy-section" key={section.heading}>
               <h4 style={{
@@ -218,8 +238,15 @@ function Contact({ c, gold, navy, language }) {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
+    // Keyboard focus moves into the dialog, stays there while it is open and
+    // returns to whatever opened it (footer link, consent banner) on close.
+    const opener = document.activeElement;
+    const dialog = document.querySelector('.contact-policy-panel');
+    dialog?.querySelector('.contact-policy-close')?.focus();
+
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') setActivePolicyId(null);
+      else if (event.key === 'Tab' && dialog) trapFocus(event, dialog);
     };
 
     window.addEventListener('keydown', handleKeyDown);
@@ -227,6 +254,7 @@ function Contact({ c, gold, navy, language }) {
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener('keydown', handleKeyDown);
+      if (opener?.isConnected && typeof opener.focus === 'function') opener.focus();
     };
   }, [activePolicyId]);
 

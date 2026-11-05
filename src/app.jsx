@@ -34,6 +34,11 @@ function App() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Screen readers and search engines pick the voice/language from <html lang>.
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
+
   const handleLangChange = (l) => {
     setLanguage(l);
     setTweak('language', l);
