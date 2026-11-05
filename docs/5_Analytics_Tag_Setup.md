@@ -100,4 +100,4 @@ Site ใช้ Content-Security-Policy เข้ม (ไม่มี `'unsafe-in
   - รายชื่อคุกกี้ในข้อ 8 อิงจาก Google Tag + Conversion Linker ถ้าทีม Google เพิ่ม tag อื่น (เช่น Remarketing / Floodlight) ต้องเพิ่มคุกกี้ในตาราง
   - ถ้าเปิด Enhanced Conversions ต้องแก้ประโยค "ข้อมูลที่ส่งให้ Google ไม่รวมชื่อ หมายเลขโทรศัพท์..." ในข้อ 8
 - **Enhanced Conversions**: ทีม Google มักแนะนำ (ส่งเบอร์โทรแบบ hash ไป Google Ads ช่วยให้วัด conversion แม่นขึ้น) ยังไม่ได้ทำ ต้องแก้ code ให้ส่งเบอร์ใน dataLayer ตอน `generate_lead` และต้องระบุใน Privacy Policy
-- ฟอร์มใช้ `fetch(..., { mode: 'no-cors' })` ทำให้ `generate_lead` ยิงเมื่อ request ส่งออกไปแล้ว แต่ไม่รู้ว่า Apps Script บันทึกสำเร็จหรือไม่
+- ฟอร์มส่งผ่าน same-origin `/api/contact`; `generate_lead` ยิงเฉพาะเมื่อ HTTP สำเร็จและ Apps Script ยืนยัน `ok:true` หลังบันทึก Google Sheets แล้ว ข้อผิดพลาดและ timeout ไม่ถูกนับเป็น conversion

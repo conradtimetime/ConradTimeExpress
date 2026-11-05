@@ -46,7 +46,8 @@ NAV ANCHORS
   #services · #why (about) · #process · #packages · #contact
 
 LEAD FLOW
-  Contact form ─► fetch(no-cors) ─► Apps Script Web App ─► Google Sheet + email
+  Contact form ─► /api/contact ─► Apps Script Web App ─► Google Sheet + email
+  Success ◄──── JSON {ok:true} ◄──── sheet write + flush สำเร็จ
 ```
 
 ---
@@ -118,7 +119,8 @@ LEAD FLOW
 | ฟังก์ชัน | เงื่อนไข |
 |---|---|
 | Validate | ต้องมี name + phone + type (trim) ก่อนส่ง |
-| Submit | `fetch(endpoint, {method:POST, mode:'no-cors', text/plain})` |
+| Submit | same-origin JSON POST ไป `/api/contact`; success เมื่อ HTTP สำเร็จและ JSON `ok === true` เท่านั้น |
+| Shipment selection | เก็บ service ID คงที่ทั้งสองภาษา; ส่ง label ตามภาษาใน payload |
 | Payload | name, phone, type, message, language, pageUrl, submittedAt, userAgent |
 | States | `idle → submitting → success/error` (success reset form + auto-clear 5s) |
 | Success msg | "รับคำขอแล้ว จะติดต่อกลับใน 2 ชม." (bilingual) |
@@ -127,10 +129,11 @@ LEAD FLOW
 ### 6.2 Backend Receiver (`integrations/google-sheets-contact.gs`)
 | ฟังก์ชัน | เงื่อนไข |
 |---|---|
-| `doPost(e)` | parse JSON → append row → email notify |
+| `doPost(e)` | validate JSON → เขียน literal rich text + timestamp → flush → email notify |
 | `parsePayload_(e)` | throw ถ้าไม่มี name/phone/type |
 | Sheet | `Customer_Inbox` (8 cols): Timestamp, Name, Phone, Shipment Type, Message, Language, Page URL, User Agent |
-| Concurrency | `LockService.waitLock(10000)` ก่อน append |
+| Concurrency | `LockService.waitLock(10000)` ครอบคลุมการค้นหา/สร้างชีตและเขียนข้อมูล |
+| Acknowledgement | ตอบ `ok:true` หลังบันทึกและ flush; อีเมลล้มเหลวหลังบันทึกไม่เปลี่ยนเป็น `ok:false` |
 | Notify | `MailApp.sendEmail` → `conradtime.time@gmail.com` |
 
 ---
@@ -199,7 +202,7 @@ LEAD FLOW
 | BR-01 | Content จาก `src/data/*` เท่านั้น |
 | BR-02 | ทุก copy มี en + th |
 | BR-03 | Contact form ต้องมี name+phone+type |
-| BR-05 | Form submit แบบ no-cors (fire-and-forget) |
+| BR-05 | Form success หลัง same-origin API ได้รับคำยืนยันการบันทึกจาก backend |
 | BR-07 | Policy ครบ 3 ฉบับ |
 | BR-08 | vercel.app → noindex |
 

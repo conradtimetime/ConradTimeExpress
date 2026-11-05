@@ -120,7 +120,7 @@ Conrad Express คือแบรนด์บริการขนส่งส�
 | BR-02 | ทุก copy ต้องมีทั้ง `en` และ `th` (verify enforce) |
 | BR-03 | Contact form ต้องมี name + phone + type ก่อน submit |
 | BR-04 | Shipment type dropdown = รายการ services + "อื่นๆ/Other" |
-| BR-05 | Form ส่งแบบ fire-and-forget (`no-cors`) — success ถือว่าส่งแล้ว |
+| BR-05 | Form ส่งผ่าน same-origin `/api/contact` — success เมื่อ backend ยืนยันว่าบันทึกใน Google Sheets แล้วเท่านั้น |
 | BR-06 | ค่าชดเชยมาตรฐานสูงสุด ฿50,000 (ยกเว้น Exclusive = ตามตกลง) |
 | BR-07 | Policy 3 ฉบับ (privacy/terms/insurance) ต้องมีครบ (verify enforce) |
 | BR-08 | Domain `vercel.app` → `noindex,nofollow`; live domain → `index,follow` |
@@ -136,7 +136,7 @@ Conrad Express คือแบรนด์บริการขนส่งส�
 | NFR-1 | Performance | React/ReactDOM production build (pinned + SRI), fonts + vendor self-hosted, hero image `preload` |
 | NFR-2 | Security | CSP strict — ไม่มี `unsafe-eval`, ไม่มี runtime Babel |
 | NFR-3 | Security | `connect-src` จำกัดเฉพาะ script.google.com (form endpoint) |
-| NFR-4 | Privacy | referrer `strict-origin-when-cross-origin`; form no-cors |
+| NFR-4 | Privacy | referrer `strict-origin-when-cross-origin`; form ส่งผ่าน same-origin API และไม่ส่งข้อมูลส่วนบุคคลเข้า analytics |
 | NFR-5 | SEO | title/meta/OG/JSON-LD/sitemap/robots generate ตอน build |
 | NFR-6 | Responsive | breakpoints 768/1024/1440; mobile → swipe carousel |
 | NFR-7 | Accessibility | policy modal มี `role=dialog`, `aria-modal`, ESC ปิด, focus trap พื้นฐาน |

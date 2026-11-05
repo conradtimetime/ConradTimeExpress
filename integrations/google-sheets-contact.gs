@@ -8,8 +8,9 @@
  * 4. Deploy > New deployment > Web app.
  *    Execute as: Me
  *    Who has access: Anyone
- * 5. Copy the Web App URL into src/data/config.js:
- *    contact.formEndpoint = "https://script.google.com/macros/s/.../exec"
+ * 5. Set the hosting environment variable CONTACT_FORM_UPSTREAM to the Web App
+ *    URL (or update DEFAULT_UPSTREAM in api/contact.js), then redeploy the site.
+ *    The browser form posts to the same-origin /api/contact proxy.
  */
 
 const SHEET_ID = '1Q1pP6LvdgRp9jOhQ08AFBYJNSnopjqAyyoDeYSdro0s';
@@ -29,31 +30,37 @@ const HEADERS = [
   'User Agent',
 ];
 
+const FIELD_LIMITS = {
+  name: 80,
+  phone: 32,
+  type: 120,
+  message: 600,
+  language: 8,
+  pageUrl: 2048,
+  userAgent: 512,
+};
+
 function doPost(e) {
   try {
     const payload = parsePayload_(e);
-    const row = [
-      new Date(),
-      payload.name || '',
-      payload.phone || '',
-      payload.type || '',
-      payload.message || '',
-      payload.language || '',
-      payload.pageUrl || '',
-      payload.userAgent || '',
-    ];
-
-    const sheet = getSheet_();
     const lock = LockService.getScriptLock();
     lock.waitLock(10000);
     try {
+      // Sheet lookup/creation must share the same lock as row allocation.
+      const sheet = getSheet_();
       ensureHeaders_(sheet);
-      sheet.appendRow(row);
+      appendLead_(sheet, payload);
+      SpreadsheetApp.flush();
     } finally {
       lock.releaseLock();
     }
 
-    sendNotification_(payload);
+    // A mail quota/outage must not turn an already saved lead into a failure.
+    try {
+      sendNotification_(payload);
+    } catch (error) {
+      console.error('Lead saved; notification failed:', error);
+    }
     return json_({ ok: true });
   } catch (error) {
     console.error(error);
@@ -66,12 +73,44 @@ function parsePayload_(e) {
     throw new Error('Missing request body');
   }
 
-  const payload = JSON.parse(e.postData.contents);
+  const input = JSON.parse(e.postData.contents);
+  if (!input || typeof input !== 'object' || Array.isArray(input)) {
+    throw new Error('Invalid request body');
+  }
+
+  const payload = {};
+  Object.keys(FIELD_LIMITS).forEach(function (field) {
+    const value = input[field] === undefined ? '' : input[field];
+    if (typeof value !== 'string') {
+      throw new Error('Invalid field: ' + field);
+    }
+    payload[field] = value.trim();
+    if (payload[field].length > FIELD_LIMITS[field]) {
+      throw new Error('Field too long: ' + field);
+    }
+  });
+
   if (!payload.name || !payload.phone || !payload.type) {
     throw new Error('Missing required fields');
   }
+  if (payload.language && payload.language !== 'en' && payload.language !== 'th') {
+    throw new Error('Invalid field: language');
+  }
 
   return payload;
+}
+
+function appendLead_(sheet, payload) {
+  const fields = ['name', 'phone', 'type', 'message', 'language', 'pageUrl', 'userAgent'];
+  const textValues = fields.map(function (field) {
+    return SpreadsheetApp.newRichTextValue().setText(payload[field]).build();
+  });
+
+  // Only the server-generated Date goes through appendRow. User text is written
+  // as RichTextValue so '=1+1', leading apostrophes and phone zeros stay literal.
+  // https://developers.google.com/apps-script/reference/spreadsheet/range#setRichTextValues(RichTextValue)
+  sheet.appendRow([new Date(), '', '', '', '', '', '', '']);
+  sheet.getRange(sheet.getLastRow(), 2, 1, fields.length).setRichTextValues([textValues]);
 }
 
 function getSheet_() {

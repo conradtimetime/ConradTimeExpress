@@ -207,14 +207,16 @@ function Contact({ c, gold, navy, language }) {
     name: { autoComplete:'name', maxLength:80, required:true },
     phone: { autoComplete:'tel', inputMode:'tel', maxLength:32, required:true },
   };
-  const otherShipmentTypes = (c.contact.types || []).filter((type) => {
-    const normalized = String(type).trim().toLowerCase();
-    return normalized === 'other' || normalized === 'อื่นๆ';
-  });
-  const shipmentTypes = [
-    ...c.services.items.map((service) => service.title),
-    ...(otherShipmentTypes.length ? otherShipmentTypes : [language === 'th' ? 'อื่นๆ' : 'Other']),
-  ];
+  const shipmentTypes = c.services.items.map((service) => ({
+    id: service.id,
+    label: service.title,
+  }));
+
+  useEffect(() => {
+    if (submitState !== 'success') return undefined;
+    const timeout = setTimeout(() => setSubmitState('idle'), 5000);
+    return () => clearTimeout(timeout);
+  }, [submitState]);
 
   useEffect(() => {
     if (!activePolicyId) return undefined;
@@ -256,37 +258,42 @@ function Contact({ c, gold, navy, language }) {
       type: form.type,
       message: form.message.trim(),
     };
-    if (!normalizedForm.name || !normalizedForm.phone || !normalizedForm.type) return;
+    const selectedShipmentType = shipmentTypes.find((type) => type.id === normalizedForm.type);
+    if (submitState === 'submitting' || !normalizedForm.name || !normalizedForm.phone || !selectedShipmentType) return;
 
     const payload = {
       ...normalizedForm,
+      type: selectedShipmentType.label,
       language,
-      pageUrl: window.location.href,
+      pageUrl: window.location.href.slice(0, 2048),
       submittedAt: new Date().toISOString(),
-      userAgent: window.navigator.userAgent,
+      userAgent: window.navigator.userAgent.slice(0, 512),
     };
 
     const endpoint = SITE_CONFIG.contact.formEndpoint;
 
     setSubmitState('submitting');
     try {
-      if (endpoint) {
-        await fetch(endpoint, {
-          method:'POST',
-          mode:'no-cors',
-          headers:{ 'Content-Type':'text/plain;charset=utf-8' },
-          body:JSON.stringify(payload),
-        });
-      }
-      // Conversion event for GTM. No PII (name/phone/message) in params.
-      window.ConradAnalytics?.track('generate_lead', {
-        form_name:'contact',
-        shipment_type:normalizedForm.type,
-        form_language:language,
+      if (!endpoint) throw new Error('Contact endpoint is not configured');
+      const response = await fetch(endpoint, {
+        method:'POST',
+        mode:'same-origin',
+        headers:{ 'Content-Type':'application/json' },
+        body:JSON.stringify(payload),
       });
+      const result = await response.json();
+      if (!response.ok || result?.ok !== true) throw new Error('Lead was not acknowledged');
+      // Conversion event for GTM. No PII (name/phone/message) in params.
+      // Tracking failures must not turn a durably saved request into an error.
+      try {
+        window.ConradAnalytics?.track('generate_lead', {
+          form_name:'contact',
+          shipment_type:normalizedForm.type,
+          form_language:language,
+        });
+      } catch (error) { /* the request is already saved */ }
       setForm({ name:'', phone:'', type:'', message:'' });
       setSubmitState('success');
-      setTimeout(() => setSubmitState('idle'), 5000);
     } catch (error) {
       setForm(normalizedForm);
       setSubmitState('error');
@@ -314,7 +321,7 @@ function Contact({ c, gold, navy, language }) {
       background:navy,
       padding:'88px 96px 0',
       minHeight:'calc(100vh - 72px)',
-      height:'calc(100vh - 72px)',
+      height:'auto',
       boxSizing:'border-box',
       display:'flex',
       flexDirection:'column',
@@ -328,11 +335,11 @@ function Contact({ c, gold, navy, language }) {
         #contact.contact-section {
           padding:88px 96px 0 !important;
           min-height:calc(100vh - 72px) !important;
-          height:calc(100vh - 72px) !important;
+          height:auto !important;
         }
         #contact .contact-body {
-          flex:1 1 auto;
-          min-height:0;
+          flex:1 0 auto;
+          padding-bottom:64px;
           align-items:center !important;
         }
         #contact .contact-footer {
@@ -575,8 +582,9 @@ function Contact({ c, gold, navy, language }) {
               { key:'phone', label:c.contact.fields.phone, type:'tel' },
             ].map(f => (
               <div key={f.key}>
-                <label style={labelStyle}>{f.label.toUpperCase()}</label>
+                <label htmlFor={`contact-${f.key}`} style={labelStyle}>{f.label.toUpperCase()}</label>
                 <input
+                  id={`contact-${f.key}`}
                   name={f.key}
                   type={f.type}
                   value={form[f.key]}
@@ -590,8 +598,9 @@ function Contact({ c, gold, navy, language }) {
             ))}
 
             <div>
-              <label style={labelStyle}>{c.contact.fields.type.toUpperCase()}</label>
+              <label htmlFor="contact-service-type" style={labelStyle}>{c.contact.fields.type.toUpperCase()}</label>
               <select
+                id="contact-service-type"
                 name="serviceType"
                 value={form.type}
                 onChange={e => setForm({...form, type: e.target.value})}
@@ -601,15 +610,16 @@ function Contact({ c, gold, navy, language }) {
                 {...focusUnderline}
               >
                 <option value="" style={{ background:navy }}>—</option>
-                {shipmentTypes.map((t, i) => (
-                  <option key={i} value={t} style={{ background:navy }}>{t}</option>
+                {shipmentTypes.map((type) => (
+                  <option key={type.id} value={type.id} style={{ background:navy }}>{type.label}</option>
                 ))}
               </select>
             </div>
 
             <div>
-              <label style={labelStyle}>{c.contact.fields.message.toUpperCase()}</label>
+              <label htmlFor="contact-message" style={labelStyle}>{c.contact.fields.message.toUpperCase()}</label>
               <textarea
+                id="contact-message"
                 name="message"
                 value={form.message}
                 onChange={e => setForm({...form, message: e.target.value})}

@@ -1,5 +1,5 @@
 (function () {
-  const { useRef, useState } = React;
+  const { useLayoutEffect, useRef, useState } = React;
 
 /* ── STAR LOGO SVG ── */
 const StarIcon = ({ size = 24, color = 'currentColor', style = {} }) => (
@@ -38,35 +38,63 @@ function PhotoPlaceholder({ label, width='100%', height='100%', style={} }) {
 
 
 /* ── CARD SWIPER ──
-   Wraps a card grid. On phones (≤767, where the grid becomes a horizontal
-   scroll-snap row) it shows prev/next arrows + dots so cards are navigable by
-   click as well as touch-swipe. On larger screens the grid renders untouched
-   and the controls stay hidden via CSS. */
+   Wraps a card grid. The section CSS controls when it becomes a horizontal
+   scroll-snap row and shows the navigation. Dots represent reachable scroll
+   positions, including the final edge when multiple cards fit in the row. */
 function CardSwiper({ className, style, children }) {
   const ref = useRef(null);
   const [idx, setIdx] = useState(0);
-  const count = React.Children.count(children);
+  const [positions, setPositions] = useState([0]);
 
-  const stepWidth = () => {
-    const el = ref.current;
-    if (!el || !el.children[0]) return el ? el.clientWidth : 1;
-    const a = el.children[0].getBoundingClientRect();
-    const b = el.children[1] ? el.children[1].getBoundingClientRect() : null;
-    return b ? Math.abs(b.left - a.left) : a.width;
+  const nearestPosition = (left, stops) => {
+    return stops.reduce((nearest, stop, i) => (
+      Math.abs(stop - left) < Math.abs(stops[nearest] - left) ? i : nearest
+    ), 0);
   };
-  /* Navigate to card t, wrapping around both ends (infinite loop). Uses
-     scrollIntoView on the actual child — robust against snap/step rounding. */
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return undefined;
+
+    const measure = () => {
+      const maxLeft = Math.max(0, el.scrollWidth - el.clientWidth);
+      const start = el.getBoundingClientRect().left + el.clientLeft;
+      const stops = [0];
+      Array.from(el.children).forEach((child) => {
+        const left = Math.min(maxLeft, Math.max(0, child.getBoundingClientRect().left - start + el.scrollLeft));
+        if (left - stops[stops.length - 1] > 1) stops.push(left);
+      });
+      // Several trailing cards share the clamped edge when multiple cards fit.
+      // A card wider than the viewport still gets a single dot at its start.
+      setPositions((previous) => (
+        previous.length === stops.length && previous.every((stop, i) => Math.abs(stop - stops[i]) < 1)
+          ? previous : stops
+      ));
+      setIdx(nearestPosition(el.scrollLeft, stops));
+    };
+
+    measure();
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(measure);
+    observer?.observe(el);
+    Array.from(el.children).forEach((child) => observer?.observe(child));
+    window.addEventListener('resize', measure);
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener('resize', measure);
+    };
+  }, [children]);
+
+  /* Scroll only the row; scrollIntoView can also move the surrounding page. */
   const go = (i) => {
     const el = ref.current;
-    if (!el || count === 0) return;
-    const t = ((i % count) + count) % count;
-    const child = el.children[t];
-    if (child) child.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+    if (!el || positions.length < 2) return;
+    const t = ((i % positions.length) + positions.length) % positions.length;
+    el.scrollTo({ left: positions[t], behavior: 'smooth' });
   };
   const onScroll = () => {
     const el = ref.current;
     if (!el) return;
-    setIdx(Math.round(el.scrollLeft / (stepWidth() || 1)));
+    setIdx(nearestPosition(el.scrollLeft, positions));
   };
 
   return (
@@ -77,8 +105,8 @@ function CardSwiper({ className, style, children }) {
       <button className="swipe-nav swipe-prev" onClick={() => go(idx - 1)} aria-label="Previous">‹</button>
       <button className="swipe-nav swipe-next" onClick={() => go(idx + 1)} aria-label="Next">›</button>
       <div className="swipe-dots">
-        {Array.from({ length: count }).map((_, i) => (
-          <button key={i} className={'swipe-dot' + (i === idx ? ' on' : '')} onClick={() => go(i)} aria-label={'Go to card ' + (i + 1)} />
+        {positions.map((_, i) => (
+          <button key={i} className={'swipe-dot' + (i === idx ? ' on' : '')} onClick={() => go(i)} aria-label={'Go to slide ' + (i + 1)} aria-current={i === idx ? 'true' : undefined} />
         ))}
       </div>
     </div>

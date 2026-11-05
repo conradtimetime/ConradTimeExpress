@@ -51,7 +51,7 @@
    ┌──────────────────────────────────────────────────────┐
    │  React tree (App) → Nav/Hero/…/Contact/FloatingLine   │
    └───────────────────────────┬──────────────────────────┘
-                               │ fetch(no-cors)
+                               │ JSON POST /api/contact (Vercel Function)
                                ▼
    ┌──────────────────────────────────────────────────────┐
    │  Apps Script Web App → Google Sheet + email notify    │
@@ -204,10 +204,10 @@ Marker ใน index.html: `<!-- SEO-META-BEGIN --> … <!-- SEO-META-END -->` (i
 
 ```
 doPost(e)
-  → parsePayload_(e)      // JSON; throw ถ้าไม่มี name/phone/type
+  → parsePayload_(e)      // validate string types, required fields, lengths, language
   → LockService.waitLock(10000)
-  → ensureHeaders_() + appendRow()   // Sheet "Customer_Inbox" (8 cols)
-  → sendNotification_()  // MailApp → NOTIFY_EMAILS
+  → getSheet_() + ensureHeaders_() + literal rich text write + flush // 8 cols
+  → sendNotification_()  // MailApp → NOTIFY_EMAILS; log-only ถ้าส่งอีเมลไม่ได้
   → json_({ok:true})
 ```
 
@@ -217,9 +217,10 @@ doPost(e)
 | `SHEET_NAME` | `Customer_Inbox` |
 | `NOTIFY_EMAILS` | `conradtime.time@gmail.com` |
 | Headers | Timestamp, Name, Phone, Shipment Type, Message, Language, Page URL, User Agent |
-| Endpoint | ตั้งใน `src/data/config.js → contact.formEndpoint` |
+| Browser endpoint | `src/data/config.js → contact.formEndpoint = /api/contact` |
+| Apps Script endpoint | `CONTACT_FORM_UPSTREAM` ใน Vercel หรือ fallback ใน `api/contact.js` |
 
-> Frontend ส่งแบบ `no-cors` (ไม่อ่าน response) → success = ส่งถึง endpoint แล้ว
+> Vercel function อ่าน JSON หลังตาม Content Service redirect; frontend แสดง success และนับ conversion เมื่อ HTTP สำเร็จและ `ok === true` เท่านั้น ถ้าไม่ได้รับคำยืนยันจะเก็บข้อมูลฟอร์มไว้ โดยไม่ retry อัตโนมัติ
 
 ---
 
@@ -231,7 +232,8 @@ doPost(e)
 | contact.email | config.js | `conradtime.time@gmail.com` |
 | contact.lineUrl | config.js | `https://line.me/ti/p/~@ConradExpress` |
 | contact.trackUrl | config.js | (ว่าง → fallback LINE) |
-| contact.formEndpoint | config.js | Apps Script `/exec` URL |
+| contact.formEndpoint | config.js | `/api/contact` |
+| CONTACT_FORM_UPSTREAM | Vercel env (optional) | Apps Script `/exec` URL; fallback ใน `api/contact.js` |
 | heroBackground | config.js | `brand-images/Section_Hero.jpg` |
 | TWEAK_DEFAULTS | tweaks.js | gold `#e2b56f`, navy `#0f1e35`, hero `dark`, lang `th` |
 
@@ -281,7 +283,7 @@ form-action 'self'
 |---|---|
 | Execution time | 6 min |
 | LockService | `waitLock(10000)` |
-| Access | Web App = Anyone (no-cors POST) |
+| Access | Web App = Anyone; Vercel function เป็นตัวส่ง POST และอ่าน acknowledgement |
 
 ---
 

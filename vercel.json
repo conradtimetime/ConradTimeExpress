@@ -1,5 +1,8 @@
 {
   "installCommand": "npm install",
   "buildCommand": "npm run build",
-  "outputDirectory": "."
+  "outputDirectory": ".",
+  "functions": {
+    "api/contact.js": { "maxDuration": 30 }
+  }
 }

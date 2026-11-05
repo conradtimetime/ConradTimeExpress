@@ -1,12 +1,13 @@
 # Conrad Express Static Site
 
-Static React landing page for Conrad Express luxury and high-value logistics.
+React landing page for Conrad Express luxury and high-value logistics, with a Vercel contact API.
 
 ## Architecture
 
 - `index.html` is the static HTML shell, global styles, CDN React loader, CSP, and script order.
 - `src/data/` owns runtime configuration, bilingual copy, reviews, image registries, and tweak defaults.
 - `src/components/` owns reusable UI and page sections.
+- `api/contact.js` forwards contact requests to Apps Script and checks its storage acknowledgement before returning success.
 - `tweaks-panel.jsx` owns edit-mode controls and host messaging.
 - `scripts/build-static-bundle.mjs` compiles JSX source into `dist/conrad-express.bundle.js`.
 - `dist/conrad-express.bundle.js` is generated and committed so the site can be served as plain static files.
@@ -33,7 +34,7 @@ Run the repeatable QA check:
 npm run verify
 ```
 
-Serve locally for a browser smoke test:
+Serve the static UI locally for a browser smoke test (contact submissions need the Vercel function):
 
 ```sh
 python3 -m http.server 8755
@@ -44,6 +45,17 @@ Open:
 ```text
 http://127.0.0.1:8755/
 ```
+
+For local testing with the contact API, use `npx vercel dev --listen 8755`.
+
+## Contact Delivery
+
+The browser posts JSON to `/api/contact` on the same origin. The function follows the Apps Script Content Service redirect and returns success only when the receiver responds with JSON `{ "ok": true }`. HTTP errors, timeouts, malformed responses, and `{ "ok": false }` keep the visitor's form populated and do not record a lead conversion. Requests are not automatically retried because a lost acknowledgement can happen after a write.
+
+- The function uses the existing Apps Script deployment by default. Set the Vercel environment variable `CONTACT_FORM_UPSTREAM` to an Apps Script `/exec` URL to override it.
+- Publish the updated `integrations/google-sheets-contact.gs` to the existing Apps Script web-app deployment before releasing the website. The receiver stores user fields as literal rich text and acknowledges only after the sheet is flushed; email notification failure is logged separately.
+- Deploy this project to Vercel with its root `api/` directory included. A plain static host can display the page but cannot run the contact API.
+- `npm test` exercises the API, receiver, form acknowledgement/error behavior, language selection, labels, and carousel with local mocks. It does not send emails or write to live Sheets.
 
 ## Vercel Settings
 
