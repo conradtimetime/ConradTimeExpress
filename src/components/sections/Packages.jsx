@@ -370,6 +370,8 @@ function PricingCard({ pkg, active, theme, gold, navy, onSelect }) {
         target={externalCta ? '_blank' : undefined}
         rel={externalCta ? 'noopener noreferrer' : undefined}
         className="package-cta"
+        data-cta="package"
+        data-package={pkg.name}
         onClick={(event) => {
           event.stopPropagation();
           onSelect();

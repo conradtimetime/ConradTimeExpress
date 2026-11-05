@@ -89,7 +89,7 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
           <img src={nextLanguage.flag} alt="" aria-hidden="true" style={flagStyle} />
         </button>
 
-        <a href={lineUrl} target="_blank" rel="noopener noreferrer" style={{
+        <a href={lineUrl} target="_blank" rel="noopener noreferrer" data-cta="nav" style={{
           background: lineGreen, color: '#fff',
           width:'184px',
           boxSizing:'border-box',
@@ -149,7 +149,7 @@ function Nav({ c, gold, navy, scrolled, lang, setLang }) {
             >
               <img src={nextLanguage.flag} alt="" aria-hidden="true" style={flagStyle} />
             </button>
-            <a href={lineUrl} target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)} style={{
+            <a href={lineUrl} target="_blank" rel="noopener noreferrer" data-cta="nav_mobile" onClick={() => setMenuOpen(false)} style={{
               flex:1, textAlign:'center', background:lineGreen, color:'#fff',
               boxSizing:'border-box',
               padding:'13px 20px', fontSize:'11px', letterSpacing:'0.12em',

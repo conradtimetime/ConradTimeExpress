@@ -4,6 +4,7 @@ import { minify } from 'terser';
 import { gzipSync } from 'node:zlib';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import vm from 'node:vm';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
@@ -51,6 +52,63 @@ const getSiteUrl = async () => {
     localEnv.NEXT_PUBLIC_SITE_URL ||
     'https://conrad-express.vercel.app'
   );
+};
+
+const configFile = path.join(rootDir, 'src', 'data', 'config.js');
+const GTM_ID_PATTERN = /^GTM-[A-Z0-9]{4,12}$/;
+
+const getGtmId = async () => {
+  const context = { window: {} };
+  vm.runInNewContext(await fs.readFile(configFile, 'utf8'), context, { filename: configFile });
+  const gtmId = String(context.window.CONRAD_EXPRESS_CONFIG?.analytics?.gtmId || '').trim();
+  if (gtmId && !GTM_ID_PATTERN.test(gtmId)) {
+    throw new Error(`Invalid SITE_CONFIG.analytics.gtmId "${gtmId}". Expected a GTM container ID like GTM-AB12CD3.`);
+  }
+  return gtmId;
+};
+
+// Hosts Google Tag Manager, GA4 and Google Ads need, per Google's CSP guide
+// (https://developers.google.com/tag-platform/security/guides/csp). Includes
+// GTM preview / Tag Assistant. Custom HTML tags and Custom JavaScript variables
+// still won't run (no 'unsafe-inline' / 'unsafe-eval'), so use built-in tag
+// templates only.
+const GOOGLE_TAG_CSP = {
+  script: [
+    'https://www.googletagmanager.com', 'https://*.googletagmanager.com', 'https://tagmanager.google.com',
+    'https://www.google-analytics.com', 'https://ssl.google-analytics.com',
+    'https://www.googleadservices.com', 'https://googleads.g.doubleclick.net', 'https://www.google.com',
+  ],
+  img: [
+    'https://*.googletagmanager.com', 'https://*.google-analytics.com', 'https://*.analytics.google.com',
+    'https://www.googleadservices.com', 'https://googleads.g.doubleclick.net', 'https://*.g.doubleclick.net',
+    'https://www.google.com', 'https://www.google.co.th', 'https://ssl.gstatic.com', 'https://www.gstatic.com',
+  ],
+  connect: [
+    'https://*.googletagmanager.com', 'https://*.google-analytics.com', 'https://*.analytics.google.com',
+    'https://www.googleadservices.com', 'https://googleads.g.doubleclick.net', 'https://*.g.doubleclick.net',
+    'https://www.google.com', 'https://www.google.co.th', 'https://pagead2.googlesyndication.com',
+  ],
+  frame: ['https://www.googletagmanager.com', 'https://td.doubleclick.net', 'https://bid.g.doubleclick.net'],
+  style: ['https://tagmanager.google.com', 'https://fonts.googleapis.com'],
+  font: ['https://fonts.gstatic.com', 'data:'],
+};
+
+const buildCsp = ({ jsonLdHash, gtmId }) => {
+  const google = (key) => (gtmId ? GOOGLE_TAG_CSP[key] : []);
+  const directive = (name, sources) => [name, ...sources].join(' ');
+
+  return [
+    "default-src 'self'",
+    "base-uri 'none'",
+    "object-src 'none'",
+    directive('img-src', ["'self'", 'data:', ...google('img')]),
+    directive('font-src', ["'self'", ...google('font')]),
+    directive('style-src', ["'self'", "'unsafe-inline'", ...google('style')]),
+    directive('script-src', ["'self'", `'sha256-${jsonLdHash}'`, ...google('script')]),
+    directive('connect-src', ["'self'", 'https://script.google.com', 'https://script.googleusercontent.com', ...google('connect')]),
+    ...(gtmId ? [directive('frame-src', google('frame'))] : []),
+    "form-action 'self'",
+  ].join('; ');
 };
 
 const renderSeoMeta = ({ siteUrl, organizationJson }) => {
@@ -109,27 +167,25 @@ Sitemap: ${siteUrl}/sitemap.xml
 `;
 };
 
-const updateIndexSeo = async ({ siteUrl, organizationJson }) => {
+const ANALYTICS_TAG_PATTERN = /(<script src="src\/analytics\.js[^"]*") data-gtm-id="[^"]*"><\/script>/;
+
+const updateIndexSeo = async ({ siteUrl, organizationJson, gtmId }) => {
   const html = await fs.readFile(indexFile, 'utf8');
   const seoMeta = renderSeoMeta({ siteUrl, organizationJson });
   const jsonLdHash = createHash('sha256').update(organizationJson).digest('base64');
-  const csp = [
-    "default-src 'self'",
-    "base-uri 'none'",
-    "object-src 'none'",
-    "img-src 'self' data:",
-    "font-src 'self'",
-    "style-src 'self' 'unsafe-inline'",
-    `script-src 'self' 'sha256-${jsonLdHash}'`,
-    "connect-src 'self' https://script.google.com https://script.googleusercontent.com",
-    "form-action 'self'",
-  ].join('; ');
+  const csp = buildCsp({ jsonLdHash, gtmId });
+
+  if (!ANALYTICS_TAG_PATTERN.test(html)) {
+    throw new Error('index.html is missing <script src="src/analytics.js" data-gtm-id="..."></script>.');
+  }
 
   const htmlWithLang = html.replace(/<html\s+lang="[^"]*">/, '<html lang="th">');
-  const htmlWithCsp = htmlWithLang.replace(
-    /<meta http-equiv="Content-Security-Policy" content="[^"]*">/,
-    `<meta http-equiv="Content-Security-Policy" content="${csp}">`
-  );
+  const htmlWithCsp = htmlWithLang
+    .replace(
+      /<meta http-equiv="Content-Security-Policy" content="[^"]*">/,
+      `<meta http-equiv="Content-Security-Policy" content="${csp}">`
+    )
+    .replace(ANALYTICS_TAG_PATTERN, `$1 data-gtm-id="${gtmId}"></script>`);
 
   const nextHtml = htmlWithCsp.includes('<!-- SEO-META-BEGIN -->')
     ? htmlWithCsp.replace(/<!-- SEO-META-BEGIN -->[\s\S]*?<!-- SEO-META-END -->/, seoMeta)
@@ -158,6 +214,7 @@ const jsxSources = [
   'src/components/sections/Packages.jsx',
   'src/components/sections/Contact.jsx',
   'src/components/FloatingLine.jsx',
+  'src/components/ConsentBanner.jsx',
   'src/app.jsx',
 ];
 
@@ -205,10 +262,13 @@ const organizationJson = JSON.stringify({
   areaServed: 'TH',
 });
 
-await updateIndexSeo({ siteUrl, organizationJson });
+const gtmId = await getGtmId();
+
+await updateIndexSeo({ siteUrl, organizationJson, gtmId });
 await writeSeoFiles(siteUrl);
 
 const rawKb = (Buffer.byteLength(output) / 1024).toFixed(1);
 const gzipKb = (gzipSync(output).byteLength / 1024).toFixed(1);
 console.log(`Built ${path.relative(rootDir, outFile)} (${rawKb} KB, ${gzipKb} KB gzip)`);
 console.log(`Generated SEO assets for ${siteUrl}`);
+console.log(gtmId ? `Google Tag Manager: ${gtmId} (CSP opened for Google tags)` : 'Google Tag Manager: off (SITE_CONFIG.analytics.gtmId is empty)');

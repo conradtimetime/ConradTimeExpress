@@ -90,7 +90,7 @@ function FloatingLine({ gold, lang }) {
       {/* Expandable actions */}
       <div className="fabx-actions">
         {actions.map((a, i) => (
-          <a key={a.key} href={a.href} target="_blank" rel="noopener noreferrer"
+          <a key={a.key} href={a.href} target="_blank" rel="noopener noreferrer" data-cta={`floating_${a.key}`}
             className={'fabx-act' + (open ? ' is-open' : '')} title={a.label}
             onClick={() => setOpen(false)}
             style={{ transitionDelay: open ? `${i * 60}ms` : `${(actions.length - 1 - i) * 45}ms` }}>

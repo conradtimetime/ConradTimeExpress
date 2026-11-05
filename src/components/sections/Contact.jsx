@@ -239,6 +239,15 @@ function Contact({ c, gold, navy, language }) {
     setActivePolicyId(policyId);
   };
 
+  // Lets other components (e.g. the consent banner) open a policy document.
+  useEffect(() => {
+    const handleOpenPolicy = (event) => openPolicy(event.detail?.id);
+    window.addEventListener('conrad:open-policy', handleOpenPolicy);
+    return () => window.removeEventListener('conrad:open-policy', handleOpenPolicy);
+  }, []);
+
+  const analyticsEnabled = Boolean(window.ConradAnalytics?.enabled);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const normalizedForm = {
@@ -269,6 +278,12 @@ function Contact({ c, gold, navy, language }) {
           body:JSON.stringify(payload),
         });
       }
+      // Conversion event for GTM. No PII (name/phone/message) in params.
+      window.ConradAnalytics?.track('generate_lead', {
+        form_name:'contact',
+        shipment_type:normalizedForm.type,
+        form_language:language,
+      });
       setForm({ name:'', phone:'', type:'', message:'' });
       setSubmitState('success');
       setTimeout(() => setSubmitState('idle'), 5000);
@@ -495,21 +510,33 @@ function Contact({ c, gold, navy, language }) {
             }}>{c.contact.sub}</p>
 
             {/* Contact details */}
-            <div className="contact-details" style={{ marginTop:'52px', display:'flex', flexDirection:'column', gap:'24px' }}>
+            <div className="contact-details" data-cta="contact_details" style={{ marginTop:'52px', display:'flex', flexDirection:'column', gap:'24px' }}>
               {[
-                { label:'LINE OA', val:c.footer.line },
-                { label:'Email', val:SITE_CONFIG.contact.email },
-                { label:'Phone', val:c.footer.tel },
-              ].map((item, i) => (
+                { label:'LINE OA', val:c.footer.line, href:SITE_CONFIG.contact.lineUrl, external:true },
+                { label:'Email', val:SITE_CONFIG.contact.email, href:SITE_CONFIG.contact.email && `mailto:${SITE_CONFIG.contact.email}` },
+                { label:'Phone', val:c.footer.tel, href:c.footer.tel && `tel:${String(c.footer.tel).replace(/[^\d+]/g, '')}` },
+              ].map((item, i) => {
+                const valueStyle = { fontSize:'14px', color:'rgba(255,255,255,0.6)', fontFamily:'Jost', fontWeight:300 };
+                return (
                 <div key={i} style={{ display:'flex', gap:'24px', alignItems:'center' }}>
                   <span style={{ fontSize:'10px', letterSpacing:'0.2em', color:`${gold}80`, fontFamily:'Jost', minWidth:'60px' }}>
                     {item.label.toUpperCase()}
                   </span>
-                  <span style={{ fontSize:'14px', color:'rgba(255,255,255,0.6)', fontFamily:'Jost', fontWeight:300 }}>
-                    {item.val}
-                  </span>
+                  {item.href ? (
+                    <a
+                      href={item.href}
+                      target={item.external ? '_blank' : undefined}
+                      rel={item.external ? 'noopener noreferrer' : undefined}
+                      style={{ ...valueStyle, textDecoration:'none', transition:'color 0.2s' }}
+                      onMouseEnter={e => e.currentTarget.style.color = gold}
+                      onMouseLeave={e => e.currentTarget.style.color = valueStyle.color}
+                    >{item.val}</a>
+                  ) : (
+                    <span style={valueStyle}>{item.val}</span>
+                  )}
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
@@ -664,6 +691,16 @@ function Contact({ c, gold, navy, language }) {
               >{l}</button>
               );
             })}
+            {analyticsEnabled && c.consent && (
+              <button type="button" onClick={() => window.ConradAnalytics.openConsentSettings()} style={{
+                background:'transparent', border:'none', padding:0, cursor:'pointer',
+                fontSize:'10.5px', color:'rgba(255,255,255,0.3)', textDecoration:'none',
+                letterSpacing:'0.1em', fontFamily:'Jost', transition:'color 0.2s',
+              }}
+              onMouseEnter={e => e.target.style.color = gold}
+              onMouseLeave={e => e.target.style.color = 'rgba(255,255,255,0.3)'}
+              >{c.consent.settings}</button>
+            )}
           </div>
 
           <span style={{ fontSize:'10.5px', color:'rgba(255,255,255,0.25)', fontFamily:'Jost' }}>

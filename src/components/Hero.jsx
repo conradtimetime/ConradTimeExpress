@@ -181,7 +181,7 @@ function Hero({ c, gold, navy, layout }) {
         )}
 
         <div className="h4" style={{ display:'flex', gap:'14px', alignItems:'center', justifyContent:'flex-start', marginBottom:'44px', flexWrap:'wrap' }}>
-          <a href={lineUrl} target="_blank" rel="noopener noreferrer" style={{
+          <a href={lineUrl} target="_blank" rel="noopener noreferrer" data-cta="hero" style={{
             background:lineGreen, color:'#fff',
             width:'200px', boxSizing:'border-box', textAlign:'center',
             padding:'13px 28px', fontSize:'11px', letterSpacing:'0.14em',

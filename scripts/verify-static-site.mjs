@@ -117,6 +117,26 @@ assert(
 );
 assert(Boolean(dataContext.window.TWEAK_DEFAULTS?.language), 'Tweak defaults were not loaded.');
 
+// Analytics: loader must run before the app bundle, and the CSP must only allow
+// Google tag hosts when a GTM container is configured.
+const analyticsScript = rel('src', 'analytics.js');
+const analyticsIndex = localScriptSources.indexOf(analyticsScript);
+const bundleIndex = localScriptSources.indexOf(rel('dist', 'conrad-express.bundle.js'));
+assert(analyticsIndex !== -1, `index.html must load ${analyticsScript}.`);
+assert(analyticsIndex === -1 || analyticsIndex < bundleIndex, `${analyticsScript} must load before the app bundle.`);
+assert(!/<script src="src\/analytics\.js[^>]*\s(defer|async)[\s>]/.test(html), `${analyticsScript} must load synchronously (no defer/async).`);
+
+const gtmId = String(data?.SITE_CONFIG?.analytics?.gtmId || '').trim();
+const stampedGtmId = html.match(/<script src="src\/analytics\.js[^"]*" data-gtm-id="([^"]*)">/)?.[1];
+const cspContent = html.match(/<meta http-equiv="Content-Security-Policy" content="([^"]*)">/)?.[1] || '';
+assert(stampedGtmId === gtmId, `index.html data-gtm-id (${stampedGtmId}) does not match SITE_CONFIG.analytics.gtmId (${gtmId}). Run npm run build.`);
+assert(!gtmId || /^GTM-[A-Z0-9]{4,12}$/.test(gtmId), `Invalid GTM container ID: ${gtmId}`);
+assert(
+  gtmId ? cspContent.includes('https://www.googletagmanager.com') : !cspContent.includes('googletagmanager'),
+  gtmId ? 'CSP must allow Google Tag Manager when gtmId is set.' : 'CSP must not allow Google tag hosts while gtmId is empty.'
+);
+assert(!cspContent.includes("script-src 'self' 'unsafe-inline'"), "CSP script-src must not include 'unsafe-inline'.");
+
 const assetPaths = new Set([
   data?.SITE_CONFIG?.heroBackground,
   ...(data?.REVIEW_PHOTOS || []),
