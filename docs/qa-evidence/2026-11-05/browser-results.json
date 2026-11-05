@@ -1,0 +1,731 @@
+{
+  "testedAt": "2026-11-05T10:32:20.112Z",
+  "browser": "ChatGPT in-app browser",
+  "baseUrl": "http://127.0.0.1:8755/",
+  "mockUpstream": true,
+  "results": [
+    {
+      "id": "UI-01",
+      "section": "Page",
+      "steps": "เปิดหน้าเว็บ desktop",
+      "expected": "มีทุก section และ H1 เดียว",
+      "status": "PASS",
+      "actual": {
+        "footer": true,
+        "h1": 1,
+        "ids": [
+          "hero",
+          "brands",
+          "services",
+          "testimonials",
+          "why",
+          "process",
+          "packages",
+          "contact"
+        ]
+      }
+    },
+    {
+      "id": "HR-01",
+      "section": "Hero",
+      "steps": "ตรวจหัวข้อ ราคา และ CTA",
+      "expected": "หัวข้อไม่ว่าง ราคา500 และลิงก์จอง/เรียนรู้ถูกต้อง",
+      "status": "PASS",
+      "actual": {
+        "links": [
+          "https://line.me/ti/p/~@ConradExpress",
+          "#services"
+        ],
+        "price": "฿500",
+        "title": "Conrad Express\nส่งสินค้ามูลค่าสูงพรีเมียม\nทั่วไทยภายในหนึ่งวัน"
+      }
+    },
+    {
+      "id": "NAV-01",
+      "section": "Navigation",
+      "steps": "กดลิงก์เมนูทั้ง5ส่วน",
+      "expected": "URL hash ตรงกับ section ทุกอัน",
+      "status": "PASS",
+      "actual": [
+        "#services",
+        "#why",
+        "#process",
+        "#packages",
+        "#contact"
+      ]
+    },
+    {
+      "id": "CT-UI01",
+      "section": "Contact",
+      "steps": "กดส่งโดยไม่กรอกข้อมูล",
+      "expected": "native required validation ไม่ผ่านและไม่มีข้อความสำเร็จ",
+      "status": "PASS",
+      "actual": {
+        "invalid": [
+          "name",
+          "phone",
+          "serviceType"
+        ],
+        "status": null
+      }
+    },
+    {
+      "id": "CT-UI02",
+      "section": "Contact",
+      "steps": "ตรวจชื่อช่องกรอกและข้อมูลติดต่อ",
+      "expected": "label เชื่อมครบ4ช่อง และ LINE/email/phone เป็นลิงก์",
+      "status": "PASS",
+      "actual": {
+        "labels": [
+          {
+            "count": 1,
+            "name": "name"
+          },
+          {
+            "count": 1,
+            "name": "phone"
+          },
+          {
+            "count": 1,
+            "name": "serviceType"
+          },
+          {
+            "count": 1,
+            "name": "message"
+          }
+        ],
+        "links": [
+          "https://line.me/ti/p/~@ConradExpress",
+          "mailto:conradtime.time@gmail.com",
+          "tel:+6620169950"
+        ]
+      }
+    },
+    {
+      "id": "I18N-01",
+      "section": "Language",
+      "steps": "เลือกนาฬิกาหรูแล้วสลับ TH→EN",
+      "expected": "ID ที่เลือกคงเดิมและ label เปลี่ยนเป็น Luxury Watches",
+      "status": "PASS",
+      "actual": {
+        "label": "Luxury Watches",
+        "other": 1,
+        "value": "luxury-watches"
+      }
+    },
+    {
+      "id": "I18N-02",
+      "section": "Accessibility",
+      "steps": "สลับหน้าเว็บเป็น EN แล้วตรวจ html lang",
+      "expected": "document language ต้องเป็น en เพื่อให้ screen reader อ่านถูกภาษา",
+      "status": "FAIL",
+      "actual": "{\"heading\":\"Start Shipping\\nWith Us Now\",\"lang\":\"th\"}"
+    },
+    {
+      "id": "CT-UI03",
+      "section": "Contact",
+      "steps": "กรอกข้อความ [qa:fail] แล้วส่ง",
+      "expected": "แสดง error และเก็บข้อมูลครบ4ช่อง",
+      "status": "PASS",
+      "actual": {
+        "message": "[qa:fail]",
+        "name": "Conrad QA Local",
+        "status": "Unable to submit. Please try again or contact us via LINE OA.",
+        "type": "luxury-watches"
+      }
+    },
+    {
+      "id": "CT-UI04",
+      "section": "Contact",
+      "steps": "ลบ marker failure แล้วส่งข้อมูลจำลอง",
+      "expected": "ได้ success และล้างฟอร์มทั้ง4ช่อง",
+      "status": "PASS",
+      "actual": {
+        "empty": true,
+        "status": "✓ Your request has been received. We will respond within 2 hours."
+      }
+    },
+    {
+      "id": "PO-UI01",
+      "section": "Policies",
+      "steps": "เปิด Privacy Policy จาก footer",
+      "expected": "แสดง dialog มีชื่อ และล็อก scroll ด้านหลัง",
+      "status": "PASS",
+      "actual": {
+        "modal": "true",
+        "overflow": "hidden",
+        "title": "นโยบายความเป็นส่วนตัว (Privacy Policy)"
+      }
+    },
+    {
+      "id": "PO-UI02",
+      "section": "Accessibility",
+      "steps": "เปิด dialog แล้วตรวจ keyboard focus",
+      "expected": "focus ย้ายเข้าภายใน dialog",
+      "status": "FAIL",
+      "actual": "{\"inside\":false,\"tag\":\"BUTTON\",\"text\":\"Privacy Policy\"}"
+    },
+    {
+      "id": "PO-UI03",
+      "section": "Policies",
+      "steps": "กด Escape",
+      "expected": "ปิด dialog และปลดล็อก body scroll",
+      "status": "PASS",
+      "actual": {
+        "dialog": false,
+        "overflow": ""
+      }
+    },
+    {
+      "id": "PO-UI04",
+      "section": "Policies",
+      "steps": "เปิด Terms และ Compensation แล้วกด Close",
+      "expected": "แสดงเนื้อหาครบและปิดได้ทั้ง2ฉบับ",
+      "status": "PASS",
+      "actual": [
+        {
+          "sections": 18,
+          "title": "ข้อกำหนดการใช้บริการ (Terms of Service)"
+        },
+        {
+          "sections": 11,
+          "title": "นโยบายชดเชยสินค้า (Product Compensation Policy)"
+        }
+      ]
+    },
+    {
+      "id": "CT-UI05",
+      "section": "Contact",
+      "steps": "รอหลังส่งสำเร็จเกิน5วินาทีระหว่างตรวจนโยบาย",
+      "expected": "ข้อความสำเร็จยังแสดงอยู่",
+      "status": "PASS",
+      "actual": {
+        "elapsedMs": 28501,
+        "status": "✓ Your request has been received. We will respond within 2 hours."
+      }
+    },
+    {
+      "id": "BR-UI01",
+      "section": "Brands",
+      "steps": "เลื่อนไปส่วนแบรนด์และตรวจโลโก้",
+      "expected": "โลโก้5รูปโหลดได้และลิงก์ปลายทางมีชื่อ",
+      "status": "PASS",
+      "actual": [
+        {
+          "href": "https://www.facebook.com/visaservicebymesub/?locale=th_TH",
+          "loaded": true,
+          "name": "Visit Mesub"
+        },
+        {
+          "href": "https://www.khunhuagroup.com/#",
+          "loaded": true,
+          "name": "Visit Khunhua"
+        },
+        {
+          "href": "https://conradtime.com/",
+          "loaded": true,
+          "name": "Visit Conrad Time"
+        },
+        {
+          "href": "https://timepiecerepairco.com/",
+          "loaded": true,
+          "name": "Visit Timepiece"
+        },
+        {
+          "href": "https://brandnamevoyage.com/",
+          "loaded": true,
+          "name": "Visit Voyage"
+        }
+      ]
+    },
+    {
+      "id": "SV-UI01",
+      "section": "Services",
+      "steps": "เลื่อนไปบริการบน desktop",
+      "expected": "การ์ด10ใบมีภาพและหัวข้อครบ",
+      "status": "PASS",
+      "actual": {
+        "cards": 10,
+        "loaded": true,
+        "titles": [
+          "Luxury Watches",
+          "Fine Art",
+          "Collectibles",
+          "Gemstones",
+          "Gold",
+          "Luxury Fashion",
+          "Confidential",
+          "Gadgets",
+          "IT Equipment",
+          "Other"
+        ]
+      }
+    },
+    {
+      "id": "RV-UI01",
+      "section": "Testimonials",
+      "steps": "เลื่อนให้หยุดที่ส่วนรีวิว กดจุดนำทางรูปที่4 และรอ active selector",
+      "expected": "รูป6รูปโหลดได้และปุ่มที่4เป็นสถานะ active",
+      "status": "PASS",
+      "actual": {
+        "count": 6,
+        "fourth": "28px",
+        "loaded": true
+      },
+      "initialObservation": "{\"count\":6,\"loaded\":true,\"second\":\"6px\"}",
+      "note": "อ่าน DOM ครั้งแรกก่อน React paint จึงตรวจซ้ำด้วย waitFor active selector"
+    },
+    {
+      "id": "RV-UI02",
+      "section": "Accessibility",
+      "steps": "ตรวจชื่อปุ่มนำทางรีวิว",
+      "expected": "ทุกปุ่มมี accessible name",
+      "status": "FAIL",
+      "actual": "[{\"label\":null,\"text\":\"\"},{\"label\":null,\"text\":\"\"},{\"label\":null,\"text\":\"\"},{\"label\":null,\"text\":\"\"},{\"label\":null,\"text\":\"\"},{\"label\":null,\"text\":\"\"}]"
+    },
+    {
+      "id": "WHY-UI01",
+      "section": "Why Us",
+      "steps": "เลื่อนไปจุดเด่น",
+      "expected": "แสดงจุดเด่น6ข้อและคำอธิบายครบ",
+      "status": "PASS",
+      "actual": {
+        "count": 6,
+        "descriptions": [
+          98,
+          86,
+          77,
+          68,
+          93,
+          103
+        ],
+        "titles": [
+          "Responsible for every delivery",
+          "Status Tracking at Every Step",
+          "Always On Time",
+          "Nationwide Coverage",
+          "Privacy",
+          "Expert Handling"
+        ]
+      }
+    },
+    {
+      "id": "PR-UI01",
+      "section": "Process",
+      "steps": "กดขั้นตอน1ถึง4ตามลำดับ",
+      "expected": "aria-current รูป และ progress ตรงกับขั้นตอนที่เลือก",
+      "status": "PASS",
+      "actual": [
+        {
+          "active": 0,
+          "image": "brand-images/How-it-work-1.jpg",
+          "progress": "25%"
+        },
+        {
+          "active": 1,
+          "image": "brand-images/How-it-work-2.jpg",
+          "progress": "50%"
+        },
+        {
+          "active": 2,
+          "image": "brand-images/How-it-work-3.jpg",
+          "progress": "75%"
+        },
+        {
+          "active": 3,
+          "image": "brand-images/How-it-work-4.jpg",
+          "progress": "100%"
+        }
+      ]
+    },
+    {
+      "id": "PK-UI01",
+      "section": "Packages",
+      "steps": "เปิดแพ็กเกจและตรวจราคา/CTA",
+      "expected": "มี4แพ็กเกจ ราคาเริ่ม500 และทุกCTAไปLINEพร้อมชื่อแพ็กเกจ",
+      "status": "PASS",
+      "actual": {
+        "count": 4,
+        "cta": [
+          {
+            "href": "https://line.me/ti/p/~@ConradExpress",
+            "package": "Standard"
+          },
+          {
+            "href": "https://line.me/ti/p/~@ConradExpress",
+            "package": "Other Provinces"
+          },
+          {
+            "href": "https://line.me/ti/p/~@ConradExpress",
+            "package": "5 Delivery"
+          },
+          {
+            "href": "https://line.me/ti/p/~@ConradExpress",
+            "package": "Exclusive"
+          }
+        ],
+        "popular": 1,
+        "prices": [
+          "฿500",
+          "฿5,900+",
+          "฿3,900+",
+          "Contact Staff"
+        ]
+      }
+    },
+    {
+      "id": "AN-UI01",
+      "section": "Consent",
+      "steps": "เปิด Cookie Settings แล้วกด Essential Only จากนั้น reload",
+      "expected": "banner เปิดได้ ปิดหลังเลือก และไม่กลับมาหลัง reload",
+      "status": "PASS",
+      "actual": {
+        "banner": false,
+        "empty": true,
+        "status": false
+      },
+      "initialObservation": "Error: Playwright selector deadline exceeded\nwaiting on click for selector .consent-banner >> internal:role=button[name=\"Necessary Only\"s]\nLocator diagnostics: {\"kind\":\"no_matches\",\"action\":\"click\",\"locator\":\".consent-banner >> internal:role=button[name=\\\"Necessary Only\\\"s]\",\"matchCount\":0,\"matches\":[],\"visibleCount\":0,\"truncated\":false}",
+      "note": "แก้ locator ให้ตรงข้อความจริง Essential Only แล้วรัน precondition reload ครบ"
+    },
+    {
+      "id": "CT-UI06",
+      "section": "Contact",
+      "steps": "reload หลังเคยส่งสำเร็จ",
+      "expected": "ข้อความยืนยันหายและฟอร์มเริ่มใหม่",
+      "status": "PASS",
+      "actual": {
+        "banner": false,
+        "empty": true,
+        "status": false
+      },
+      "initialObservation": "{\"empty\":true,\"status\":true}",
+      "note": "แก้ locator ให้ตรงข้อความจริง Essential Only แล้วรัน precondition reload ครบ"
+    },
+    {
+      "id": "AN-UI02",
+      "section": "Consent responsive",
+      "steps": "เปิด Cookie Settings ภาษาENที่320×568",
+      "expected": "banner และปุ่มยินยอมทั้งสองอยู่ใน viewport",
+      "status": "PASS",
+      "actual": {
+        "banner": {
+          "bottom": 552,
+          "height": 416.75,
+          "left": 16,
+          "right": 300,
+          "top": 135.25,
+          "width": 284,
+          "x": 16,
+          "y": 135.25
+        },
+        "buttons": [
+          {
+            "rect": {
+              "bottom": 419,
+              "height": 17.5,
+              "left": 39,
+              "right": 117.984375,
+              "top": 401.5,
+              "width": 78.984375,
+              "x": 39,
+              "y": 401.5
+            },
+            "text": "Privacy Policy"
+          },
+          {
+            "rect": {
+              "bottom": 495,
+              "height": 58,
+              "left": 39,
+              "right": 153,
+              "top": 437,
+              "width": 114,
+              "x": 39,
+              "y": 437
+            },
+            "text": "Essential Only"
+          },
+          {
+            "rect": {
+              "bottom": 495,
+              "height": 58,
+              "left": 163,
+              "right": 277,
+              "top": 437,
+              "width": 114,
+              "x": 163,
+              "y": 437
+            },
+            "text": "Accept All"
+          }
+        ],
+        "padding": "56px 22px",
+        "viewport": {
+          "height": 568,
+          "width": 320
+        }
+      }
+    },
+    {
+      "id": "AN-UI03",
+      "section": "Consent",
+      "steps": "กด Accept All แล้วเปิดSettingsเพื่อถอน",
+      "expected": "เลือกได้ ปิด banner และเปิดใหม่เพื่อเปลี่ยนเป็น Essential Only",
+      "status": "PASS",
+      "actual": {
+        "acceptedOnMobile": true,
+        "reopenedAndRevokedOnDesktop": true
+      },
+      "initialObservation": "Error: Playwright selector deadline exceeded\nwaiting on click for selector .consent-banner >> internal:role=button[name=\"Essential Only\"s]\nLocator diagnostics: {\"kind\":\"no_matches\",\"action\":\"click\",\"locator\":\".consent-banner >> internal:role=button[name=\\\"Essential Only\\\"s]\",\"matchCount\":0,\"matches\":[],\"visibleCount\":0,\"truncated\":false}",
+      "note": "ปุ่ม footer ถูก FAB บังที่320px ตาม RESP-02; ตรวจ consent flow ซ้ำบนdesktop"
+    },
+    {
+      "id": "RESP-01",
+      "section": "Responsive",
+      "steps": "ตรวจหน้า320×568หลังปิดbanner",
+      "expected": "ไม่มี horizontal page overflow และใช้ hamburger menu",
+      "status": "PASS",
+      "actual": {
+        "burger": "flex",
+        "page": 316,
+        "viewport": 320
+      }
+    },
+    {
+      "id": "RESP-02",
+      "section": "Footer/Floating contact",
+      "steps": "ที่320×568ตรวจตำแหน่งปุ่ม Cookie Settings",
+      "expected": "จุดกดตรงกลางปุ่มไม่ถูก floating widget บัง",
+      "status": "FAIL",
+      "actual": "{\"button\":{\"bottom\":513.0546875,\"height\":15,\"left\":158.859375,\"right\":243.8359375,\"top\":498.0546875,\"width\":84.9765625,\"x\":158.859375,\"y\":498.0546875},\"hitClass\":\"fabx-top\",\"hitLabel\":\"Back to top\",\"hitTag\":\"BUTTON\",\"reachable\":false}"
+    },
+    {
+      "id": "AN-UI04",
+      "section": "QA isolation",
+      "steps": "โหลดหน้าเว็บผ่าน QA server",
+      "expected": "ไม่มี script GTM/GA4 ในDOM แต่ consent controls ยังมี",
+      "status": "PASS",
+      "actual": {
+        "scripts": [
+          "src/analytics.js?v=qa-local-no-tags",
+          "vendor/react.production.min.js",
+          "vendor/react-dom.production.min.js",
+          "src/data/config.js?v=20261105-contact-fixes",
+          "src/data/copy.js?v=20261105-contact-fixes",
+          "src/data/reviews.js",
+          "src/data/assets.js?v=20260630-process-images-cover",
+          "src/data/policies.js?v=20261105-google-cookies",
+          "src/data/site-data.js",
+          "src/data/tweaks.js?v=20260701-gold-system",
+          "dist/conrad-express.bundle.js?v=20261105-persistent-confirmation"
+        ],
+        "settings": true
+      }
+    },
+    {
+      "id": "FL-UI01",
+      "section": "Floating contact",
+      "steps": "เปิดและปิดปุ่มติดต่อแบบลอย",
+      "expected": "aria-expanded สลับและมีลิงก์Tracking/LINEที่ถูกต้อง",
+      "status": "PASS",
+      "actual": {
+        "actions": [
+          {
+            "href": "https://line.me/ti/p/~@ConradExpress",
+            "text": "ติดตามสถานะการขนส่ง"
+          },
+          {
+            "href": "https://line.me/ti/p/~@ConradExpress",
+            "text": "แชทผ่าน LINE"
+          }
+        ],
+        "expanded": "true"
+      }
+    },
+    {
+      "id": "FL-UI02",
+      "section": "Floating contact",
+      "steps": "กด Back to top จากด้านล่างแล้วรอหน้าเลื่อนหยุด",
+      "expected": "กลับถึงส่วนHero",
+      "status": "PASS",
+      "actual": {
+        "before": -5583,
+        "top": 0
+      }
+    },
+    {
+      "id": "RESP-03",
+      "section": "Responsive",
+      "steps": "ตรวจขนาด320×568,375×667,768×1024,1024×768,1280×600,1440×900",
+      "expected": "หน้าไม่ล้นแนวนอนและปุ่มส่งไม่ทับfooterทุกขนาด",
+      "status": "PASS",
+      "actual": [
+        {
+          "burger": "flex",
+          "footerGap": 38,
+          "height": 568,
+          "packageDots": 4,
+          "pageWidth": 316,
+          "servicesDots": 10,
+          "width": 320
+        },
+        {
+          "burger": "flex",
+          "footerGap": 38,
+          "height": 667,
+          "packageDots": 4,
+          "pageWidth": 371,
+          "servicesDots": 10,
+          "width": 375
+        },
+        {
+          "burger": "flex",
+          "footerGap": 46,
+          "height": 1024,
+          "packageDots": 1,
+          "pageWidth": 764,
+          "servicesDots": 10,
+          "width": 768
+        },
+        {
+          "burger": "none",
+          "footerGap": 46,
+          "height": 768,
+          "packageDots": 1,
+          "pageWidth": 1020,
+          "servicesDots": 9,
+          "width": 1024
+        },
+        {
+          "burger": "none",
+          "footerGap": 64,
+          "height": 600,
+          "packageDots": 1,
+          "pageWidth": 1276,
+          "servicesDots": 1,
+          "width": 1280
+        },
+        {
+          "burger": "none",
+          "footerGap": 110.25,
+          "height": 900,
+          "packageDots": 1,
+          "pageWidth": 1436,
+          "servicesDots": 1,
+          "width": 1440
+        }
+      ]
+    },
+    {
+      "id": "SV-UI02",
+      "section": "Services carousel",
+      "steps": "ที่1024×768 กดจุดสุดท้ายแล้ว Next",
+      "expected": "จุดสุดท้าย active และ Next วนกลับจุดแรก",
+      "status": "PASS",
+      "actual": "{\"before\":72.0078125,\"end\":{\"active\":\"Go to slide 9\",\"top\":-113.9921875},\"start\":{\"active\":\"Go to slide 1\",\"top\":33.0078125}}",
+      "initialObservation": "{\"before\":72.0078125,\"end\":{\"active\":\"Go to slide 9\",\"top\":-113.9921875},\"start\":{\"active\":\"Go to slide 1\",\"top\":33.0078125}}",
+      "note": "ผลactive9→1ยืนยันการวน; ไม่ตัดสินvertical movementจาก locator click เพราะ automation เลื่อนให้ปุ่มเข้าจอ การไม่ส่ง top ตรวจแยกในTC-SW"
+    },
+    {
+      "id": "NAV-UI02",
+      "section": "Mobile navigation",
+      "steps": "เปิด hamburger แล้วเลือกContact",
+      "expected": "เมนูปิดและURLเปลี่ยนเป็น#contact",
+      "status": "PASS",
+      "actual": {
+        "hash": "#contact",
+        "visibleLinks": 0
+      }
+    },
+    {
+      "id": "CT-UI07",
+      "section": "Contact",
+      "steps": "ตรวจสีช่องกรอกปกติและCSSautofillที่โหลด",
+      "expected": "ช่องกรอกใช้ dark color-scheme ตัวอักษรขาว และมีทั้งautofill selectors",
+      "status": "PASS",
+      "actual": {
+        "autofillRules": [
+          "#contact .contact-form :is(input, select, textarea):-webkit-autofill { caret-color: rgb(255, 255, 255); -webkit-text-fill-color: rgb(255, 255, 255) !important; box-shadow: rgb(15, 30, 53) 0px 0px 0px 1000px inset !important; }",
+          "#contact .contact-form :is(input, select, textarea):autofill { caret-color: rgb(255, 255, 255); -webkit-text-fill-color: rgb(255, 255, 255) !important; box-shadow: rgb(15, 30, 53) 0px 0px 0px 1000px inset !important; }"
+        ],
+        "fields": [
+          {
+            "color": "rgb(255, 255, 255)",
+            "name": "name",
+            "scheme": "dark"
+          },
+          {
+            "color": "rgb(255, 255, 255)",
+            "name": "phone",
+            "scheme": "dark"
+          },
+          {
+            "color": "rgb(255, 255, 255)",
+            "name": "serviceType",
+            "scheme": "dark"
+          },
+          {
+            "color": "rgb(255, 255, 255)",
+            "name": "message",
+            "scheme": "dark"
+          }
+        ]
+      }
+    },
+    {
+      "id": "PK-UI02",
+      "section": "Packages carousel",
+      "steps": "บน375×667กดslide4แล้วNext",
+      "expected": "แพ็กเกจมี4จุดและวนกลับจุดแรกได้",
+      "status": "PASS",
+      "actual": {
+        "lastReached": true,
+        "wrappedToFirst": true
+      }
+    },
+    {
+      "id": "RESP-04",
+      "section": "Navigation responsive",
+      "steps": "ใช้ภาษาENที่901×700ก่อนhamburger breakpoint",
+      "expected": "ทุกเมนูและCTAอยู่ในviewportและไม่ทับโลโก้",
+      "status": "FAIL",
+      "actual": "{\"controls\":[{\"rect\":{\"bottom\":44.5,\"height\":18,\"left\":144.171875,\"right\":210.7265625,\"top\":26.5,\"width\":66.5546875,\"x\":144.171875,\"y\":26.5},\"text\":\"SERVICESบริการ\"},{\"rect\":{\"bottom\":44.5,\"height\":18,\"left\":246.7265625,\"right\":318,\"top\":26.5,\"width\":71.2734375,\"x\":246.7265625,\"y\":26.5},\"text\":\"ABOUTเกี่ยวกับเรา\"},{\"rect\":{\"bottom\":44.5,\"height\":18,\"left\":354,\"right\":417.3515625,\"top\":26.5,\"width\":63.3515625,\"x\":354,\"y\":26.5},\"text\":\"PROCESSขั้นตอน\"},{\"rect\":{\"bottom\":44.5,\"height\":18,\"left\":453.3515625,\"right\":526.0859375,\"top\":26.5,\"width\":72.734375,\"x\":453.3515625,\"y\":26.5},\"text\":\"PACKAGESแพ็กเกจ\"},{\"rect\":{\"bottom\":44.5,\"height\":18,\"left\":562.0859375,\"right\":627.0703125,\"top\":26.5,\"width\":64.984375,\"x\":562.0859375,\"y\":26.5},\"text\":\"CONTACTติดต่อ\"},{\"rect\":{\"bottom\":49,\"height\":29,\"left\":663.0703125,\"right\":707.0703125,\"top\":20,\"width\":44,\"x\":663.0703125,\"y\":20},\"text\":\"Switch to Thai\"},{\"rect\":{\"bottom\":53.5,\"height\":36,\"left\":743.0703125,\"right\":927.0703125,\"top\":17.5,\"width\":184,\"x\":743.0703125,\"y\":17.5},\"text\":\"BOOK A SERVICEจองการใช้บริการ\"}],\"links\":{\"bottom\":53.5,\"height\":36,\"left\":144.171875,\"right\":927.0703125,\"top\":17.5,\"width\":782.8984375,\"x\":144.171875,\"y\":17.5},\"logo\":{\"bottom\":57,\"height\":43,\"left\":48,\"right\":144.171875,\"top\":14,\"width\":96.171875,\"x\":48,\"y\":14},\"width\":901}"
+    },
+    {
+      "id": "ASSET-UI01",
+      "section": "Assets",
+      "steps": "ตรวจภาพที่มีอยู่ในDOMหลังเปิดครบทุกส่วน",
+      "expected": "ไม่มีภาพที่โหลดแล้วแต่เสีย",
+      "status": "PASS",
+      "actual": {
+        "broken": [],
+        "count": 24,
+        "pending": []
+      }
+    },
+    {
+      "id": "MAN-01",
+      "section": "Native Autofill",
+      "steps": "ใช้saved dummy contactในChrome/Safariกรอกอัตโนมัติ โฟกัสและblurช่องชื่อ/เบอร์",
+      "expected": "พื้นหลังเข้ม ตัวอักษรขาวทุกสถานะ",
+      "actual": "BLOCKED: environmentนี้ไม่ได้มีsaved dummy contact; การfillธรรมดาไม่activate :autofill จึงยืนยันเฉพาะCSSที่โหลดในCT-UI07",
+      "status": "BLOCKED"
+    },
+    {
+      "id": "MAN-02",
+      "section": "Cross-browser",
+      "steps": "รันชุดbrowserในChrome Safari Firefoxและมือถือจริง",
+      "expected": "พฤติกรรมและlayoutเท่ากัน",
+      "actual": "BLOCKED: รอบนี้ใช้in-app browserเท่านั้น ยังไม่ได้รันbrowserอื่นหรือhardwareจริง",
+      "status": "BLOCKED"
+    },
+    {
+      "id": "MAN-03",
+      "section": "Production integrations",
+      "steps": "ส่งleadเข้าApps Scriptจริง ตรวจSheet emailและGA4/Ads",
+      "expected": "บันทึก1แถว ส่งemail1ครั้ง conversion1ครั้ง",
+      "actual": "BLOCKED: ใช้mock upstreamและไม่ส่งข้อมูลจริง; ต้องแยกintegration runที่อนุญาตside effects",
+      "status": "BLOCKED"
+    }
+  ]
+}

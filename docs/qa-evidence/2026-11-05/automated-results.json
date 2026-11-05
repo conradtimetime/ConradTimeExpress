@@ -1,0 +1,374 @@
+{
+  "testedAt": "2026-11-05T17:35:08.435517+07:00",
+  "runtime": "Node.js v24.22.1",
+  "testCount": 71,
+  "pass": 71,
+  "fail": 0,
+  "cases": [
+    {
+      "id": "TC-AN01",
+      "status": "PASS",
+      "name": "TC-AN01 defaults deny nonessential storage before loading the configured GTM container"
+    },
+    {
+      "id": "TC-AN02",
+      "status": "PASS",
+      "name": "TC-AN02 restores a saved granted choice after applying safe defaults"
+    },
+    {
+      "id": "TC-AN03",
+      "status": "PASS",
+      "name": "TC-AN03 restores a denied choice without granting any nonessential storage"
+    },
+    {
+      "id": "TC-AN04",
+      "status": "PASS",
+      "name": "TC-AN04 corrupt, unsupported and unavailable storage safely behaves as no consent choice"
+    },
+    {
+      "id": "TC-AN05",
+      "status": "PASS",
+      "name": "TC-AN05 empty or invalid GTM IDs never insert a network-loading script"
+    },
+    {
+      "id": "TC-AN06",
+      "status": "PASS",
+      "name": "TC-AN06 granting consent updates all consent keys, persists version and dispatches the change event"
+    },
+    {
+      "id": "TC-AN07",
+      "status": "PASS",
+      "name": "TC-AN07 withdrawing consent denies storage and clears Google cookies for host/domain scopes only"
+    },
+    {
+      "id": "TC-AN08",
+      "status": "PASS",
+      "name": "TC-AN08 invalid choices do nothing and blocked storage still permits a page-lifetime choice"
+    },
+    {
+      "id": "TC-AN09",
+      "status": "PASS",
+      "name": "TC-AN09 nested LINE/package links retain CTA attribution and clear stale parameters on subsequent clicks"
+    },
+    {
+      "id": "TC-AN10",
+      "status": "PASS",
+      "name": "TC-AN10 phone, email, internal CTA and unattributed LINE clicks produce the expected event names"
+    },
+    {
+      "id": "TC-AN11",
+      "status": "PASS",
+      "name": "TC-AN11 unrelated external links and non-link targets do not create conversions"
+    },
+    {
+      "id": "TC-AN12",
+      "status": "PASS",
+      "name": "TC-AN12 consent banner is visible for a new visitor and hidden for disabled analytics or a saved choice"
+    },
+    {
+      "id": "TC-AN13",
+      "status": "PASS",
+      "name": "TC-AN13 rejecting or accepting from the banner persists the matching choice and dismisses the banner"
+    },
+    {
+      "id": "TC-AN14",
+      "status": "PASS",
+      "name": "TC-AN14 cookie settings reopens a saved-choice banner and permits revoking previous consent"
+    },
+    {
+      "id": "TC-AN15",
+      "status": "PASS",
+      "name": "TC-AN15 banner privacy control requests the privacy dialog without changing the consent choice"
+    },
+    {
+      "id": "TC-AN16",
+      "status": "PASS",
+      "name": "TC-AN16 banner copy changes between Thai and English while keeping its consent controls usable"
+    },
+    {
+      "id": "TC-API01",
+      "status": "PASS",
+      "name": "only an explicit storage acknowledgement returns success"
+    },
+    {
+      "id": "TC-API02",
+      "status": "PASS",
+      "name": "Sheets failure, opaque-like response, and non-JSON responses fail closed"
+    },
+    {
+      "id": "TC-API03",
+      "status": "PASS",
+      "name": "network errors and timeouts never acknowledge a lead"
+    },
+    {
+      "id": "TC-API04",
+      "status": "PASS",
+      "name": "invalid methods, JSON bodies and field lengths do not reach Google"
+    },
+    {
+      "id": "TC-API05",
+      "status": "PASS",
+      "name": "an invalid configured upstream does not forward customer data"
+    },
+    {
+      "id": "TC-CT01",
+      "status": "PASS",
+      "name": "TC-CT01 backend rejects storage: retain the form and do not record a lead"
+    },
+    {
+      "id": "TC-CT02",
+      "status": "PASS",
+      "name": "TC-CT02 backend returns non-JSON: retain the form and do not record a lead"
+    },
+    {
+      "id": "TC-CT03",
+      "status": "PASS",
+      "name": "TC-CT03 HTTP request fails: retain the form and do not record a lead"
+    },
+    {
+      "id": "TC-CT04",
+      "status": "PASS",
+      "name": "TC-CT04 network request fails: retain the form and do not record a lead"
+    },
+    {
+      "id": "TC-CT05",
+      "status": "PASS",
+      "name": "TC-CT05 a missing endpoint retains the form and cannot acknowledge a lead"
+    },
+    {
+      "id": "TC-CT06",
+      "status": "PASS",
+      "name": "TC-CT06 acknowledged storage clears the form and records one lead with a stable service ID"
+    },
+    {
+      "id": "TC-CT07",
+      "status": "PASS",
+      "name": "TC-CT07 analytics errors do not undo an acknowledged submission"
+    },
+    {
+      "id": "TC-CT08",
+      "status": "PASS",
+      "name": "TC-CT08 oversized browser metadata is capped without changing customer fields"
+    },
+    {
+      "id": "TC-CT09",
+      "status": "PASS",
+      "name": "TC-CT09 changing language preserves selection and renders the translated service label once"
+    },
+    {
+      "id": "TC-CT10",
+      "status": "PASS",
+      "name": "TC-CT10 all four form fields have a unique ID and an associated visible label in both languages"
+    },
+    {
+      "id": "TC-CT11",
+      "status": "PASS",
+      "name": "TC-CT11 success survives more than two hours, language changes and typing; reload starts fresh"
+    },
+    {
+      "id": "TC-CT12",
+      "status": "PASS",
+      "name": "TC-CT12 an in-flight submission disables all fields and blocks a second submission"
+    },
+    {
+      "id": "TC-CT13",
+      "status": "PASS",
+      "name": "TC-CT13 missing, whitespace-only and unknown required values never reach the endpoint"
+    },
+    {
+      "id": "TC-CT14",
+      "status": "PASS",
+      "name": "TC-CT14 required constraints, input limits and autofill hints follow the form contract"
+    },
+    {
+      "id": "TC-CT15",
+      "status": "PASS",
+      "name": "TC-CT15 optional message can be empty and customer text is trimmed before submission"
+    },
+    {
+      "id": "TC-PO01",
+      "status": "PASS",
+      "name": "TC-PO01 privacy policy opens from its footer link and Close restores scrolling"
+    },
+    {
+      "id": "TC-PO02",
+      "status": "PASS",
+      "name": "TC-PO02 terms policy opens from its footer link and Close restores scrolling"
+    },
+    {
+      "id": "TC-PO03",
+      "status": "PASS",
+      "name": "TC-PO03 insurance policy opens from its footer link and Close restores scrolling"
+    },
+    {
+      "id": "TC-PO04",
+      "status": "PASS",
+      "name": "TC-PO04 Escape closes the policy, restores scrolling and leaves normal keys alone"
+    },
+    {
+      "id": "TC-PO05",
+      "status": "PASS",
+      "name": "TC-PO05 a content click stays open while an overlay click closes the policy"
+    },
+    {
+      "id": "TC-PO06",
+      "status": "PASS",
+      "name": "TC-PO06 consent policy event opens Privacy and invalid policy IDs are ignored"
+    },
+    {
+      "id": "TC-GS01",
+      "status": "PASS",
+      "name": "stores formula-like strings, phone zeros and apostrophes as exact text in the eight-column contract"
+    },
+    {
+      "id": "TC-GS02",
+      "status": "PASS",
+      "name": "preserves international phone prefixes and appends without duplicating headers"
+    },
+    {
+      "id": "TC-GS03",
+      "status": "PASS",
+      "name": "optional fields default to empty text"
+    },
+    {
+      "id": "TC-GS04",
+      "status": "PASS",
+      "name": "rejects malformed JSON, non-object payloads, blank required fields and non-string fields before side effects"
+    },
+    {
+      "id": "TC-GS05",
+      "status": "PASS",
+      "name": "enforces field limits without silently truncating customer data"
+    },
+    {
+      "id": "TC-GS06",
+      "status": "PASS",
+      "name": "acknowledges a saved lead even when email notification fails"
+    },
+    {
+      "id": "TC-GS07",
+      "status": "PASS",
+      "name": "never acknowledges or emails a lead whose sheet write or flush fails; always releases an acquired lock"
+    },
+    {
+      "id": "TC-NAV01",
+      "status": "PASS",
+      "name": "TC-NAV01: navigation exposes the five section anchors and a safe LINE booking link"
+    },
+    {
+      "id": "TC-NAV02",
+      "status": "PASS",
+      "name": "TC-NAV02: language buttons request the opposite language in both directions"
+    },
+    {
+      "id": "TC-NAV03",
+      "status": "PASS",
+      "name": "TC-NAV03: mobile menu opens, exposes matching anchors, and closes after selecting a link"
+    },
+    {
+      "id": "TC-NAV04",
+      "status": "PASS",
+      "name": "TC-NAV04: scrolled navigation gains its readable dark surface"
+    },
+    {
+      "id": "TC-HR01",
+      "status": "PASS",
+      "name": "TC-HR01: hero renders localized title, configured image, starting price, and both CTA targets"
+    },
+    {
+      "id": "TC-HR02",
+      "status": "PASS",
+      "name": "TC-HR02: dark and light hero themes keep a contrasting title color"
+    },
+    {
+      "id": "TC-BR01",
+      "status": "PASS",
+      "name": "TC-BR01: all five partner logos exist, have names, and link safely to their websites"
+    },
+    {
+      "id": "TC-SV01",
+      "status": "PASS",
+      "name": "TC-SV01: all ten services render matching bilingual IDs, localized descriptions and existing photos"
+    },
+    {
+      "id": "TC-SV02",
+      "status": "PASS",
+      "name": "TC-SV02: broken service photos hide while fallback and service content remain available"
+    },
+    {
+      "id": "TC-WHY01",
+      "status": "PASS",
+      "name": "TC-WHY01: six trust pillars render their localized title, subtitle and explanation"
+    },
+    {
+      "id": "TC-WHY02",
+      "status": "PASS",
+      "name": "TC-WHY02: hover emphasis moves to one trust pillar and clears on leave"
+    },
+    {
+      "id": "TC-PR01",
+      "status": "PASS",
+      "name": "TC-PR01: process initially selects step one, 25% progress, and its matching photo"
+    },
+    {
+      "id": "TC-PR02",
+      "status": "PASS",
+      "name": "TC-PR02: selecting each of the four steps updates active state, progress and localized image text"
+    },
+    {
+      "id": "TC-PR03",
+      "status": "PASS",
+      "name": "TC-PR03: returning from final process step to first removes all completed flags"
+    },
+    {
+      "id": "TC-RV01",
+      "status": "PASS",
+      "name": "TC-RV01: testimonial photos follow the featured order and have bilingual customer names"
+    },
+    {
+      "id": "TC-RV02",
+      "status": "PASS",
+      "name": "TC-RV02: every testimonial navigation control selects its photo and language change keeps selection"
+    },
+    {
+      "id": "TC-RV03",
+      "status": "PASS",
+      "name": "TC-RV03: testimonials auto-advance only while visible and wrap after the final photo"
+    },
+    {
+      "id": "TC-RV04",
+      "status": "PASS",
+      "name": "TC-RV04: testimonial card dimensions recompute for mobile without exceeding viewport width"
+    },
+    {
+      "id": "TC-PK01",
+      "status": "PASS",
+      "name": "TC-PK01: four packages show their price/contact text, features, promotion and one recommended tier"
+    },
+    {
+      "id": "TC-PK02",
+      "status": "PASS",
+      "name": "TC-PK02: package CTA links use LINE with package attribution and preserve selected card state"
+    },
+    {
+      "id": "TC-FL01",
+      "status": "PASS",
+      "name": "TC-FL01: floating contact widget appears after 1200ms, opens, and closes after contact selection"
+    },
+    {
+      "id": "TC-FL02",
+      "status": "PASS",
+      "name": "TC-FL02: floating contact labels change language, tracking falls back to LINE, and back-to-top scrolls"
+    }
+  ],
+  "swiper": {
+    "status": "PASS",
+    "scenarioIds": [
+      "TC-SW01",
+      "TC-SW02",
+      "TC-SW03",
+      "TC-SW04",
+      "TC-SW05"
+    ]
+  }
+}

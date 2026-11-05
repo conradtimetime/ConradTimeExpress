@@ -55,7 +55,10 @@ The browser posts JSON to `/api/contact` on the same origin. The function follow
 - The function uses the existing Apps Script deployment by default. Set the Vercel environment variable `CONTACT_FORM_UPSTREAM` to an Apps Script `/exec` URL to override it.
 - Publish the updated `integrations/google-sheets-contact.gs` to the existing Apps Script web-app deployment before releasing the website. The receiver stores user fields as literal rich text and acknowledges only after the sheet is flushed; email notification failure is logged separately.
 - Deploy this project to Vercel with its root `api/` directory included. A plain static host can display the page but cannot run the contact API.
-- `npm test` exercises the API, receiver, form acknowledgement/error behavior, language selection, labels, and carousel with local mocks. It does not send emails or write to live Sheets.
+- `npm test` exercises each page section, analytics/consent, API, receiver, form acknowledgement/error behavior, language selection, labels, and carousel with local mocks. It does not send emails or write to live Sheets.
+- `npm run qa:serve` starts a local-only browser QA server at `http://127.0.0.1:8755/`. Every Apps Script request is mocked. Put `[qa:fail]`, `[qa:bad-json]`, `[qa:http-error]`, or `[qa:network-error]` in the message to exercise failures; `[qa:slow]` delays the response to check submitting/duplicate-click behavior. Ordinary messages simulate a successful acknowledgement. This command never forwards form data to Google.
+- The QA server also disables the GTM network loader in its served analytics script while keeping consent and local `dataLayer` behavior active. The production source and build are unchanged by this guard.
+- See [section test cases](docs/6_Test_Cases.md) and the [2026-11-05 execution report](docs/7_Test_Report_2026-11-05.md) for browser steps, results, known failures, and manual checks.
 
 ## Vercel Settings
 

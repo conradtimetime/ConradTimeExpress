@@ -1,0 +1,436 @@
+TAP version 13
+# Subtest: TC-AN01 defaults deny nonessential storage before loading the configured GTM container
+ok 1 - TC-AN01 defaults deny nonessential storage before loading the configured GTM container
+  ---
+  duration_ms: 5.350868
+  type: 'test'
+  ...
+# Subtest: TC-AN02 restores a saved granted choice after applying safe defaults
+ok 2 - TC-AN02 restores a saved granted choice after applying safe defaults
+  ---
+  duration_ms: 1.141583
+  type: 'test'
+  ...
+# Subtest: TC-AN03 restores a denied choice without granting any nonessential storage
+ok 3 - TC-AN03 restores a denied choice without granting any nonessential storage
+  ---
+  duration_ms: 0.963538
+  type: 'test'
+  ...
+# Subtest: TC-AN04 corrupt, unsupported and unavailable storage safely behaves as no consent choice
+ok 4 - TC-AN04 corrupt, unsupported and unavailable storage safely behaves as no consent choice
+  ---
+  duration_ms: 5.263078
+  type: 'test'
+  ...
+# Subtest: TC-AN05 empty or invalid GTM IDs never insert a network-loading script
+ok 5 - TC-AN05 empty or invalid GTM IDs never insert a network-loading script
+  ---
+  duration_ms: 3.346754
+  type: 'test'
+  ...
+# Subtest: TC-AN06 granting consent updates all consent keys, persists version and dispatches the change event
+ok 6 - TC-AN06 granting consent updates all consent keys, persists version and dispatches the change event
+  ---
+  duration_ms: 4.001625
+  type: 'test'
+  ...
+# Subtest: TC-AN07 withdrawing consent denies storage and clears Google cookies for host/domain scopes only
+ok 7 - TC-AN07 withdrawing consent denies storage and clears Google cookies for host/domain scopes only
+  ---
+  duration_ms: 1.569641
+  type: 'test'
+  ...
+# Subtest: TC-AN08 invalid choices do nothing and blocked storage still permits a page-lifetime choice
+ok 8 - TC-AN08 invalid choices do nothing and blocked storage still permits a page-lifetime choice
+  ---
+  duration_ms: 1.821865
+  type: 'test'
+  ...
+# Subtest: TC-AN09 nested LINE/package links retain CTA attribution and clear stale parameters on subsequent clicks
+ok 9 - TC-AN09 nested LINE/package links retain CTA attribution and clear stale parameters on subsequent clicks
+  ---
+  duration_ms: 2.71982
+  type: 'test'
+  ...
+# Subtest: TC-AN10 phone, email, internal CTA and unattributed LINE clicks produce the expected event names
+ok 10 - TC-AN10 phone, email, internal CTA and unattributed LINE clicks produce the expected event names
+  ---
+  duration_ms: 1.892391
+  type: 'test'
+  ...
+# Subtest: TC-AN11 unrelated external links and non-link targets do not create conversions
+ok 11 - TC-AN11 unrelated external links and non-link targets do not create conversions
+  ---
+  duration_ms: 1.379159
+  type: 'test'
+  ...
+# Subtest: TC-AN12 consent banner is visible for a new visitor and hidden for disabled analytics or a saved choice
+ok 12 - TC-AN12 consent banner is visible for a new visitor and hidden for disabled analytics or a saved choice
+  ---
+  duration_ms: 5.541634
+  type: 'test'
+  ...
+# Subtest: TC-AN13 rejecting or accepting from the banner persists the matching choice and dismisses the banner
+ok 13 - TC-AN13 rejecting or accepting from the banner persists the matching choice and dismisses the banner
+  ---
+  duration_ms: 3.458901
+  type: 'test'
+  ...
+# Subtest: TC-AN14 cookie settings reopens a saved-choice banner and permits revoking previous consent
+ok 14 - TC-AN14 cookie settings reopens a saved-choice banner and permits revoking previous consent
+  ---
+  duration_ms: 1.575285
+  type: 'test'
+  ...
+# Subtest: TC-AN15 banner privacy control requests the privacy dialog without changing the consent choice
+ok 15 - TC-AN15 banner privacy control requests the privacy dialog without changing the consent choice
+  ---
+  duration_ms: 3.106455
+  type: 'test'
+  ...
+# Subtest: TC-AN16 banner copy changes between Thai and English while keeping its consent controls usable
+ok 16 - TC-AN16 banner copy changes between Thai and English while keeping its consent controls usable
+  ---
+  duration_ms: 2.271919
+  type: 'test'
+  ...
+# Subtest: only an explicit storage acknowledgement returns success
+ok 17 - only an explicit storage acknowledgement returns success
+  ---
+  duration_ms: 4.823932
+  type: 'test'
+  ...
+# Subtest: Sheets failure, opaque-like response, and non-JSON responses fail closed
+ok 18 - Sheets failure, opaque-like response, and non-JSON responses fail closed
+  ---
+  duration_ms: 3.453638
+  type: 'test'
+  ...
+# Subtest: network errors and timeouts never acknowledge a lead
+ok 19 - network errors and timeouts never acknowledge a lead
+  ---
+  duration_ms: 1.752803
+  type: 'test'
+  ...
+# Subtest: invalid methods, JSON bodies and field lengths do not reach Google
+ok 20 - invalid methods, JSON bodies and field lengths do not reach Google
+  ---
+  duration_ms: 1.17274
+  type: 'test'
+  ...
+# Subtest: an invalid configured upstream does not forward customer data
+ok 21 - an invalid configured upstream does not forward customer data
+  ---
+  duration_ms: 0.69994
+  type: 'test'
+  ...
+# Subtest: TC-CT01 backend rejects storage: retain the form and do not record a lead
+ok 22 - TC-CT01 backend rejects storage: retain the form and do not record a lead
+  ---
+  duration_ms: 12.554571
+  type: 'test'
+  ...
+# Subtest: TC-CT02 backend returns non-JSON: retain the form and do not record a lead
+ok 23 - TC-CT02 backend returns non-JSON: retain the form and do not record a lead
+  ---
+  duration_ms: 3.801465
+  type: 'test'
+  ...
+# Subtest: TC-CT03 HTTP request fails: retain the form and do not record a lead
+ok 24 - TC-CT03 HTTP request fails: retain the form and do not record a lead
+  ---
+  duration_ms: 3.415952
+  type: 'test'
+  ...
+# Subtest: TC-CT04 network request fails: retain the form and do not record a lead
+ok 25 - TC-CT04 network request fails: retain the form and do not record a lead
+  ---
+  duration_ms: 3.703539
+  type: 'test'
+  ...
+# Subtest: TC-CT05 a missing endpoint retains the form and cannot acknowledge a lead
+ok 26 - TC-CT05 a missing endpoint retains the form and cannot acknowledge a lead
+  ---
+  duration_ms: 4.529211
+  type: 'test'
+  ...
+# Subtest: TC-CT06 acknowledged storage clears the form and records one lead with a stable service ID
+ok 27 - TC-CT06 acknowledged storage clears the form and records one lead with a stable service ID
+  ---
+  duration_ms: 4.586471
+  type: 'test'
+  ...
+# Subtest: TC-CT07 analytics errors do not undo an acknowledged submission
+ok 28 - TC-CT07 analytics errors do not undo an acknowledged submission
+  ---
+  duration_ms: 3.26584
+  type: 'test'
+  ...
+# Subtest: TC-CT08 oversized browser metadata is capped without changing customer fields
+ok 29 - TC-CT08 oversized browser metadata is capped without changing customer fields
+  ---
+  duration_ms: 3.223615
+  type: 'test'
+  ...
+# Subtest: TC-CT09 changing language preserves selection and renders the translated service label once
+ok 30 - TC-CT09 changing language preserves selection and renders the translated service label once
+  ---
+  duration_ms: 4.136734
+  type: 'test'
+  ...
+# Subtest: TC-CT10 all four form fields have a unique ID and an associated visible label in both languages
+ok 31 - TC-CT10 all four form fields have a unique ID and an associated visible label in both languages
+  ---
+  duration_ms: 3.350304
+  type: 'test'
+  ...
+# Subtest: TC-CT11 success survives more than two hours, language changes and typing; reload starts fresh
+ok 32 - TC-CT11 success survives more than two hours, language changes and typing; reload starts fresh
+  ---
+  duration_ms: 5.855982
+  type: 'test'
+  ...
+# Subtest: TC-CT12 an in-flight submission disables all fields and blocks a second submission
+ok 33 - TC-CT12 an in-flight submission disables all fields and blocks a second submission
+  ---
+  duration_ms: 3.465196
+  type: 'test'
+  ...
+# Subtest: TC-CT13 missing, whitespace-only and unknown required values never reach the endpoint
+ok 34 - TC-CT13 missing, whitespace-only and unknown required values never reach the endpoint
+  ---
+  duration_ms: 22.046202
+  type: 'test'
+  ...
+# Subtest: TC-CT14 required constraints, input limits and autofill hints follow the form contract
+ok 35 - TC-CT14 required constraints, input limits and autofill hints follow the form contract
+  ---
+  duration_ms: 2.007488
+  type: 'test'
+  ...
+# Subtest: TC-CT15 optional message can be empty and customer text is trimmed before submission
+ok 36 - TC-CT15 optional message can be empty and customer text is trimmed before submission
+  ---
+  duration_ms: 2.438164
+  type: 'test'
+  ...
+# Subtest: TC-PO01 privacy policy opens from its footer link and Close restores scrolling
+ok 37 - TC-PO01 privacy policy opens from its footer link and Close restores scrolling
+  ---
+  duration_ms: 2.67323
+  type: 'test'
+  ...
+# Subtest: TC-PO02 terms policy opens from its footer link and Close restores scrolling
+ok 38 - TC-PO02 terms policy opens from its footer link and Close restores scrolling
+  ---
+  duration_ms: 2.255359
+  type: 'test'
+  ...
+# Subtest: TC-PO03 insurance policy opens from its footer link and Close restores scrolling
+ok 39 - TC-PO03 insurance policy opens from its footer link and Close restores scrolling
+  ---
+  duration_ms: 1.984493
+  type: 'test'
+  ...
+# Subtest: TC-PO04 Escape closes the policy, restores scrolling and leaves normal keys alone
+ok 40 - TC-PO04 Escape closes the policy, restores scrolling and leaves normal keys alone
+  ---
+  duration_ms: 4.358025
+  type: 'test'
+  ...
+# Subtest: TC-PO05 a content click stays open while an overlay click closes the policy
+ok 41 - TC-PO05 a content click stays open while an overlay click closes the policy
+  ---
+  duration_ms: 3.343351
+  type: 'test'
+  ...
+# Subtest: TC-PO06 consent policy event opens Privacy and invalid policy IDs are ignored
+ok 42 - TC-PO06 consent policy event opens Privacy and invalid policy IDs are ignored
+  ---
+  duration_ms: 2.144323
+  type: 'test'
+  ...
+# Subtest: stores formula-like strings, phone zeros and apostrophes as exact text in the eight-column contract
+ok 43 - stores formula-like strings, phone zeros and apostrophes as exact text in the eight-column contract
+  ---
+  duration_ms: 7.734907
+  type: 'test'
+  ...
+# Subtest: preserves international phone prefixes and appends without duplicating headers
+ok 44 - preserves international phone prefixes and appends without duplicating headers
+  ---
+  duration_ms: 3.018492
+  type: 'test'
+  ...
+# Subtest: optional fields default to empty text
+ok 45 - optional fields default to empty text
+  ---
+  duration_ms: 3.61327
+  type: 'test'
+  ...
+# Subtest: rejects malformed JSON, non-object payloads, blank required fields and non-string fields before side effects
+ok 46 - rejects malformed JSON, non-object payloads, blank required fields and non-string fields before side effects
+  ---
+  duration_ms: 60.726213
+  type: 'test'
+  ...
+# Subtest: enforces field limits without silently truncating customer data
+ok 47 - enforces field limits without silently truncating customer data
+  ---
+  duration_ms: 15.428816
+  type: 'test'
+  ...
+# Subtest: acknowledges a saved lead even when email notification fails
+ok 48 - acknowledges a saved lead even when email notification fails
+  ---
+  duration_ms: 1.197027
+  type: 'test'
+  ...
+# Subtest: never acknowledges or emails a lead whose sheet write or flush fails; always releases an acquired lock
+ok 49 - never acknowledges or emails a lead whose sheet write or flush fails; always releases an acquired lock
+  ---
+  duration_ms: 8.409121
+  type: 'test'
+  ...
+# Subtest: TC-NAV01: navigation exposes the five section anchors and a safe LINE booking link
+ok 50 - TC-NAV01: navigation exposes the five section anchors and a safe LINE booking link
+  ---
+  duration_ms: 318.714083
+  type: 'test'
+  ...
+# Subtest: TC-NAV02: language buttons request the opposite language in both directions
+ok 51 - TC-NAV02: language buttons request the opposite language in both directions
+  ---
+  duration_ms: 6.278446
+  type: 'test'
+  ...
+# Subtest: TC-NAV03: mobile menu opens, exposes matching anchors, and closes after selecting a link
+ok 52 - TC-NAV03: mobile menu opens, exposes matching anchors, and closes after selecting a link
+  ---
+  duration_ms: 4.378799
+  type: 'test'
+  ...
+# Subtest: TC-NAV04: scrolled navigation gains its readable dark surface
+ok 53 - TC-NAV04: scrolled navigation gains its readable dark surface
+  ---
+  duration_ms: 5.163128
+  type: 'test'
+  ...
+# Subtest: TC-HR01: hero renders localized title, configured image, starting price, and both CTA targets
+ok 54 - TC-HR01: hero renders localized title, configured image, starting price, and both CTA targets
+  ---
+  duration_ms: 33.744522
+  type: 'test'
+  ...
+# Subtest: TC-HR02: dark and light hero themes keep a contrasting title color
+ok 55 - TC-HR02: dark and light hero themes keep a contrasting title color
+  ---
+  duration_ms: 5.655638
+  type: 'test'
+  ...
+# Subtest: TC-BR01: all five partner logos exist, have names, and link safely to their websites
+ok 56 - TC-BR01: all five partner logos exist, have names, and link safely to their websites
+  ---
+  duration_ms: 11.570358
+  type: 'test'
+  ...
+# Subtest: TC-SV01: all ten services render matching bilingual IDs, localized descriptions and existing photos
+ok 57 - TC-SV01: all ten services render matching bilingual IDs, localized descriptions and existing photos
+  ---
+  duration_ms: 40.378668
+  type: 'test'
+  ...
+# Subtest: TC-SV02: broken service photos hide while fallback and service content remain available
+ok 58 - TC-SV02: broken service photos hide while fallback and service content remain available
+  ---
+  duration_ms: 4.310649
+  type: 'test'
+  ...
+# Subtest: TC-WHY01: six trust pillars render their localized title, subtitle and explanation
+ok 59 - TC-WHY01: six trust pillars render their localized title, subtitle and explanation
+  ---
+  duration_ms: 18.05685
+  type: 'test'
+  ...
+# Subtest: TC-WHY02: hover emphasis moves to one trust pillar and clears on leave
+ok 60 - TC-WHY02: hover emphasis moves to one trust pillar and clears on leave
+  ---
+  duration_ms: 4.157066
+  type: 'test'
+  ...
+# Subtest: TC-PR01: process initially selects step one, 25% progress, and its matching photo
+ok 61 - TC-PR01: process initially selects step one, 25% progress, and its matching photo
+  ---
+  duration_ms: 31.593608
+  type: 'test'
+  ...
+# Subtest: TC-PR02: selecting each of the four steps updates active state, progress and localized image text
+ok 62 - TC-PR02: selecting each of the four steps updates active state, progress and localized image text
+  ---
+  duration_ms: 12.595848
+  type: 'test'
+  ...
+# Subtest: TC-PR03: returning from final process step to first removes all completed flags
+ok 63 - TC-PR03: returning from final process step to first removes all completed flags
+  ---
+  duration_ms: 3.887326
+  type: 'test'
+  ...
+# Subtest: TC-RV01: testimonial photos follow the featured order and have bilingual customer names
+ok 64 - TC-RV01: testimonial photos follow the featured order and have bilingual customer names
+  ---
+  duration_ms: 37.656291
+  type: 'test'
+  ...
+# Subtest: TC-RV02: every testimonial navigation control selects its photo and language change keeps selection
+ok 65 - TC-RV02: every testimonial navigation control selects its photo and language change keeps selection
+  ---
+  duration_ms: 8.866054
+  type: 'test'
+  ...
+# Subtest: TC-RV03: testimonials auto-advance only while visible and wrap after the final photo
+ok 66 - TC-RV03: testimonials auto-advance only while visible and wrap after the final photo
+  ---
+  duration_ms: 9.63623
+  type: 'test'
+  ...
+# Subtest: TC-RV04: testimonial card dimensions recompute for mobile without exceeding viewport width
+ok 67 - TC-RV04: testimonial card dimensions recompute for mobile without exceeding viewport width
+  ---
+  duration_ms: 5.442863
+  type: 'test'
+  ...
+# Subtest: TC-PK01: four packages show their price/contact text, features, promotion and one recommended tier
+ok 68 - TC-PK01: four packages show their price/contact text, features, promotion and one recommended tier
+  ---
+  duration_ms: 43.156394
+  type: 'test'
+  ...
+# Subtest: TC-PK02: package CTA links use LINE with package attribution and preserve selected card state
+ok 69 - TC-PK02: package CTA links use LINE with package attribution and preserve selected card state
+  ---
+  duration_ms: 12.927102
+  type: 'test'
+  ...
+# Subtest: TC-FL01: floating contact widget appears after 1200ms, opens, and closes after contact selection
+ok 70 - TC-FL01: floating contact widget appears after 1200ms, opens, and closes after contact selection
+  ---
+  duration_ms: 14.874449
+  type: 'test'
+  ...
+# Subtest: TC-FL02: floating contact labels change language, tracking falls back to LINE, and back-to-top scrolls
+ok 71 - TC-FL02: floating contact labels change language, tracking falls back to LINE, and back-to-top scrolls
+  ---
+  duration_ms: 4.706835
+  type: 'test'
+  ...
+1..71
+# tests 71
+# suites 0
+# pass 71
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1064.054624

@@ -6,7 +6,8 @@
   },
   "scripts": {
     "build": "node scripts/build-static-bundle.mjs",
-    "test": "node --test scripts/test-contact-api.cjs scripts/test-contact-form.cjs scripts/test-contact-receiver.cjs && node scripts/test-card-swiper.mjs",
+    "test": "node --test scripts/test-*.cjs && node scripts/test-card-swiper.mjs",
+    "qa:serve": "node scripts/serve-qa.cjs",
     "verify": "npm run build && node scripts/verify-static-site.mjs && npm test"
   },
   "devDependencies": {

@@ -1,0 +1,30 @@
+{
+  "testedAt": "2026-11-05T17:35:08.435517+07:00",
+  "gitCommit": "5b44a74e271358a93f3b1689aab54ca48428cf14",
+  "includesUncommittedChanges": true,
+  "runtime": "Node.js v24.22.1",
+  "browser": "ChatGPT in-app browser",
+  "scope": "Local workspace; Apps Script mocked; GTM loader disabled in QA server",
+  "counts": {
+    "planned": 116,
+    "pass": 108,
+    "fail": 5,
+    "blocked": 3
+  },
+  "layers": {
+    "nodeTests": {
+      "pass": 71,
+      "fail": 0
+    },
+    "swiperScenarios": {
+      "pass": 5,
+      "fail": 0
+    },
+    "browser": {
+      "PASS": 32,
+      "FAIL": 5,
+      "BLOCKED": 3
+    }
+  },
+  "bundleSha256": "9de8d3b85a95860cdcbebbd8885f53b377764b6a4ec7007774dad9ab095a370a"
+}

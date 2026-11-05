@@ -213,12 +213,6 @@ function Contact({ c, gold, navy, language }) {
   }));
 
   useEffect(() => {
-    if (submitState !== 'success') return undefined;
-    const timeout = setTimeout(() => setSubmitState('idle'), 5000);
-    return () => clearTimeout(timeout);
-  }, [submitState]);
-
-  useEffect(() => {
     if (!activePolicyId) return undefined;
 
     const previousOverflow = document.body.style.overflow;
@@ -304,6 +298,7 @@ function Contact({ c, gold, navy, language }) {
     width:'100%', padding:'14px 0', background:'transparent',
     border:'none', borderBottom:`1px solid rgba(255,255,255,0.15)`,
     color:'#fff', fontSize:'14px', fontFamily:'Jost, sans-serif', fontWeight:300,
+    colorScheme:'dark', caretColor:'#fff',
     outline:'none', transition:'border-color 0.2s', letterSpacing:'0.03em',
   };
   const labelStyle = {
@@ -332,6 +327,18 @@ function Contact({ c, gold, navy, language }) {
       boxShadow:'inset 0 1px 0 rgba(226,181,111,0.12)',
     }}>
       <style>{`
+        /* Browser autofill paints its own background over background:transparent.
+           An inset fill keeps saved name/phone values on the dark form surface. */
+        #contact .contact-form :is(input, select, textarea):-webkit-autofill {
+          -webkit-text-fill-color:#fff !important;
+          box-shadow:0 0 0 1000px ${navy} inset !important;
+          caret-color:#fff;
+        }
+        #contact .contact-form :is(input, select, textarea):autofill {
+          -webkit-text-fill-color:#fff !important;
+          box-shadow:0 0 0 1000px ${navy} inset !important;
+          caret-color:#fff;
+        }
         #contact.contact-section {
           padding:88px 96px 0 !important;
           min-height:calc(100vh - 72px) !important;

@@ -122,7 +122,7 @@ LEAD FLOW
 | Submit | same-origin JSON POST ไป `/api/contact`; success เมื่อ HTTP สำเร็จและ JSON `ok === true` เท่านั้น |
 | Shipment selection | เก็บ service ID คงที่ทั้งสองภาษา; ส่ง label ตามภาษาใน payload |
 | Payload | name, phone, type, message, language, pageUrl, submittedAt, userAgent |
-| States | `idle → submitting → success/error` (success reset form + auto-clear 5s) |
+| States | `idle → submitting → success/error` (success reset form + แสดงข้อความยืนยันค้างไว้จนรีเฟรชหน้าเว็บ) |
 | Success msg | "รับคำขอแล้ว จะติดต่อกลับใน 2 ชม." (bilingual) |
 | Contact details | LINE OA `@ConradExpress`, email, phone `+66 2 016 9950` |
 
@@ -212,7 +212,7 @@ LEAD FLOW
 
 ### Contact Form
 ```
-idle ──(submit valid)──► submitting ──► success ──(5s)──► idle
+idle ──(submit valid)──► submitting ──► success ──(refresh)──► idle
                                     └──► error (คง form ไว้ให้แก้)
 ```
 

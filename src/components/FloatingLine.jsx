@@ -8,12 +8,40 @@
   };
 
 /* ── FLOATING CONTACT WIDGET (expandable speed-dial) ── */
+const BASE_BOTTOM = 30;
+
 function FloatingLine({ gold, lang }) {
   const [visible, setVisible] = useState(false);
   const [open, setOpen] = useState(false);
+  const [lift, setLift] = useState(0);
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 1200);
     return () => clearTimeout(t);
+  }, []);
+
+  // Ride above the page footer instead of covering its links (policies,
+  // Cookie Settings). Lift = how much of the footer is currently on screen.
+  useEffect(() => {
+    const footer = document.querySelector('.contact-footer');
+    if (!footer) return undefined;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const onScreen = window.innerHeight - footer.getBoundingClientRect().top;
+      setLift(Math.max(0, Math.round(onScreen)));
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    const resizeObserver = window.ResizeObserver ? new window.ResizeObserver(schedule) : null;
+    resizeObserver?.observe(footer);
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    update();
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      resizeObserver?.disconnect();
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+    };
   }, []);
 
   const L = LABELS[lang] || LABELS.en;
@@ -41,7 +69,7 @@ function FloatingLine({ gold, lang }) {
 
   return (
     <div className="fabx" style={{
-      position:'fixed', bottom:'30px', right:'28px', zIndex:200,
+      position:'fixed', bottom:`${BASE_BOTTOM + lift}px`, right:'28px', zIndex:200,
       display:'flex', flexDirection:'column', alignItems:'flex-end',
       opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)',
       transition:'opacity 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.5s cubic-bezier(0.16,1,0.3,1)',
@@ -53,7 +81,9 @@ function FloatingLine({ gold, lang }) {
           0%       { transform:scale(1);   opacity:0.5; }
           70%,100% { transform:scale(1.8); opacity:0; }
         }
-        .fabx-actions { position:absolute; right:5px; bottom:74px; display:flex; flex-direction:column; align-items:flex-end; gap:14px; }
+        /* Closed actions are invisible but still take up space above the
+           buttons: let clicks pass through to the page until they open. */
+        .fabx-actions { position:absolute; right:5px; bottom:74px; display:flex; flex-direction:column; align-items:flex-end; gap:14px; pointer-events:none; }
         .fabx-act { display:flex; align-items:center; gap:12px; text-decoration:none;
           opacity:0; transform:translateY(16px) scale(0.8); pointer-events:none;
           transition:opacity 0.26s ease, transform 0.34s cubic-bezier(0.16,1,0.3,1); }
