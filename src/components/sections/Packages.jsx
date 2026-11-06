@@ -171,7 +171,7 @@ function CardCornerTag({ tag, gold, navy }) {
 
 function PricingCards({ items, activeIdx, onSelect, gold, navy }) {
   return (
-    <CardSwiper className="reveal-stagger packages-grid g-4 swipe" style={{ display:'grid', gridTemplateColumns:'repeat(4,minmax(0,1fr))', gap:'2px' }}>
+    <CardSwiper mediaQuery="(max-width:767px)" className="reveal-stagger packages-grid g-4 swipe" style={{ display:'grid', gridTemplateColumns:'repeat(4,minmax(0,1fr))', gap:'2px' }}>
       {items.map((pkg, index) => (
         <PricingCard
           key={pkg.name}

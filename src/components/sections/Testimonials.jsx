@@ -1,6 +1,7 @@
 (function () {
   const { useEffect, useState, useRef } = React;
   const { REVIEW_CARDS, REVIEW_PHOTOS } = window.CONRAD_EXPRESS_DATA;
+  const getImageProps = window.CONRAD_EXPRESS_ASSETS?.getImageProps || ((src) => ({ src }));
   const { PhotoPlaceholder, StarIcon, SectionEyebrow, SectionCta, CornerMarks, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
 
 const FEATURED_REVIEW_PHOTO_ORDER = [9, 10, 11, 2, 4, 5];
@@ -39,12 +40,27 @@ function Testimonials({ c, gold, navy, language }) {
     const el = sectionRef.current;
     if (!el) return;
     let timer = null;
-    const start = () => { if (!timer) timer = setInterval(() => setActiveIdx(i => (i + 1) % total), 6000); };
+    let inView = !('IntersectionObserver' in window);
+    const motion = typeof window.matchMedia === 'function'
+      ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
     const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
-    if (!('IntersectionObserver' in window)) { start(); return stop; }
-    const io = new IntersectionObserver(([e]) => { e.isIntersecting ? start() : stop(); }, { threshold: 0.1 });
-    io.observe(el);
-    return () => { stop(); io.disconnect(); };
+    const sync = () => {
+      if (!inView || motion?.matches || total < 2) { stop(); return; }
+      if (!timer) timer = setInterval(() => setActiveIdx(i => (i + 1) % total), 6000);
+    };
+    // Re-evaluate while the page is open when the system motion setting changes.
+    if (motion?.addEventListener) motion.addEventListener('change', sync);
+    else motion?.addListener?.(sync);
+    const io = 'IntersectionObserver' in window
+      ? new IntersectionObserver(([e]) => { inView = e.isIntersecting; sync(); }, { threshold: 0.1 })
+      : null;
+    io?.observe(el);
+    sync();
+    return () => {
+      stop(); io?.disconnect();
+      if (motion?.removeEventListener) motion.removeEventListener('change', sync);
+      else motion?.removeListener?.(sync);
+    };
   }, [total]);
 
   /* Normalized offset for infinite loop */
@@ -58,17 +74,19 @@ function Testimonials({ c, gold, navy, language }) {
   const [vw, setVw] = useState(typeof window !== 'undefined' ? window.innerWidth : 1440);
   useEffect(() => {
     // rAF-throttled — avoid recomputing the 3D carousel on every resize event
-    let ticking = false;
+    let frame = 0;
     const onResize = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
         setVw(window.innerWidth);
-        ticking = false;
       });
     };
     window.addEventListener('resize', onResize, { passive: true });
-    return () => window.removeEventListener('resize', onResize);
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      window.removeEventListener('resize', onResize);
+    };
   }, []);
   const CARD_W = Math.min(400, Math.round(vw * 0.78));
   const CARD_H = Math.round(CARD_W * 1.3);
@@ -141,7 +159,7 @@ function Testimonials({ c, gold, navy, language }) {
                   transformOrigin:'center center',
                   opacity: op,
                   zIndex: zi,
-                  transition:'transform 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.5s cubic-bezier(0.16,1,0.3,1)',
+                  transition:'transform 0.25s cubic-bezier(0.16,1,0.3,1), opacity 0.25s cubic-bezier(0.16,1,0.3,1)',
                   cursor: isActive ? 'default' : 'pointer',
                   overflow:'visible',
                 }}
@@ -153,7 +171,7 @@ function Testimonials({ c, gold, navy, language }) {
                   border:`1px solid ${gold}25`,
                   background:'rgba(10,22,40,0.45)',
                   zIndex:0,
-                  transition:'opacity 0.5s',
+                  transition:'opacity 0.25s',
                   opacity: isActive ? 1 : 0.5,
                 }} />
 
@@ -162,10 +180,7 @@ function Testimonials({ c, gold, navy, language }) {
                   position:'relative', zIndex:1,
                   width:'100%', height:'100%',
                   overflow:'hidden',
-                  boxShadow: isActive
-                    ? `0 0 0 1px ${gold}60, 0 0 32px ${gold}25, 0 20px 60px rgba(0,0,0,0.6)`
-                    : '0 8px 40px rgba(0,0,0,0.5)',
-                  transition:'box-shadow 0.5s',
+                  boxShadow:'0 8px 28px rgba(0,0,0,0.5)',
                 }}>
                   {/* Placeholder sits behind — shows if the photo is missing */}
                   <div style={{ position:'absolute', inset:0, zIndex:0 }}>
@@ -173,7 +188,7 @@ function Testimonials({ c, gold, navy, language }) {
                   </div>
                   {featuredReviewPhotos[i] && (
                     <img
-                      src={featuredReviewPhotos[i]}
+                      {...getImageProps(featuredReviewPhotos[i], '(max-width: 512px) 78vw, 400px')}
                       alt={rev.author}
                       loading="lazy"
                       decoding="async"
@@ -216,7 +231,7 @@ function Testimonials({ c, gold, navy, language }) {
                 width: activeIdx===i ? '28px' : '6px', height:'2px',
                 border:'none', cursor:'pointer', padding:0,
                 background: activeIdx===i ? gold : 'rgba(255,255,255,0.2)',
-                transition:'all 0.35s',
+                transition:'background-color 0.2s',
               }} />
             ))}
           </div>

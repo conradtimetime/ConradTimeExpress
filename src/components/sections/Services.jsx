@@ -1,5 +1,6 @@
 (function () {
   const { CardSwiper, SectionEyebrow, SectionCta, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
+  const getImageProps = window.CONRAD_EXPRESS_ASSETS?.getImageProps || ((src) => ({ src }));
 
   const serviceImages = [
     'brand-images/services/Luxury Watches.jpg',
@@ -102,12 +103,11 @@ function Services({ c, gold, navy }) {
           cursor:default;
           isolation:isolate;
           contain:layout paint;
-          transition:box-shadow 0.2s ease, border-color 0.2s ease;
+          transition:border-color 0.2s ease;
         }
 
         #services .service-card:hover {
           border-color:rgba(226,181,111,0.68);
-          box-shadow:0 10px 22px rgba(15,30,53,0.14);
         }
 
         #services .service-card:focus-visible {
@@ -155,7 +155,7 @@ function Services({ c, gold, navy }) {
 
         #services .service-card:hover .service-shade::after,
         #services .service-card:active .service-shade::after,
-        #services .service-card:focus-visible .service-shade::after {
+        #services .service-card:focus-within .service-shade::after {
           opacity:1;
         }
 
@@ -198,6 +198,11 @@ function Services({ c, gold, navy }) {
           bottom:24px;
           z-index:4;
           color:#fff;
+          display:flex;
+          flex-direction:column;
+          max-height:calc(100% - 48px);
+          transform:translateY(100%);
+          transition:transform 0.22s ease;
         }
 
         #services .service-title {
@@ -208,14 +213,19 @@ function Services({ c, gold, navy }) {
           color:#fff;
           margin:0;
           text-shadow:0 2px 18px rgba(0,0,0,0.55);
-          transition:margin 0.26s ease;
+          flex-shrink:0;
+          transform:translateY(-100%);
+          transition:transform 0.22s ease;
         }
 
         #services .service-copy {
           font-family:Jost, sans-serif;
           max-width:92%;
-          max-height:0;
-          overflow:hidden;
+          min-height:0;
+          overflow:auto;
+          overscroll-behavior:contain;
+          margin:14px 0 0;
+          pointer-events:none;
           opacity:0;
           font-size:12px;
           line-height:1.5;
@@ -223,19 +233,24 @@ function Services({ c, gold, navy }) {
           color:rgba(255,255,255,0.78);
           text-shadow:0 1px 10px rgba(0,0,0,0.55);
           transform:translateY(12px);
-          transition:opacity 0.26s ease, max-height 0.32s ease, transform 0.26s ease;
+          transition:opacity 0.22s ease, transform 0.22s ease;
         }
 
+        /* The description always occupies its final layout. Only these two
+           transforms move the title from its closed position at the bottom. */
+        #services .service-card:hover .service-content,
+        #services .service-card:active .service-content,
+        #services .service-card:focus-within .service-content,
         #services .service-card:hover .service-title,
         #services .service-card:active .service-title,
-        #services .service-card:focus-visible .service-title {
-          margin-bottom:14px;
+        #services .service-card:focus-within .service-title {
+          transform:translateY(0);
         }
 
         #services .service-card:hover .service-copy,
         #services .service-card:active .service-copy,
-        #services .service-card:focus-visible .service-copy {
-          max-height:190px;
+        #services .service-card:focus-within .service-copy {
+          pointer-events:auto;
           opacity:1;
           transform:translateY(0);
         }
@@ -286,7 +301,7 @@ function Services({ c, gold, navy }) {
           #services .services-sub { margin-top:14px !important; font-size:12.2px !important; line-height:1.52 !important; max-width:720px !important; }
           #services .service-card { aspect-ratio:1 / 0.86; }
           #services .service-content { left:22px; right:22px; bottom:21px; }
-          #services .service-title { font-size:clamp(24px, 2.2vw, 29px) !important; margin-bottom:9px !important; }
+          #services .service-title { font-size:clamp(24px, 2.2vw, 29px) !important; }
           #services .service-copy { font-size:11.4px !important; line-height:1.38 !important; }
         }
         @media (max-width:1024px) {
@@ -435,7 +450,7 @@ function Services({ c, gold, navy }) {
 
         <div className="services-marquee" aria-label={c.services.label}>
           <CardSwiper className="services-track swipe">
-            {serviceCards.map((s, index) => (
+            {serviceCards.map((s) => (
               <article key={s.title}
                 className="service-card"
                 tabIndex="0"
@@ -443,11 +458,10 @@ function Services({ c, gold, navy }) {
                 <div className="service-fallback" />
                 <img
                   className="service-photo"
-                  src={serviceImages[s.assetIndex]}
+                  {...getImageProps(serviceImages[s.assetIndex], '(max-width: 767px) calc(100vw - 36px), (max-width: 900px) calc((100vw - 68px) / 2), (max-width: 1024px) calc((100vw - 82px) / 3), (max-width: 1180px) calc((100vw - 154px) / 4), (max-width: 1440px) calc((100vw - 168px) / 5), 253px')}
                   alt={s.title}
-                  loading={index < 5 ? 'eager' : 'lazy'}
+                  loading="lazy"
                   decoding="async"
-                  fetchPriority={index < 5 ? 'high' : 'low'}
                   onError={(e) => { e.target.style.display = 'none'; }}
                   style={{ objectPosition:serviceImagePositions[s.assetIndex] || 'center center' }}
                 />

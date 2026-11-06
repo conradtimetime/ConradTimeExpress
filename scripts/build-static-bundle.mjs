@@ -167,13 +167,26 @@ Sitemap: ${siteUrl}/sitemap.xml
 `;
 };
 
-const ANALYTICS_TAG_PATTERN = /(<script src="src\/analytics\.js[^"]*") data-gtm-id="[^"]*"><\/script>/;
+const ANALYTICS_TAG_PATTERN = /<script\b[^>]*\bsrc="(src\/analytics\.js[^"]*)"[^>]*><\/script>/;
+
+const renderHeroPreload = async () => {
+  const context = { window: {} };
+  for (const filename of ['src/data/config.js', 'src/data/assets.js']) {
+    vm.runInNewContext(await fs.readFile(path.join(rootDir, filename), 'utf8'), context, { filename });
+  }
+  const source = context.window.CONRAD_EXPRESS_CONFIG.heroBackground || 'brand-images/Section_Hero.jpg';
+  const image = context.window.CONRAD_EXPRESS_ASSETS.getImageProps(source, '100vw');
+  const responsive = image.srcSet
+    ? ` imagesrcset="${escapeHtml(image.srcSet)}" imagesizes="${escapeHtml(image.sizes)}"` : '';
+  return `<link rel="preload" as="image" href="${escapeHtml(image.src)}"${responsive} fetchpriority="high">`;
+};
 
 const updateIndexSeo = async ({ siteUrl, organizationJson, gtmId }) => {
   const html = await fs.readFile(indexFile, 'utf8');
   const seoMeta = renderSeoMeta({ siteUrl, organizationJson });
   const jsonLdHash = createHash('sha256').update(organizationJson).digest('base64');
   const csp = buildCsp({ jsonLdHash, gtmId });
+  const heroPreload = await renderHeroPreload();
 
   if (!ANALYTICS_TAG_PATTERN.test(html)) {
     throw new Error('index.html is missing <script src="src/analytics.js" data-gtm-id="..."></script>.');
@@ -185,7 +198,8 @@ const updateIndexSeo = async ({ siteUrl, organizationJson, gtmId }) => {
       /<meta http-equiv="Content-Security-Policy" content="[^"]*">/,
       `<meta http-equiv="Content-Security-Policy" content="${csp}">`
     )
-    .replace(ANALYTICS_TAG_PATTERN, `$1 data-gtm-id="${gtmId}"></script>`);
+    .replace(ANALYTICS_TAG_PATTERN, (_tag, src) => `<script defer src="${src}" data-gtm-id="${gtmId}"></script>`)
+    .replace(/<link rel="preload" as="image"[^>]*>/, heroPreload);
 
   const nextHtml = htmlWithCsp.includes('<!-- SEO-META-BEGIN -->')
     ? htmlWithCsp.replace(/<!-- SEO-META-BEGIN -->[\s\S]*?<!-- SEO-META-END -->/, seoMeta)

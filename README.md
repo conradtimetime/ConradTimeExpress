@@ -76,6 +76,22 @@ The browser posts JSON to `/api/contact` on the same origin. The function follow
 4. Smoke test the page in a browser.
 5. Commit both source changes and the regenerated `dist/conrad-express.bundle.js`.
 
+### Preparing photos
+
+`npm run images:optimize` prepares responsive WebP variants for Hero, Services,
+Reviews and Process, then updates the generated registry in `src/data/assets.js`.
+Run it after replacing a registered source image; commit the resulting WebP files
+and registry together. The normal build uses these prepared files and generates
+the matching Hero preload automatically. Original JPGs are retained.
+
+The image filenames contain a content hash and use immutable caching on Vercel.
+Do not replace the contents of an existing hashed filename. Components select
+the appropriate variant with `srcset`/`sizes`; custom images outside the registry
+fall back to their configured path. Only the Hero uses eager/high priority.
+
+Analytics is the first deferred script, before the app. It queues consent
+defaults before it inserts the GTM loader, without blocking HTML parsing.
+
 ## Release Checklist
 
 - `npm install` completes with `0 vulnerabilities`.

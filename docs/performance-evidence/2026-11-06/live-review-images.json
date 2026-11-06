@@ -1,0 +1,80 @@
+[
+  {
+    "frameTransition": "box-shadow 0.5s",
+    "natural": [
+      4284,
+      5712
+    ],
+    "rendered": [
+      400,
+      520
+    ],
+    "shadow": "rgba(0, 0, 0, 0.5) 0px 8px 40px 0px",
+    "src": "brand-images/review-9.jpg"
+  },
+  {
+    "frameTransition": "box-shadow 0.5s",
+    "natural": [
+      4284,
+      5712
+    ],
+    "rendered": [
+      400,
+      520
+    ],
+    "shadow": "rgba(0, 0, 0, 0.5) 0px 8px 40px 0px",
+    "src": "brand-images/review-10.jpg"
+  },
+  {
+    "frameTransition": "box-shadow 0.5s",
+    "natural": [
+      4284,
+      5712
+    ],
+    "rendered": [
+      400,
+      520
+    ],
+    "shadow": "rgba(0, 0, 0, 0.5) 0px 8px 40px 0px",
+    "src": "brand-images/review-11.jpg"
+  },
+  {
+    "frameTransition": "box-shadow 0.5s",
+    "natural": [
+      600,
+      800
+    ],
+    "rendered": [
+      400,
+      520
+    ],
+    "shadow": "rgba(0, 0, 0, 0.5) 0px 8px 40px 0px",
+    "src": "brand-images/review-2.jpg"
+  },
+  {
+    "frameTransition": "box-shadow 0.5s",
+    "natural": [
+      600,
+      800
+    ],
+    "rendered": [
+      400,
+      520
+    ],
+    "shadow": "rgba(0, 0, 0, 0.5) 0px 8px 40px 0px",
+    "src": "brand-images/review-4.jpg"
+  },
+  {
+    "frameTransition": "box-shadow 0.5s",
+    "natural": [
+      600,
+      800
+    ],
+    "rendered": [
+      400,
+      520
+    ],
+    "shadow": "rgba(226, 181, 111, 0.376) 0px 0px 0px 1px, rgba(226, 181, 111, 0.145) 0px 0px 32px 0px, rgba(0, 0, 0, 0.6) 0px 20px 60px 0px",
+    "src": "brand-images/review-5.jpg"
+  }
+]

@@ -1,6 +1,7 @@
 (function () {
   const { SITE_CONFIG } = window.CONRAD_EXPRESS_DATA;
   const { StarIcon } = window;
+  const getImageProps = window.CONRAD_EXPRESS_ASSETS?.getImageProps || ((src) => ({ src }));
 
 /* ── HERO ── */
 /* ── HERO BACKGROUND ──
@@ -34,14 +35,14 @@ function Hero({ c, gold, navy, layout }) {
           from { opacity:0; transform:translateY(22px); }
           to   { opacity:1; transform:translateY(0); }
         }
-        @keyframes lineGrow { from{width:0;opacity:0} to{width:48px;opacity:0.7} }
-        .h1{animation:heroFadeUp .7s cubic-bezier(.16,1,.3,1) .10s both}
-        .h2{animation:heroFadeUp .7s cubic-bezier(.16,1,.3,1) .24s both}
-        .h3{animation:heroFadeUp .7s cubic-bezier(.16,1,.3,1) .38s both}
-        .h4{animation:heroFadeUp .7s cubic-bezier(.16,1,.3,1) .52s both}
-        .h5{animation:heroFadeUp .7s cubic-bezier(.16,1,.3,1) .66s both}
-        .h6{animation:heroFadeUp .7s cubic-bezier(.16,1,.3,1) .80s both}
-        .hl{animation:lineGrow   .6s cubic-bezier(.16,1,.3,1) .38s both}
+        @keyframes lineGrow { from{transform:scaleX(0);opacity:0} to{transform:scaleX(1);opacity:0.7} }
+        .h1{animation:heroFadeUp .25s cubic-bezier(.16,1,.3,1) 0ms both}
+        .h2{animation:heroFadeUp .25s cubic-bezier(.16,1,.3,1) 20ms both}
+        .h3{animation:heroFadeUp .25s cubic-bezier(.16,1,.3,1) 40ms both}
+        .h4{animation:heroFadeUp .25s cubic-bezier(.16,1,.3,1) 60ms both}
+        .h5{animation:heroFadeUp .25s cubic-bezier(.16,1,.3,1) 80ms both}
+        .h6{animation:heroFadeUp .25s cubic-bezier(.16,1,.3,1) 100ms both}
+        .hl{width:48px;transform-origin:left center;animation:lineGrow .25s cubic-bezier(.16,1,.3,1) 40ms both}
         .hero-sub{
           font-size:30px;
           line-height:1.32;
@@ -99,7 +100,7 @@ function Hero({ c, gold, navy, layout }) {
       {/* ── BACKGROUND IMAGE (swap HERO_BG above to replace) ── */}
       <div style={{ position:'absolute', inset:0, width:'100%', height:'100%', zIndex:1 }}>
         {HERO_BG ? (
-          <img src={HERO_BG} alt="" style={{
+          <img {...getImageProps(HERO_BG, '100vw')} alt="" loading="eager" fetchPriority="high" decoding="async" style={{
             width:'100%', height:'100%',
             objectFit:'cover', objectPosition:'center center',
             display:'block',

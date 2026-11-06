@@ -1,7 +1,7 @@
 (function () {
   const { useState } = React;
   const { StarIcon, SectionEyebrow, SectionCta, CornerMarks, SECTION_FRAME, getSectionFrameStyle, getSectionFrameCss } = window;
-  const { processImages } = window.CONRAD_EXPRESS_DATA.ASSETS;
+  const { processImages, getImageProps } = window.CONRAD_EXPRESS_DATA.ASSETS;
 
 /* ── PROCESS ── */
 function Process({ c, gold, navy, language }) {
@@ -366,7 +366,7 @@ function Process({ c, gold, navy, language }) {
 
                 {activeImage && activeImage.fit === 'cover' && (
                   <img
-                    src={activeImage.src}
+                    {...getImageProps(activeImage.src, '(max-width: 767px) calc(100vw - 44px), (max-width: 1024px) 50vw, 560px')}
                     alt={c.process.steps[active].title}
                     loading="lazy"
                     decoding="async"
@@ -397,7 +397,7 @@ function Process({ c, gold, navy, language }) {
                       pointerEvents:'none',
                     }}>
                     <img
-                      src={activeImage.src}
+                      {...getImageProps(activeImage.src, '(max-width: 767px) calc(100vw - 80px), 560px')}
                       alt={c.process.steps[active].title}
                       loading="lazy"
                       decoding="async"

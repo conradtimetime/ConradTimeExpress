@@ -1,8 +1,9 @@
 /*
  * Conrad Express analytics bootstrap.
  *
- * Loaded synchronously in <head> (before GTM) so Consent Mode defaults are in
- * the dataLayer before any Google tag runs.
+ * The first deferred script in <head>, before the app. This avoids blocking
+ * HTML parsing; Consent Mode defaults below still enter the dataLayer before
+ * this bootstrap creates the only GTM loader on the page.
  *
  * - GTM container ID comes from the `data-gtm-id` attribute on this script tag.
  *   The build script stamps it from SITE_CONFIG.analytics.gtmId

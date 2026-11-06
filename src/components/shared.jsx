@@ -1,5 +1,5 @@
 (function () {
-  const { useLayoutEffect, useRef, useState } = React;
+  const { useEffect, useRef, useState } = React;
 
 /* ── STAR LOGO SVG ── */
 const StarIcon = ({ size = 24, color = 'currentColor', style = {} }) => (
@@ -41,10 +41,11 @@ function PhotoPlaceholder({ label, width='100%', height='100%', style={} }) {
    Wraps a card grid. The section CSS controls when it becomes a horizontal
    scroll-snap row and shows the navigation. Dots represent reachable scroll
    positions, including the final edge when multiple cards fit in the row. */
-function CardSwiper({ className, style, children }) {
+function CardSwiper({ className, style, children, mediaQuery = '(max-width:1024px)' }) {
   const ref = useRef(null);
   const [idx, setIdx] = useState(0);
   const [positions, setPositions] = useState([0]);
+  const childCount = Array.isArray(children) ? children.length : children ? 1 : 0;
 
   const nearestPosition = (left, stops) => {
     return stops.reduce((nearest, stop, i) => (
@@ -52,18 +53,32 @@ function CardSwiper({ className, style, children }) {
     ), 0);
   };
 
-  useLayoutEffect(() => {
+  // Geometry is needed only by a visible, horizontally scrolling row. A
+  // passive effect keeps below-the-fold measurements out of the first paint;
+  // matchMedia also avoids measuring a desktop grid that has no swipe UI.
+  useEffect(() => {
     const el = ref.current;
     if (!el) return undefined;
+    const media = window.matchMedia?.(mediaQuery);
+    let active = false;
+    let disposed = false;
+    let frame = 0;
+    let resizeObserver = null;
+    let mutationObserver = null;
+    let intersectionObserver = null;
 
     const measure = () => {
+      frame = 0;
+      if (!active) return;
       const maxLeft = Math.max(0, el.scrollWidth - el.clientWidth);
-      const start = el.getBoundingClientRect().left + el.clientLeft;
       const stops = [0];
-      Array.from(el.children).forEach((child) => {
-        const left = Math.min(maxLeft, Math.max(0, child.getBoundingClientRect().left - start + el.scrollLeft));
-        if (left - stops[stops.length - 1] > 1) stops.push(left);
-      });
+      if (maxLeft > 1) {
+        const start = el.getBoundingClientRect().left + el.clientLeft;
+        Array.from(el.children).forEach((child) => {
+          const left = Math.min(maxLeft, Math.max(0, child.getBoundingClientRect().left - start + el.scrollLeft));
+          if (left - stops[stops.length - 1] > 1) stops.push(left);
+        });
+      }
       // Several trailing cards share the clamped edge when multiple cards fit.
       // A card wider than the viewport still gets a single dot at its start.
       setPositions((previous) => (
@@ -72,24 +87,77 @@ function CardSwiper({ className, style, children }) {
       ));
       setIdx(nearestPosition(el.scrollLeft, stops));
     };
-
-    measure();
-    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(measure);
-    observer?.observe(el);
-    Array.from(el.children).forEach((child) => observer?.observe(child));
-    window.addEventListener('resize', measure);
-    return () => {
-      observer?.disconnect();
-      window.removeEventListener('resize', measure);
+    const schedule = () => {
+      if (active && !frame) frame = requestAnimationFrame(measure);
     };
-  }, [children]);
+    const observeSizes = () => {
+      resizeObserver?.disconnect();
+      resizeObserver?.observe(el);
+      Array.from(el.children).forEach((child) => resizeObserver?.observe(child));
+    };
+    const stopMeasuring = () => {
+      active = false;
+      if (frame) cancelAnimationFrame(frame);
+      frame = 0;
+      resizeObserver?.disconnect();
+      mutationObserver?.disconnect();
+      resizeObserver = null;
+      mutationObserver = null;
+      window.removeEventListener('resize', schedule);
+    };
+    const startMeasuring = () => {
+      if (active || disposed || (media && !media.matches)) return;
+      active = true;
+      resizeObserver = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(schedule);
+      observeSizes();
+      // Translated titles can replace keyed cards without changing their
+      // count. Observe replacements, rather than re-subscribing on every
+      // parent render merely because the children array has a new identity.
+      if (typeof MutationObserver !== 'undefined') {
+        mutationObserver = new MutationObserver(() => { observeSizes(); schedule(); });
+        mutationObserver.observe(el, { childList: true });
+      }
+      window.addEventListener('resize', schedule);
+      schedule();
+    };
+    const syncMode = () => {
+      intersectionObserver?.disconnect();
+      intersectionObserver = null;
+      stopMeasuring();
+      if (media && !media.matches) {
+        setPositions((previous) => previous.length === 1 ? previous : [0]);
+        setIdx(0);
+        return;
+      }
+      if (typeof IntersectionObserver === 'undefined') {
+        startMeasuring();
+      } else {
+        intersectionObserver = new IntersectionObserver(([entry]) => {
+          entry.isIntersecting ? startMeasuring() : stopMeasuring();
+        }, { rootMargin: '200px 0px' });
+        intersectionObserver.observe(el);
+      }
+    };
+
+    syncMode();
+    if (media?.addEventListener) media.addEventListener('change', syncMode);
+    else media?.addListener?.(syncMode);
+    return () => {
+      disposed = true;
+      intersectionObserver?.disconnect();
+      stopMeasuring();
+      if (media?.removeEventListener) media.removeEventListener('change', syncMode);
+      else media?.removeListener?.(syncMode);
+    };
+  }, [className, mediaQuery, childCount]);
 
   /* Scroll only the row; scrollIntoView can also move the surrounding page. */
   const go = (i) => {
     const el = ref.current;
     if (!el || positions.length < 2) return;
     const t = ((i % positions.length) + positions.length) % positions.length;
-    el.scrollTo({ left: positions[t], behavior: 'smooth' });
+    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    el.scrollTo({ left: positions[t], behavior: reducedMotion ? 'auto' : 'smooth' });
   };
   const onScroll = () => {
     const el = ref.current;

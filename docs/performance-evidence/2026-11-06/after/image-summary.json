@@ -1,0 +1,40 @@
+{
+  "node": "v24.22.2",
+  "sourceImages": 26,
+  "variants": 73,
+  "summary": {
+    "all": {
+      "originalBytes": 23557933,
+      "defaultBytes": 2060398,
+      "largestBytes": 2853132,
+      "defaultReductionPercent": 91.3
+    },
+    "topThreeReviews": {
+      "originalBytes": 11779743,
+      "defaultBytes": 356124,
+      "largestBytes": 706656,
+      "defaultReductionPercent": 97
+    },
+    "featuredReviews": {
+      "originalBytes": 12172760,
+      "defaultBytes": 526410,
+      "largestBytes": 876942,
+      "defaultReductionPercent": 95.7
+    },
+    "firstFiveServices": {
+      "originalBytes": 5971278,
+      "defaultBytes": 591144,
+      "largestBytes": 591144,
+      "defaultReductionPercent": 90.1
+    },
+    "hero": {
+      "originalBytes": 573794,
+      "defaultBytes": 36466,
+      "largestBytes": 183450,
+      "defaultReductionPercent": 93.6
+    }
+  },
+  "heroPreloadMatches": true,
+  "hashedContentsMatch": true,
+  "limitations": "File totals, not a measured page-load transfer or FPS profile"
+}

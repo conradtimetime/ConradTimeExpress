@@ -1,5 +1,5 @@
 (function () {
-  const { useEffect, useState } = React;
+  const { useEffect, useRef, useState } = React;
   const { SITE_CONFIG } = window.CONRAD_EXPRESS_DATA;
 
   const LABELS = {
@@ -13,31 +13,61 @@ const BASE_BOTTOM = 30;
 function FloatingLine({ gold, lang }) {
   const [visible, setVisible] = useState(false);
   const [open, setOpen] = useState(false);
-  const [lift, setLift] = useState(0);
+  const widgetRef = useRef(null);
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 1200);
     return () => clearTimeout(t);
   }, []);
 
-  // Ride above the page footer instead of covering its links (policies,
-  // Cookie Settings). Lift = how much of the footer is currently on screen.
+  // Observe the footer once; listen to scrolling only while it is on screen.
+  // A compositor translation keeps its links clear without React updates or
+  // changing layout (bottom) on every pixel of the scroll.
   useEffect(() => {
     const footer = document.querySelector('.contact-footer');
-    if (!footer) return undefined;
+    const widget = widgetRef.current;
+    if (!footer || !widget) return undefined;
     let frame = 0;
+    let active = false;
+    let disposed = false;
+    let previousLift = 0;
+    const applyLift = (lift) => {
+      if (lift === previousLift) return;
+      previousLift = lift;
+      widget.style.setProperty('--footer-shift', `${-lift}px`);
+    };
     const update = () => {
       frame = 0;
+      if (!active || disposed) return;
       const onScreen = window.innerHeight - footer.getBoundingClientRect().top;
-      setLift(Math.max(0, Math.round(onScreen)));
+      applyLift(Math.max(0, Math.round(onScreen)));
     };
-    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    const schedule = () => { if (active && !disposed && !frame) frame = requestAnimationFrame(update); };
+    const activate = (next) => {
+      if (disposed || active === next) return;
+      active = next;
+      if (active) {
+        window.addEventListener('scroll', schedule, { passive: true });
+        schedule();
+      } else {
+        window.removeEventListener('scroll', schedule);
+        if (frame) cancelAnimationFrame(frame);
+        frame = 0;
+        applyLift(0);
+      }
+    };
     const resizeObserver = window.ResizeObserver ? new window.ResizeObserver(schedule) : null;
     resizeObserver?.observe(footer);
-    window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
-    update();
+    const observer = window.IntersectionObserver
+      ? new window.IntersectionObserver(([entry]) => activate(entry.isIntersecting))
+      : null;
+    if (observer) observer.observe(footer);
+    else activate(true);
     return () => {
+      disposed = true;
+      active = false;
       if (frame) cancelAnimationFrame(frame);
+      observer?.disconnect();
       resizeObserver?.disconnect();
       window.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', schedule);
@@ -68,8 +98,9 @@ function FloatingLine({ gold, lang }) {
   ];
 
   return (
-    <div className="fabx" style={{
-      position:'fixed', bottom:`${BASE_BOTTOM + lift}px`, right:'28px', zIndex:200,
+    <div ref={widgetRef} className="fabx" style={{
+      position:'fixed', bottom:`${BASE_BOTTOM}px`, right:'28px', zIndex:200,
+      translate:'0 var(--footer-shift, 0px)',
       display:'flex', flexDirection:'column', alignItems:'flex-end',
       opacity: visible ? 1 : 0, transform: visible ? 'translateY(0)' : 'translateY(20px)',
       transition:'opacity 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.5s cubic-bezier(0.16,1,0.3,1)',
@@ -133,7 +164,7 @@ function FloatingLine({ gold, lang }) {
       {/* Base row: back-to-top + main toggle */}
       <div className="fabx-base">
         <button className="fabx-top" aria-label="Back to top"
-          onClick={() => window.scrollTo({ top:0, behavior:'smooth' })}>↑</button>
+          onClick={() => window.scrollTo({ top:0, behavior:window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })}>↑</button>
 
         <button className={'fabx-main' + (open ? ' is-open' : '')}
           aria-label={L.menu} aria-expanded={open}

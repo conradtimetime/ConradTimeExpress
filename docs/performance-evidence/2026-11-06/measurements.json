@@ -1,0 +1,167 @@
+{
+  "liveUrl": "https://conradexpress.com/",
+  "pagespeedMobileUrl": "https://pagespeed.web.dev/analysis/https-conradexpress-com/d24xlnoee2?form_factor=mobile",
+  "pagespeedDesktopUrl": "https://pagespeed.web.dev/analysis/https-conradexpress-com/d24xlnoee2?form_factor=desktop",
+  "pagespeedCapturedAt": "2026-11-06 10:08 GMT+7",
+  "labOnly": true,
+  "fieldData": "No data available",
+  "mobile": {
+    "performanceScore": 85,
+    "FCP_seconds": 2.4,
+    "LCP_seconds": 2.4,
+    "TBT_ms_displayed": 30,
+    "CLS": 0,
+    "speedIndex_seconds": 15.8,
+    "networkPayload_KiB": 19361,
+    "imageSavingsEstimate_KiB": 14917,
+    "forcedReflowCardSwiper_ms": 66,
+    "gtmMainThread_ms": 127,
+    "renderBlockingSavingsEstimate_ms": 1670
+  },
+  "desktop": {
+    "performanceScore": 91,
+    "FCP_seconds": 0.2,
+    "LCP_seconds": 1.5,
+    "TBT_ms_displayed": 60,
+    "CLS": 0,
+    "speedIndex_seconds": 2.0,
+    "networkPayload_KiB": 22323,
+    "imageSavingsEstimate_KiB": 21119,
+    "forcedReflowCardSwiper_ms": 142,
+    "footerReflow_ms_reported": 0
+  },
+  "version": {
+    "indexIdentical": true,
+    "bundleIdentical": true,
+    "bundleSha256": "665b27833a0395bed0d4161ea7e2134fec761a7ec1e8b21f0c54f2a95481654d",
+    "bundleRawBytes": 132953,
+    "bundleCurlTransferBytes": 30719,
+    "bundleCurlTTFB_seconds": 0.139057,
+    "bundleCurlTotal_seconds": 0.140729,
+    "indexCurlTTFB_seconds": 0.227236
+  },
+  "limitations": [
+    "Initial page-load Lighthouse lab run, not a recorded scrolling FPS profile",
+    "Local raw asset totals are not all initial transfer bytes",
+    "RGBA estimate is not measured browser memory",
+    "Footer scroll data below is a VM simulation, not browser FPS"
+  ],
+  "footerSimulation": {
+    "frames": 120,
+    "offscreen": {
+      "geometryReads": 120,
+      "setterCalls": 120,
+      "stateChanges": 0
+    },
+    "enteringViewport": {
+      "geometryReads": 120,
+      "setterCalls": 120,
+      "stateChanges": 119
+    }
+  },
+  "assets": [
+    {
+      "path": "brand-images/review-9.jpg",
+      "bytes": 4168399,
+      "category": "review",
+      "featured": true
+    },
+    {
+      "path": "brand-images/review-10.jpg",
+      "bytes": 4184350,
+      "category": "review",
+      "featured": true
+    },
+    {
+      "path": "brand-images/review-11.jpg",
+      "bytes": 3426994,
+      "category": "review",
+      "featured": true
+    },
+    {
+      "path": "brand-images/review-2.jpg",
+      "bytes": 127857,
+      "category": "review",
+      "featured": true
+    },
+    {
+      "path": "brand-images/review-4.jpg",
+      "bytes": 130246,
+      "category": "review",
+      "featured": true
+    },
+    {
+      "path": "brand-images/review-5.jpg",
+      "bytes": 134914,
+      "category": "review",
+      "featured": true
+    },
+    {
+      "path": "brand-images/services/Luxury Watches.jpg",
+      "bytes": 720289,
+      "category": "service",
+      "eagerAndHigh": true
+    },
+    {
+      "path": "brand-images/services/Fine Art.jpg",
+      "bytes": 1253695,
+      "category": "service",
+      "eagerAndHigh": true
+    },
+    {
+      "path": "brand-images/services/Collection.jpg",
+      "bytes": 1503024,
+      "category": "service",
+      "eagerAndHigh": true
+    },
+    {
+      "path": "brand-images/services/Gemstones.jpg",
+      "bytes": 727427,
+      "category": "service",
+      "eagerAndHigh": true
+    },
+    {
+      "path": "brand-images/services/Gold.jpg",
+      "bytes": 1766843,
+      "category": "service",
+      "eagerAndHigh": true
+    },
+    {
+      "path": "brand-images/services/Luxury Fashion.jpg",
+      "bytes": 630489,
+      "category": "service",
+      "eagerAndHigh": false
+    },
+    {
+      "path": "brand-images/services/Confidential.jpg",
+      "bytes": 1075504,
+      "category": "service",
+      "eagerAndHigh": false
+    },
+    {
+      "path": "brand-images/services/Gadgets.jpg",
+      "bytes": 534055,
+      "category": "service",
+      "eagerAndHigh": false
+    },
+    {
+      "path": "brand-images/services/IT.jpg",
+      "bytes": 394518,
+      "category": "service",
+      "eagerAndHigh": false
+    },
+    {
+      "path": "brand-images/services/Other.jpg",
+      "bytes": 396127,
+      "category": "service",
+      "eagerAndHigh": false
+    }
+  ],
+  "assetTotals": {
+    "top3ReviewsBytes": 11779743,
+    "featuredReviewsBytes": 12172760,
+    "servicesBytes": 9001971,
+    "firstFiveServicesBytes": 5971278,
+    "heroBytes": 573794
+  }
+}

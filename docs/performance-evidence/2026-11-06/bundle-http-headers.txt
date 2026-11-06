@@ -1,0 +1,15 @@
+HTTP/2 200 
+access-control-allow-origin: *
+age: 18094
+cache-control: public, max-age=0, must-revalidate
+content-disposition: inline; filename="conrad-express.bundle.js"
+content-encoding: gzip
+content-type: application/javascript; charset=utf-8
+date: Fri, 06 Nov 2026 03:55:10 GMT
+etag: W/"ae670f942840b0f096c4c96cfeff684d"
+last-modified: Thu, 05 Nov 2026 22:53:35 GMT
+server: Vercel
+strict-transport-security: max-age=63072000
+x-vercel-cache: HIT
+x-vercel-id: sin1::m98wv-1793937310570-f59e2f26c417
+

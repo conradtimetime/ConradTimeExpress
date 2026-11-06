@@ -64,7 +64,7 @@ test('TC-HR01: hero renders localized title, configured image, starting price, a
     assert.equal(hero.find(byType('h1')) && text(hero.find(byType('h1'))), copy.hero.title);
     assert.equal(text(hero.find(byClass('hero-price-amount'))), copy.packages.items[0].price);
     const image = hero.find(byType('img'));
-    assert.equal(image.props.src, hero.data.SITE_CONFIG.heroBackground);
+    assert.equal(image.props.src, hero.data.ASSETS.getImageProps(hero.data.SITE_CONFIG.heroBackground, '100vw').src);
     localImageExists(image);
     const links = hero.all(byType('a'));
     assert.equal(links.length, 2);
@@ -166,7 +166,7 @@ test('TC-PR01: process initially selects step one, 25% progress, and its matchin
   assert.equal(process.find(byType('a')).props.href, '#contact');
   assert.equal(process.find(node => node.props['aria-current'] === 'step').props.className.includes('is-active'), true);
   const image = process.find(byType('img'));
-  assert.equal(image.props.src, process.data.ASSETS.processImages[0].src);
+  assert.equal(image.props.src, process.data.ASSETS.getImageProps(process.data.ASSETS.processImages[0].src).src);
   localImageExists(image);
 });
 
@@ -180,7 +180,7 @@ test('TC-PR02: selecting each of the four steps updates active state, progress a
       assert.ok(hasClass(process.all(byClass('process-step-card'))[index], 'is-active'));
       assert.equal(process.all(byClass('is-complete')).length, index);
       const image = process.find(byType('img'));
-      assert.equal(image.props.src, process.data.ASSETS.processImages[index].src);
+      assert.equal(image.props.src, process.data.ASSETS.getImageProps(process.data.ASSETS.processImages[index].src).src);
       assert.equal(image.props.alt, process.data.COPY[language].process.steps[index].title);
       localImageExists(image);
     }
@@ -203,7 +203,8 @@ test('TC-RV01: testimonial photos follow the featured order and have bilingual c
     const reviews = mount('Testimonials', { language });
     const images = reviews.all(byType('img'));
     assert.equal(reviews.find(byType('a')).props.href, '#contact');
-    assert.deepEqual(images.map(image => Number(image.props.src.match(/review-(\d+)\.jpg/)[1])), [9, 10, 11, 2, 4, 5]);
+    assert.deepEqual(images.map(image => image.props.src), [9, 10, 11, 2, 4, 5].map(number =>
+      reviews.data.ASSETS.getImageProps(`brand-images/review-${number}.jpg`).src));
     assert.equal(images.length, reviewButtons(reviews).length);
     images.forEach((image, index) => {
       assert.equal(image.props.alt, reviews.data.REVIEW_CARDS[language][index].author);
@@ -315,19 +316,51 @@ test('TC-FL01: floating contact widget appears after 1200ms, opens, and closes a
 
 test('TC-FL03: floating contact widget rides above the footer and closed actions let clicks through', () => {
   let footerTop = 2400;
-  const footer = { getBoundingClientRect: () => ({ top: footerTop }) };
+  let reads = 0;
+  const footer = { getBoundingClientRect: () => { reads++; return { top: footerTop }; } };
   const floating = mount('FloatingLine', { height: 600, elements: { '.contact-footer': footer } });
   const bottom = () => floating.find(byClass('fabx')).props.style.bottom;
+  const shift = () => floating.find(byClass('fabx')).props.ref.current.style.getPropertyValue('--footer-shift');
   assert.equal(bottom(), '30px');
+  for (let i = 0; i < 120; i++) floating.scroll();
+  assert.equal(reads, 0, 'No footer geometry reads while offscreen');
   footerTop = 420; // 180px of footer on screen
+  floating.intersect('.contact-footer', true);
+  assert.equal(shift(), '-180px');
+  const updates = floating.calls.stateUpdates;
+  footerTop = 400;
   floating.scroll();
-  assert.equal(bottom(), '210px');
+  assert.equal(shift(), '-200px');
+  assert.equal(bottom(), '30px', 'Layout position stays fixed; translation clears the footer');
+  assert.equal(floating.calls.stateUpdates, updates, 'Scrolling does not call React state setters');
+  footerTop = 380;
+  floating.resize(1024);
+  assert.equal(shift(), '-220px', 'Active footer lift follows resize without state updates');
   footerTop = 900; // footer scrolled back out of view
-  floating.resize(1440);
-  assert.equal(bottom(), '30px');
+  floating.intersect('.contact-footer', false);
+  assert.equal(shift(), '0px');
+  const before = reads;
+  floating.scroll();
+  assert.equal(reads, before, 'Leaving the footer removes the scroll listener');
   const css = text(floating.find(byType('style')));
   assert.match(css, /\.fabx-actions \{[^}]*pointer-events:none/);
   assert.match(css, /\.fabx-act\.is-open \{[^}]*pointer-events:auto/);
+});
+
+test('TC-RV06: reduced motion disables autoplay initially and when changed, while manual navigation remains usable', () => {
+  const reviews = mount('Testimonials', { reducedMotion: true });
+  reviews.intersect('testimonials', true);
+  reviews.advanceTimers(12000);
+  assert.equal(activeReview(reviews), 0);
+  reviews.fire(reviewButtons(reviews)[3]);
+  assert.equal(activeReview(reviews), 3);
+  reviews.reducedMotion(false);
+  reviews.advanceTimers(6000);
+  assert.equal(activeReview(reviews), 4);
+  reviews.reducedMotion(true);
+  reviews.advanceTimers(12000);
+  assert.equal(activeReview(reviews), 4);
+  reviews.unmount();
 });
 
 test('TC-FL02: floating contact labels change language, tracking falls back to LINE, and back-to-top scrolls', () => {

@@ -28,9 +28,9 @@
 <meta name="twitter:image" content="https://conradexpress.com/og-image.jpg">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Conrad Express","url":"https://conradexpress.com","description":"Luxury & high-value logistics service in Thailand.","areaServed":"TH"}</script>
 <!-- SEO-META-END -->
-<script src="src/analytics.js?v=20261105-gtm" data-gtm-id="GTM-WQMDLLGG"></script>
+<script defer src="src/analytics.js?v=20261106-perf" data-gtm-id="GTM-WQMDLLGG"></script>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="preload" as="image" href="brand-images/Section_Hero.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="brand-images/optimized/section-hero-640-0008288d6220.webp" imagesrcset="brand-images/optimized/section-hero-640-0008288d6220.webp 640w, brand-images/optimized/section-hero-1280-cb92f1d701fa.webp 1280w, brand-images/optimized/section-hero-1920-1c72e4d2a59b.webp 1920w" imagesizes="100vw" fetchpriority="high">
 <link href="vendor/fonts/fonts.css" rel="stylesheet">
 
 <script defer src="vendor/react.production.min.js"></script>
@@ -92,7 +92,7 @@
   .reveal {
     opacity: 0;
     transform: translateY(32px);
-    transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+    transition: opacity 0.28s cubic-bezier(0.16,1,0.3,1), transform 0.28s cubic-bezier(0.16,1,0.3,1);
   }
   .reveal.visible {
     opacity: 1;
@@ -101,7 +101,7 @@
   .reveal-left {
     opacity: 0;
     transform: translateX(-40px);
-    transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+    transition: opacity 0.28s cubic-bezier(0.16,1,0.3,1), transform 0.28s cubic-bezier(0.16,1,0.3,1);
   }
   .reveal-left.visible {
     opacity: 1;
@@ -110,7 +110,7 @@
   .reveal-right {
     opacity: 0;
     transform: translateX(40px);
-    transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+    transition: opacity 0.28s cubic-bezier(0.16,1,0.3,1), transform 0.28s cubic-bezier(0.16,1,0.3,1);
   }
   .reveal-right.visible {
     opacity: 1;
@@ -119,7 +119,7 @@
   .reveal-scale {
     opacity: 0;
     transform: scale(0.94);
-    transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+    transition: opacity 0.28s cubic-bezier(0.16,1,0.3,1), transform 0.28s cubic-bezier(0.16,1,0.3,1);
   }
   .reveal-scale.visible {
     opacity: 1;
@@ -129,14 +129,33 @@
   .reveal-stagger > * {
     opacity: 0;
     transform: translateY(24px);
-    transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+    transition: opacity 0.25s cubic-bezier(0.16,1,0.3,1), transform 0.25s cubic-bezier(0.16,1,0.3,1);
   }
   .reveal-stagger.visible > *:nth-child(1) { opacity:1; transform:translateY(0); transition-delay:0ms; }
-  .reveal-stagger.visible > *:nth-child(2) { opacity:1; transform:translateY(0); transition-delay:120ms; }
-  .reveal-stagger.visible > *:nth-child(3) { opacity:1; transform:translateY(0); transition-delay:240ms; }
-  .reveal-stagger.visible > *:nth-child(4) { opacity:1; transform:translateY(0); transition-delay:360ms; }
-  .reveal-stagger.visible > *:nth-child(5) { opacity:1; transform:translateY(0); transition-delay:480ms; }
-  .reveal-stagger.visible > *:nth-child(6) { opacity:1; transform:translateY(0); transition-delay:600ms; }
+  .reveal-stagger.visible > *:nth-child(2) { opacity:1; transform:translateY(0); transition-delay:30ms; }
+  .reveal-stagger.visible > *:nth-child(3) { opacity:1; transform:translateY(0); transition-delay:60ms; }
+  .reveal-stagger.visible > *:nth-child(4) { opacity:1; transform:translateY(0); transition-delay:90ms; }
+  .reveal-stagger.visible > *:nth-child(5) { opacity:1; transform:translateY(0); transition-delay:120ms; }
+  .reveal-stagger.visible > *:nth-child(6) { opacity:1; transform:translateY(0); transition-delay:150ms; }
+
+  /* Keep motion preferences effective for inline component styles too.
+     Preserve transforms used for layout (photo flips, coverflow, footer lift). */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto !important; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-delay: 0ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      transition-delay: 0ms !important;
+      scroll-behavior: auto !important;
+    }
+    .reveal, .reveal-left, .reveal-right, .reveal-scale,
+    .reveal-stagger > * {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
 
   /* ── SELECTION ── */
   ::selection { background: var(--gold); color: var(--navy); }
@@ -263,11 +282,11 @@
 <script defer src="src/data/config.js?v=20261105-contact-fixes"></script>
 <script defer src="src/data/copy.js?v=20261105-contact-fixes"></script>
 <script defer src="src/data/reviews.js"></script>
-<script defer src="src/data/assets.js?v=20260630-process-images-cover"></script>
+<script defer src="src/data/assets.js?v=20261106-perf"></script>
 <script defer src="src/data/policies.js?v=20261105-google-cookies"></script>
 <script defer src="src/data/site-data.js"></script>
 <script defer src="src/data/tweaks.js?v=20260701-gold-system"></script>
-<script defer src="dist/conrad-express.bundle.js?v=20261105-a11y-nav"></script>
+<script defer src="dist/conrad-express.bundle.js?v=20261106-perf"></script>
 
 <template id="__bundler_thumbnail" data-bg-color="#0f1e35">
   <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">

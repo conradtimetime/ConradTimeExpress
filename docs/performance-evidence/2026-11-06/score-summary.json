@@ -1,0 +1,19 @@
+{
+  "reportCapturedAt": "2026-11-06 10:08 GMT+7",
+  "mobile": {
+    "score": 85,
+    "FCP": 2.4,
+    "LCP": 2.4,
+    "TBT_ms": 30,
+    "CLS": 0,
+    "SI": 15.8
+  },
+  "desktop": {
+    "score": 91,
+    "FCP": 0.2,
+    "LCP": 1.5,
+    "TBT_ms": 60,
+    "CLS": 0,
+    "SI": 2
+  }
+}

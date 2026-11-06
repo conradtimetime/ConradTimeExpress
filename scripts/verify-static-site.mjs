@@ -124,10 +124,12 @@ const analyticsIndex = localScriptSources.indexOf(analyticsScript);
 const bundleIndex = localScriptSources.indexOf(rel('dist', 'conrad-express.bundle.js'));
 assert(analyticsIndex !== -1, `index.html must load ${analyticsScript}.`);
 assert(analyticsIndex === -1 || analyticsIndex < bundleIndex, `${analyticsScript} must load before the app bundle.`);
-assert(!/<script src="src\/analytics\.js[^>]*\s(defer|async)[\s>]/.test(html), `${analyticsScript} must load synchronously (no defer/async).`);
+const analyticsTag = html.match(/<script\b[^>]*\bsrc="src\/analytics\.js[^\"]*"[^>]*>/)?.[0] || '';
+assert(/\sdefer(?:\s|>)/.test(analyticsTag) && !/\sasync(?:\s|>)/.test(analyticsTag), `${analyticsScript} must be deferred, not async, so consent initialization precedes the app.`);
+assert(localScriptSources[0] === analyticsScript, `${analyticsScript} must be the first external script, initializing consent before any tag loader.`);
 
 const gtmId = String(data?.SITE_CONFIG?.analytics?.gtmId || '').trim();
-const stampedGtmId = html.match(/<script src="src\/analytics\.js[^"]*" data-gtm-id="([^"]*)">/)?.[1];
+const stampedGtmId = analyticsTag.match(/data-gtm-id="([^"]*)"/)?.[1];
 const cspContent = html.match(/<meta http-equiv="Content-Security-Policy" content="([^"]*)">/)?.[1] || '';
 assert(stampedGtmId === gtmId, `index.html data-gtm-id (${stampedGtmId}) does not match SITE_CONFIG.analytics.gtmId (${gtmId}). Run npm run build.`);
 assert(!gtmId || /^GTM-[A-Z0-9]{4,12}$/.test(gtmId), `Invalid GTM container ID: ${gtmId}`);
@@ -162,7 +164,9 @@ await collectSourceFiles('scripts');
 for (const sourceFile of sourceFiles) {
   const source = await read(sourceFile);
   for (const match of source.matchAll(/['"`](brand-images\/[^'"`\n]+)['"`]/g)) {
-    assetPaths.add(match[1]);
+    // Responsive preloads contain several width candidates in one attribute.
+    const candidates = /\s\d+w(?:,|$)/.test(match[1]) ? match[1].split(',') : [match[1]];
+    candidates.forEach(candidate => assetPaths.add(candidate.trim().replace(/\s+\d+w$/, '')));
   }
 }
 

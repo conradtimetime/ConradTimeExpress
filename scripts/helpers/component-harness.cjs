@@ -48,10 +48,13 @@ function mount(componentName, options = {}) {
   const listeners = new Map();
   const timers = new Map();
   const observers = new Set();
-  const calls = { scroll: [], language: [] };
+  const frames = new Map();
+  const mediaQueries = new Map();
+  const calls = { scroll: [], language: [], stateUpdates: 0 };
   let cursor = 0, dirty = false, effects = [], tree, clock = 0, nextTimer = 1;
   let language = options.language || 'en';
   let props = options.props || {};
+  let nextFrame = 1;
 
   const React = {
     Fragment: Symbol('Fragment'),
@@ -62,6 +65,7 @@ function mount(componentName, options = {}) {
       const index = cursor++;
       if (!(index in slots)) slots[index] = typeof initial === 'function' ? initial() : initial;
       return [slots[index], value => {
+        calls.stateUpdates += 1;
         const next = typeof value === 'function' ? value(slots[index]) : value;
         if (!Object.is(next, slots[index])) { slots[index] = next; dirty = true; }
       }];
@@ -99,12 +103,24 @@ function mount(componentName, options = {}) {
     clearTimeout: id => timers.delete(id),
     setInterval: (callback, delay) => timer(callback, delay, delay),
     clearInterval: id => timers.delete(id),
-    requestAnimationFrame: callback => callback(clock),
-    cancelAnimationFrame: () => {},
+    requestAnimationFrame: callback => { const id = nextFrame++; frames.set(id, callback); return id; },
+    cancelAnimationFrame: id => frames.delete(id),
     // Only what components query: options.elements maps a selector to a stub.
     document: { querySelector: selector => options.elements?.[selector] || null },
     window: {
       innerWidth: options.width || 1440, innerHeight: options.height || 900, IntersectionObserver,
+      matchMedia(query) {
+        if (!mediaQueries.has(query)) {
+          const callbacks = new Set();
+          mediaQueries.set(query, {
+            matches: query.includes('prefers-reduced-motion') ? Boolean(options.reducedMotion) : false,
+            addEventListener: (_name, callback) => callbacks.add(callback),
+            removeEventListener: (_name, callback) => callbacks.delete(callback),
+            callbacks,
+          });
+        }
+        return mediaQueries.get(query);
+      },
       addEventListener(name, callback) {
         if (!listeners.has(name)) listeners.set(name, new Set());
         listeners.get(name).add(callback);
@@ -143,12 +159,24 @@ function mount(componentName, options = {}) {
         layout: 'dark', scrolled: false, setLang: value => calls.language.push(value), ...props,
       }));
       for (const node of descendants(tree)) {
-        if (node.props.ref) node.props.ref.current = { id: node.props.id, tag: node.type };
+        if (node.props.ref && !node.props.ref.current) {
+          const properties = new Map();
+          node.props.ref.current = { id: node.props.id, tag: node.type, style: {
+            setProperty: (key, value) => properties.set(key, value),
+            getPropertyValue: key => properties.get(key) || '',
+          } };
+        }
       }
       effects.forEach(effect => effect());
     } while (dirty);
   }
   render();
+  const flushFrames = () => {
+    const pending = [...frames.values()];
+    frames.clear();
+    pending.forEach(callback => callback(clock));
+    render();
+  };
   const all = predicate => [...descendants(tree)].filter(predicate);
   return {
     calls,
@@ -164,20 +192,30 @@ function mount(componentName, options = {}) {
     setProps(value) { props = { ...props, ...value }; render(); },
     scroll() {
       listeners.get('scroll')?.forEach(callback => callback());
-      render();
+      flushFrames();
     },
     resize(width) {
       context.window.innerWidth = width;
       listeners.get('resize')?.forEach(callback => callback());
-      render();
+      flushFrames();
     },
     intersect(id, isIntersecting) {
       for (const observer of observers) {
-        const target = [...observer.targets].find(target => target.id === id);
+        const target = [...observer.targets].find(target => target.id === id || target === options.elements?.[id]);
         if (target) observer.callback([{ target, isIntersecting }]);
+      }
+      flushFrames();
+    },
+    reducedMotion(matches) {
+      for (const [query, media] of mediaQueries) {
+        if (!query.includes('prefers-reduced-motion')) continue;
+        media.matches = matches;
+        media.callbacks.forEach(callback => callback(media));
       }
       render();
     },
+    flushFrames,
+    unmount() { slots.forEach(slot => slot?.cleanup?.()); },
     advanceTimers(milliseconds) {
       const end = clock + milliseconds;
       let runs = 0;

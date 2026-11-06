@@ -1,0 +1,89 @@
+[
+  {
+    "name": "mobile-services-last",
+    "result": {
+      "active": 10,
+      "left": 3294,
+      "max": 3306,
+      "overflow": false
+    }
+  },
+  {
+    "name": "mobile-services-wrap",
+    "result": {
+      "active": 1,
+      "left": 0
+    }
+  },
+  {
+    "name": "mobile-packages-last",
+    "result": {
+      "active": 4,
+      "left": 1062,
+      "max": 1062
+    }
+  },
+  {
+    "name": "mobile-footer",
+    "result": {
+      "clearance": 30.1875,
+      "footerTop": 645.1875,
+      "overflow": false,
+      "shift": "-199px",
+      "widgetBottom": 615
+    }
+  },
+  {
+    "name": "desktop-review-images",
+    "result": [
+      {
+        "loaded": true,
+        "rendered": [
+          400,
+          520
+        ],
+        "src": "http://127.0.0.1:8755/brand-images/optimized/review-9-800-1057265e03f0.webp"
+      },
+      {
+        "loaded": true,
+        "rendered": [
+          400,
+          520
+        ],
+        "src": "http://127.0.0.1:8755/brand-images/optimized/review-10-800-0242bb53f532.webp"
+      },
+      {
+        "loaded": true,
+        "rendered": [
+          400,
+          520
+        ],
+        "src": "http://127.0.0.1:8755/brand-images/optimized/review-11-800-c56df220ebac.webp"
+      },
+      {
+        "loaded": true,
+        "rendered": [
+          400,
+          520
+        ],
+        "src": "http://127.0.0.1:8755/brand-images/optimized/review-2-600-cfe972ea5fd5.webp"
+      },
+      {
+        "loaded": true,
+        "rendered": [
+          400,
+          520
+        ],
+        "src": "http://127.0.0.1:8755/brand-images/optimized/review-4-600-13537e929ec1.webp"
+      },
+      {
+        "loaded": true,
+        "rendered": [
+          400,
+          520
+        ],
+        "src": "http://127.0.0.1:8755/brand-images/optimized/review-5-600-3f29576257e1.webp"
+      }
+    ]
+  }
+]
