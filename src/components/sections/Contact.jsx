@@ -4,6 +4,34 @@
   const { SITE_CONFIG, POLICIES } = window.CONRAD_EXPRESS_DATA;
   const { SectionEyebrow } = window;
 
+/* Phone numbers: Thai mobile (06/08/09 + 8 digits) or landline (02-07 + 7
+   digits), the same numbers written with +66, or another country in E.164
+   form (+ and 8-15 digits). Spaces, dashes, dots and brackets are separators.
+   api/contact.js applies the same rule server-side: keep them in sync. */
+const PHONE_DISALLOWED = /[^\d+\s().-]/g;
+const PHONE_ERROR = {
+  en: 'Please enter a valid phone number, e.g. 081 234 5678 or +66 81 234 5678.',
+  th: 'กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง เช่น 081 234 5678 หรือ 02 123 4567',
+};
+
+// Keeps only characters a phone number can contain while the visitor types.
+// Thai (๐-๙) and full-width (０-９) digits become ASCII digits.
+function sanitizePhone(value) {
+  return String(value || '')
+    .replace(/[๐-๙]/g, (digit) => String(digit.charCodeAt(0) - 0x0E50))
+    .replace(/[０-９]/g, (digit) => String(digit.charCodeAt(0) - 0xFF10))
+    .replace(PHONE_DISALLOWED, '');
+}
+
+function isValidPhone(value) {
+  const raw = String(value || '').trim();
+  if (!/^\+?[\d\s().-]+$/.test(raw)) return false;
+  const digits = raw.replace(/\D/g, '');
+  if (!raw.startsWith('+')) return /^0(?:[689]\d{8}|[2-7]\d{7})$/.test(digits);
+  if (digits.startsWith('66')) return /^660?(?:[689]\d{8}|[2-7]\d{7})$/.test(digits);
+  return /^[1-9]\d{7,14}$/.test(digits);
+}
+
 const renderInline = (text) => String(text).split(/(\*\*[^*]+\*\*)/g).map((part, index) => {
   if (part.startsWith('**') && part.endsWith('**')) {
     return <strong key={index}>{part.slice(2, -2)}</strong>;
@@ -219,6 +247,7 @@ function PolicyPanel({ policy, ui, gold, navy, onClose }) {
 function Contact({ c, gold, navy, language }) {
   const [form, setForm] = useState({ name:'', phone:'', type:'', message:'' });
   const [submitState, setSubmitState] = useState('idle');
+  const [phoneError, setPhoneError] = useState(false);
   const [activePolicyId, setActivePolicyId] = useState(null);
   const policyOrder = POLICIES.order || [];
   const activePolicy = activePolicyId ? POLICIES.documents?.[activePolicyId] : null;
@@ -282,6 +311,11 @@ function Contact({ c, gold, navy, language }) {
     };
     const selectedShipmentType = shipmentTypes.find((type) => type.id === normalizedForm.type);
     if (submitState === 'submitting' || !normalizedForm.name || !normalizedForm.phone || !selectedShipmentType) return;
+    if (!isValidPhone(normalizedForm.phone)) {
+      setPhoneError(true);
+      document.querySelector?.('#contact-phone')?.focus?.();
+      return;
+    }
 
     const payload = {
       ...normalizedForm,
@@ -366,6 +400,10 @@ function Contact({ c, gold, navy, language }) {
           -webkit-text-fill-color:#fff !important;
           box-shadow:0 0 0 1000px ${navy} inset !important;
           caret-color:#fff;
+        }
+        /* Beats the inline focus/blur underline colour while a field is invalid. */
+        #contact .contact-form [aria-invalid="true"] {
+          border-bottom-color:rgba(220,110,110,0.75) !important;
         }
         #contact.contact-section {
           padding:88px 96px 0 !important;
@@ -615,7 +653,10 @@ function Contact({ c, gold, navy, language }) {
             {[
               { key:'name', label:c.contact.fields.name, type:'text' },
               { key:'phone', label:c.contact.fields.phone, type:'tel' },
-            ].map(f => (
+            ].map(f => {
+              const isPhone = f.key === 'phone';
+              const showPhoneError = isPhone && phoneError;
+              return (
               <div key={f.key}>
                 <label htmlFor={`contact-${f.key}`} style={labelStyle}>{f.label.toUpperCase()}</label>
                 <input
@@ -623,14 +664,33 @@ function Contact({ c, gold, navy, language }) {
                   name={f.key}
                   type={f.type}
                   value={form[f.key]}
-                  onChange={e => setForm({...form, [f.key]: e.target.value})}
+                  onChange={e => {
+                    if (!isPhone) { setForm({...form, [f.key]: e.target.value}); return; }
+                    const phone = sanitizePhone(e.target.value);
+                    setForm({...form, phone});
+                    // Once shown, the hint stays until the number is valid or cleared.
+                    if (phoneError && (!phone.trim() || isValidPhone(phone))) setPhoneError(false);
+                  }}
                   disabled={submitState === 'submitting'}
                   {...fieldConstraints[f.key]}
+                  aria-invalid={showPhoneError ? 'true' : undefined}
+                  aria-describedby={showPhoneError ? 'contact-phone-error' : undefined}
                   style={inputStyle}
                   {...focusUnderline}
+                  onBlur={e => {
+                    focusUnderline.onBlur(e);
+                    if (isPhone && form.phone.trim() && !isValidPhone(form.phone)) setPhoneError(true);
+                  }}
                 />
+                {showPhoneError && (
+                  <p id="contact-phone-error" className="contact-field-error" role="alert" style={{
+                    margin:'8px 0 0', fontSize:'12px', lineHeight:1.6, letterSpacing:'0.02em',
+                    color:'rgba(255,185,185,0.86)', fontFamily:'Jost, sans-serif', fontWeight:300,
+                  }}>{PHONE_ERROR[language] || PHONE_ERROR.en}</p>
+                )}
               </div>
-            ))}
+              );
+            })}
 
             <div>
               <label htmlFor="contact-service-type" style={labelStyle}>{c.contact.fields.type.toUpperCase()}</label>

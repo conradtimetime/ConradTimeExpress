@@ -8,6 +8,16 @@ const FIELD_LIMITS = {
   language: 8, pageUrl: 2048, userAgent: 512, submittedAt: 64,
 };
 
+// Same rule as isValidPhone in src/components/sections/Contact.jsx: Thai mobile
+// or landline (optionally +66), or another country in E.164 form.
+function isValidPhone(value) {
+  if (!/^\+?[\d\s().-]+$/.test(value)) return false;
+  const digits = value.replace(/\D/g, '');
+  if (!value.startsWith('+')) return /^0(?:[689]\d{8}|[2-7]\d{7})$/.test(digits);
+  if (digits.startsWith('66')) return /^660?(?:[689]\d{8}|[2-7]\d{7})$/.test(digits);
+  return /^[1-9]\d{7,14}$/.test(digits);
+}
+
 module.exports = async function contact(request, response) {
   response.setHeader('Cache-Control', 'no-store');
   if (request.method !== 'POST') {
@@ -31,6 +41,7 @@ module.exports = async function contact(request, response) {
     if (!payload.name || !payload.phone || !payload.type || !['th', 'en'].includes(payload.language)) {
       throw new Error('Missing required field');
     }
+    if (!isValidPhone(payload.phone)) throw new Error('Invalid phone');
   } catch {
     return response.status(400).json({ ok: false });
   }

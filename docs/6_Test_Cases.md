@@ -31,20 +31,20 @@ npm run qa:serve
 
 | ชุดทดสอบ | จำนวน `node:test` |
 |---|---:|
-| Sections: Nav, Hero, Brands, Services, Why Us, Process, Testimonials, Packages, Floating Contact | 22 |
-| Contact form และ Policy | 21 |
-| Contact API | 5 |
+| Sections: Nav, Hero, Brands, Services, Why Us, Process, Testimonials, Packages, Floating Contact | 25 |
+| Contact form และ Policy | 26 |
+| Contact API | 6 |
 | Apps Script receiver | 7 |
 | Analytics และ ConsentBanner | 16 |
-| **รวม** | **71** |
+| **รวม** | **80** |
 
-CardSwiper เป็น standalone assertion suite อีก **5 สถานการณ์** ไม่ได้นับรวมใน 71 รายการของ `node:test` การตรวจ static assets/SEO/CSP และ browser QA รายงานแยกจากจำนวนนี้เช่นกัน หนึ่ง test case อาจตรวจหลายภาษา หลายค่า หรือหลาย failure variant โดยยังนับเป็นหนึ่งรายการตาม `test()` จริง
+CardSwiper เป็น standalone assertion suite อีก **5 สถานการณ์** ไม่ได้นับรวมใน 80 รายการของ `node:test` การตรวจ static assets/SEO/CSP และ browser QA รายงานแยกจากจำนวนนี้เช่นกัน หนึ่ง test case อาจตรวจหลายภาษา หลายค่า หรือหลาย failure variant โดยยังนับเป็นหนึ่งรายการตาม `test()` จริง
 
 - **PASS:** ขั้นตอนรันสำเร็จและผลตรงกับ assertion/expected result ภายใต้ environment ที่ระบุ
 - **FAIL:** รันทดสอบได้แต่ผลไม่ตรงกับ expected result ต้องบันทึก actual result และหลักฐาน
 - **BLOCKED:** ยังทดสอบไม่ได้เพราะขาด environment, profile, สิทธิ์ หรือระบบภายนอก ห้ามนับเป็น PASS
 
-TC-API01–05 และ TC-GS01–07 เป็น ID อ้างอิงตามลำดับ `test()` ในไฟล์เดิม ซึ่งชื่อ test ภายในไฟล์ไม่ได้ขึ้นต้นด้วย ID ส่วน ID กลุ่มอื่นตรงกับชื่อ test ในไฟล์
+TC-API01–06 และ TC-GS01–07 เป็น ID อ้างอิงตามลำดับ `test()` ในไฟล์เดิม ซึ่งชื่อ test ภายในไฟล์ไม่ได้ขึ้นต้นด้วย ID ส่วน ID กลุ่มอื่นตรงกับชื่อ test ในไฟล์
 
 ## Navigation — 4 cases
 
@@ -90,7 +90,7 @@ TC-API01–05 และ TC-GS01–07 เป็น ID อ้างอิงตา
 | TC-PR02 | Mount TH/EN แล้วเลือกแต่ละ step 1–4 | Active เพียงหนึ่ง step; progress 25/50/75/100%; completed flags เท่าขั้นก่อนหน้า; รูปและ alt ตรง step/ภาษา | `scripts/test-sections.cjs` |
 | TC-PR03 | เลือกขั้น 4 แล้วกลับขั้น 1 | Completed flags หายทั้งหมดและ progress กลับ 25% | `scripts/test-sections.cjs` |
 
-## Testimonials — 4 cases
+## Testimonials — 6 cases
 
 | Case ID | เงื่อนไขและขั้นตอน | ผลที่คาดหวัง | Automation file |
 |---|---|---|---|
@@ -98,6 +98,8 @@ TC-API01–05 และ TC-GS01–07 เป็น ID อ้างอิงตา
 | TC-RV02 | กดปุ่มนำทางทั้ง 6 ปุ่ม แล้วสลับภาษา | แต่ละปุ่มเลือกภาพของตัวเอง; เปลี่ยนภาษาแล้วยังเลือกตำแหน่งเดิม | `scripts/test-sections.cjs` |
 | TC-RV03 | เดินเวลาจำลองเมื่ออยู่นอก viewport; เข้า viewport; ไปภาพสุดท้าย; ออกจาก viewport | นอกจอไม่หมุน; ในจอหมุนทุก 6 วินาที; ภาพสุดท้ายวนไปแรก; ออกจากจอแล้วหยุด | `scripts/test-sections.cjs` |
 | TC-RV04 | เปลี่ยน viewport จำลองจาก desktop เป็นกว้าง 375px | Card คำนวณจาก 400px เป็น 293px และขนาดรวม scale ไม่เกิน viewport | `scripts/test-sections.cjs` |
+| TC-RV05 | ตรวจปุ่มนำทางรูปรีวิวทั้ง TH/EN | ทุกปุ่มเป็น `type=button` มี aria-label ตามภาษา (ลำดับ/จำนวน/ชื่อลูกค้า); ปุ่มที่เลือกมี `aria-current` | `scripts/test-sections.cjs` |
+| TC-RV06 | ตั้ง prefers-reduced-motion ตอน mount และเปลี่ยนระหว่างเปิดหน้า | Reduced motion ไม่ auto-advance ทั้งตอนเริ่มและหลังเปลี่ยน; ปุ่มนำทางยังใช้ได้ | `scripts/test-sections.cjs` |
 
 ## Packages — 2 cases
 
@@ -106,14 +108,15 @@ TC-API01–05 และ TC-GS01–07 เป็น ID อ้างอิงตา
 | TC-PK01 | Mount TH/EN; ตรวจแต่ละ package และ price note | มี 4 tiers; ราคา/Contact Staff, features, promo และ note ตรงข้อมูล; recommended tier หนึ่งใบ | `scripts/test-sections.cjs` |
 | TC-PK02 | ตรวจและกด CTA ของแต่ละ package แล้วคลิก section | CTA ชี้ LINE พร้อม data-package และ rel ปลอดภัย; เลือก card ได้หนึ่งใบ; คลิก section ล้าง selection | `scripts/test-sections.cjs` |
 
-## Floating Contact — 2 cases
+## Floating Contact — 3 cases
 
 | Case ID | เงื่อนไขและขั้นตอน | ผลที่คาดหวัง | Automation file |
 |---|---|---|---|
 | TC-FL01 | Mount; เดินเวลาถึง 1,199ms และ 1,200ms; เปิดเมนูแล้วเลือก LINE | Widget ปรากฏเมื่อครบ 1,200ms; เมนูแสดง 2 actions; เลือกแล้วปิด | `scripts/test-sections.cjs` |
 | TC-FL02 | ตรวจ EN แล้วเปลี่ยน TH; ตรวจ Track fallback; กด Back to top | Label ตรงภาษา; Track ใช้ LINE เมื่อ URL ว่าง; external links ปลอดภัย; เรียก smooth scroll top=0 | `scripts/test-sections.cjs` |
+| TC-FL03 | จำลอง footer เข้า viewport แล้ว scroll; ตรวจเมนูที่ปิดอยู่ | Widget ยกตัวขึ้นเหนือ footer ตามระยะที่ footer โผล่; actions ที่ปิดเป็น `pointer-events:none` จึงไม่บังลิงก์ | `scripts/test-sections.cjs` |
 
-## Contact Form — 15 cases
+## Contact Form — 19 cases
 
 ทุก case ใช้ component จริงกับ fetch/timers จำลอง ค่าเริ่มต้นเป็นชื่อ `Test customer`, เบอร์ `0812345678`, service ID `luxury-watches` และข้อความทดสอบ ไม่ส่งข้อมูลไป endpoint จริง
 
@@ -134,8 +137,12 @@ TC-API01–05 และ TC-GS01–07 เป็น ID อ้างอิงตา
 | TC-CT13 | ทดลอง name/phone ว่างหรือ whitespace และ type ว่าง/ไม่รู้จัก | ไม่เรียก endpoint และไม่ยิง conversion | `scripts/test-contact-form.cjs` |
 | TC-CT14 | ตรวจ props ของช่องฟอร์ม | Name/phone/type required; name80/phone32/message600; phone type/inputMode tel; autocomplete name/tel; message optional | `scripts/test-contact-form.cjs` |
 | TC-CT15 | ใส่ช่องว่างข้างชื่อ/เบอร์ และข้อความ optional เป็น whitespace; submit | ส่งชื่อ/เบอร์ที่ trim แล้วและ message ว่าง; ยืนยันสำเร็จได้ | `scripts/test-contact-form.cjs` |
+| TC-CT16 | พิมพ์ตัวอักษรปนเบอร์, เลขไทย `๐-๙`, เลข full-width และรูปแบบ `+66 (0)81.234.5678` ในช่องเบอร์ | ตัดตัวอักษร/สัญลักษณ์อื่นทิ้งทันที เหลือแค่ตัวเลข `+` ช่องว่าง `-` `.` `()`; เลขไทย/full-width เป็นเลขอารบิก | `scripts/test-contact-form.cjs` |
+| TC-CT17 | กรอกครบแต่เบอร์ผิดรูปแบบทีละค่า (สั้น/ยาวเกิน, ขึ้นต้น 01/00, +66 ผิด, `+` กลางเบอร์, มีแต่ตัวคั่น); submit; สลับภาษา | ไม่เรียก endpoint ไม่ยิง conversion; focus ช่องเบอร์; `aria-invalid` + `aria-describedby`; error ใต้ช่องตามภาษา | `scripts/test-contact-form.cjs` |
+| TC-CT18 | พิมพ์เบอร์ไม่ครบแล้ว blur; แก้จนถูก; ลบจนว่างแล้ว blur | ไม่เตือนระหว่างพิมพ์ครั้งแรก; blur แล้วเตือน; เตือนค้างจนเบอร์ถูกหรือช่องว่าง; ช่องว่างปล่อยให้ required ตรวจ | `scripts/test-contact-form.cjs` |
+| TC-CT19 | ส่งเบอร์ที่ถูกทุกแบบ: มือถือ 06/08/09, บ้าน 02–07, `+66` (มี/ไม่มี `(0)`), ต่างประเทศ E.164 | ไม่มี error; ส่งได้; payload เก็บเบอร์ตามที่พิมพ์ (trim แล้ว) | `scripts/test-contact-form.cjs` |
 
-## Policy Dialog — 6 cases
+## Policy Dialog — 7 cases
 
 | Case ID | เงื่อนไขและขั้นตอน | ผลที่คาดหวัง | Automation file |
 |---|---|---|---|
@@ -145,10 +152,11 @@ TC-API01–05 และ TC-GS01–07 เป็น ID อ้างอิงตา
 | TC-PO04 | เปิด policy; กดปุ่มตัวอักษรทั่วไปแล้ว Escape | ปุ่มทั่วไปไม่ปิด; Escape ปิดและคืน scroll; Escape ซ้ำไม่มีผลเสีย | `scripts/test-contact-form.cjs` |
 | TC-PO05 | เปิด policy; คลิกเนื้อหา แล้วคลิก overlay | เนื้อหาหยุด propagation และยังเปิด; overlay ปิด dialog | `scripts/test-contact-form.cjs` |
 | TC-PO06 | Dispatch policy event ด้วย ID ไม่รู้จัก แล้ว privacy | ID ไม่รู้จักไม่เปิดอะไร; privacy เปิดเอกสารถูกต้อง; ปิดแล้วคืน scroll | `scripts/test-contact-form.cjs` |
+| TC-PO07 | เปิด policy จากลิงก์; กด Tab/Shift+Tab ที่ขอบ dialog; ปิด | Focus ย้ายไปปุ่ม Close; Tab วนอยู่ใน dialog; ปิดแล้ว focus กลับไปที่ลิงก์ที่เปิด | `scripts/test-contact-form.cjs` |
 
 การมี aria-modal/labelledby ผ่านใน component test ไม่ถือว่า keyboard focus trap, focus return หรือ screen reader ใน browser จริงผ่านโดยอัตโนมัติ
 
-## Contact API — 5 cases
+## Contact API — 6 cases
 
 | Case ID | เงื่อนไขและขั้นตอน | ผลที่คาดหวัง | Automation file |
 |---|---|---|---|
@@ -157,6 +165,7 @@ TC-API01–05 และ TC-GS01–07 เป็น ID อ้างอิงตา
 | TC-API03 | Mock network TypeError, TimeoutError และ AbortError | Network ตอบ502; timeout/abort ตอบ504; ไม่มีกรณีตอบ ACK สำเร็จ | `scripts/test-contact-api.cjs` |
 | TC-API04 | ส่ง GET, content type ไม่รองรับ, JSON/body/field types/required/length/language ที่ผิด | ตอบ405 พร้อม Allow POST, 415 หรือ400ตามกรณี; ไม่เรียก Google | `scripts/test-contact-api.cjs` |
 | TC-API05 | ตั้ง upstream เป็น URL นอก Apps Script ที่อนุญาต; POST valid | ตอบ503 และไม่ส่งข้อมูลลูกค้าไป URL นั้น | `scripts/test-contact-api.cjs` |
+| TC-API06 | POST เบอร์ผิดชุดเดียวกับ TC-CT17 + `call me`, มี ext, `<script>`; แล้ว POST เบอร์ถูกชุดเดียวกับ TC-CT19 | เบอร์ผิดตอบ400 ไม่เรียก Google; เบอร์ถูกตอบ200 และส่งต่อแบบ trim (กฎเดียวกับ browser จาก `scripts/helpers/phone-cases.cjs`) | `scripts/test-contact-api.cjs` |
 
 ## Apps Script Receiver — 7 cases
 

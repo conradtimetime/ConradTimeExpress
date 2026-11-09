@@ -112,13 +112,13 @@ LEAD FLOW
 | Field | เงื่อนไข |
 |---|---|
 | Name | required, maxLength 80, autoComplete `name` |
-| Phone | required, `inputMode=tel`, maxLength 32 |
+| Phone | required, `inputMode=tel`, maxLength 32; รับเฉพาะตัวเลข `+` ช่องว่าง `-` `.` `()` (ตัวอื่นถูกตัดตอนพิมพ์, เลขไทยแปลงเป็นเลขอารบิก); รูปแบบที่ผ่าน: มือถือไทย 06/08/09 (10 หลัก), เบอร์บ้าน 02–07 (9 หลัก), เบอร์เดียวกันแบบ `+66`, หรือต่างประเทศ `+` 8–15 หลัก |
 | Shipment Type | required, select = services + "อื่นๆ/Other" |
 | Message | optional, maxLength 600 |
 
 | ฟังก์ชัน | เงื่อนไข |
 |---|---|
-| Validate | ต้องมี name + phone + type (trim) ก่อนส่ง |
+| Validate | ต้องมี name + phone + type (trim) ก่อนส่ง; เบอร์ผิดรูปแบบ → ไม่ส่ง, focus ช่องเบอร์ และแสดง error ใต้ช่อง (TH/EN) ตอน blur หรือ submit; `/api/contact` ตรวจกฎเดียวกันซ้ำ (400) |
 | Submit | same-origin JSON POST ไป `/api/contact`; success เมื่อ HTTP สำเร็จและ JSON `ok === true` เท่านั้น |
 | Shipment selection | เก็บ service ID คงที่ทั้งสองภาษา; ส่ง label ตามภาษาใน payload |
 | Payload | name, phone, type, message, language, pageUrl, submittedAt, userAgent |

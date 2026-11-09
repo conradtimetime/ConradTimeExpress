@@ -7,6 +7,7 @@ const vm = require('node:vm');
 const { test } = require('node:test');
 const { transformSync } = require('@babel/core');
 const jsxPlugin = require('@babel/plugin-transform-react-jsx');
+const { validPhones, invalidPhones } = require('./helpers/phone-cases.cjs');
 
 // Run the shipped component and its real event handlers without a browser or
 // live endpoint. The small renderer retains hook state across prop changes.
@@ -138,6 +139,8 @@ function mount({
     values: () => Object.fromEntries(['name', 'phone', 'serviceType', 'message'].map((name) => [name, field(name).props.value])),
     status: () => text(find((node) => node.props.className === 'contact-status')),
     change(name, value) { field(name).props.onChange({ target: { value } }); render(); },
+    blur(name) { field(name).props.onBlur({ target: { style: {} } }); render(); },
+    phoneError: () => text(find((node) => node.props.id === 'contact-phone-error')),
     language(value) { language = value; render(); },
     advance(milliseconds) {
       const until = clock + milliseconds;
@@ -392,6 +395,82 @@ test('TC-CT15 optional message can be empty and customer text is trimmed before 
   assert.equal(payload.phone, filledValues.phone);
   assert.equal(payload.message, '');
   assert.match(form.status(), /Your request has been received/);
+});
+
+test('TC-CT16 the phone field keeps only phone characters and converts Thai and full-width digits', () => {
+  const form = mount();
+  form.change('phone', 'Tel: 081-234 5678 ext');
+  assert.equal(form.field('phone').props.value, ' 081-234 5678 ');
+  form.change('phone', '๐๘๑๒๓๔๕๖๗๘');
+  assert.equal(form.field('phone').props.value, '0812345678');
+  form.change('phone', '０８１２３４５６７８');
+  assert.equal(form.field('phone').props.value, '0812345678');
+  form.change('phone', '+66 (0)81.234.5678');
+  assert.equal(form.field('phone').props.value, '+66 (0)81.234.5678');
+  form.change('phone', 'abc');
+  assert.equal(form.field('phone').props.value, '');
+});
+
+test('TC-CT17 invalid phone numbers are blocked with a bilingual inline error and focus the field', async () => {
+  for (const phone of invalidPhones) {
+    let focused = 0;
+    const phoneInput = { focus() { focused += 1; } };
+    const form = mount({ dom: { activeElement: null, querySelector: (s) => (s === '#contact-phone' ? phoneInput : null) } });
+    fill(form);
+    form.change('phone', phone);
+    assert.equal(form.field('phone').props.value, phone, `${phone} only has phone characters`);
+    await form.submit();
+    assert.equal(form.requests.length, 0, `${JSON.stringify(phone)} must not be submitted`);
+    assert.equal(form.events.length, 0);
+    assert.equal(form.status(), '');
+    assert.equal(focused, 1);
+    assert.equal(form.field('phone').props['aria-invalid'], 'true');
+    assert.equal(form.field('phone').props['aria-describedby'], 'contact-phone-error');
+    assert.match(form.phoneError(), /valid phone number/);
+  }
+  const form = mount({ language: 'th' });
+  fill(form);
+  form.change('phone', '12345');
+  await form.submit();
+  assert.match(form.phoneError(), /กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง/);
+  form.language('en');
+  assert.match(form.phoneError(), /valid phone number/);
+});
+
+test('TC-CT18 the phone error appears on blur and clears once the number is valid or emptied', async () => {
+  const form = mount();
+  form.change('phone', '0812');
+  assert.equal(form.phoneError(), '', 'no error while the visitor is still typing');
+  form.blur('phone');
+  assert.match(form.phoneError(), /valid phone number/);
+  form.change('phone', '08123');
+  assert.match(form.phoneError(), /valid phone number/, 'the hint stays until the number is valid');
+  form.change('phone', '0812345678');
+  assert.equal(form.phoneError(), '');
+  assert.equal(form.field('phone').props['aria-invalid'], undefined);
+  form.change('phone', '0812');
+  form.blur('phone');
+  form.change('phone', '');
+  assert.equal(form.phoneError(), '');
+  form.blur('phone');
+  assert.equal(form.phoneError(), '', 'an empty field is left to the required check');
+  fill(form);
+  await form.submit();
+  assert.match(form.status(), /Your request has been received/);
+});
+
+test('TC-CT19 Thai, +66 and international phone formats are submitted exactly as typed', async () => {
+  for (const phone of validPhones) {
+    const form = mount();
+    fill(form);
+    form.change('phone', phone);
+    form.blur('phone');
+    assert.equal(form.phoneError(), '', `${phone} must be accepted`);
+    await form.submit();
+    assert.equal(form.requests.length, 1, `${phone} must be submitted`);
+    assert.equal(JSON.parse(form.requests[0].options.body).phone, phone);
+    assert.match(form.status(), /Your request has been received/);
+  }
 });
 
 for (const [index, policyId] of ['privacy', 'terms', 'insurance'].entries()) {

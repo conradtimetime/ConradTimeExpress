@@ -87,6 +87,7 @@ const GOOGLE_TAG_CSP = {
     'https://*.googletagmanager.com', 'https://*.google-analytics.com', 'https://*.analytics.google.com',
     'https://www.googleadservices.com', 'https://googleads.g.doubleclick.net', 'https://*.g.doubleclick.net',
     'https://www.google.com', 'https://www.google.co.th', 'https://pagead2.googlesyndication.com',
+    'https://ad.doubleclick.net',
   ],
   frame: ['https://www.googletagmanager.com', 'https://td.doubleclick.net', 'https://bid.g.doubleclick.net'],
   style: ['https://tagmanager.google.com', 'https://fonts.googleapis.com'],

@@ -3,6 +3,7 @@
 const assert = require('node:assert/strict');
 const { test, after } = require('node:test');
 const contact = require('../api/contact.js');
+const { validPhones, invalidPhones } = require('./helpers/phone-cases.cjs');
 const originalFetch = global.fetch;
 const originalUpstream = process.env.CONTACT_FORM_UPSTREAM;
 after(() => {
@@ -85,4 +86,21 @@ test('an invalid configured upstream does not forward customer data', async () =
   process.env.CONTACT_FORM_UPSTREAM = 'https://example.com/';
   global.fetch = async () => { assert.fail('Untrusted upstream must not receive customer data'); };
   assert.equal((await invoke()).status, 503);
+});
+
+test('phone numbers follow the same format rule as the browser form', async () => {
+  delete process.env.CONTACT_FORM_UPSTREAM;
+  global.fetch = async () => { assert.fail('Invalid phone numbers must not be forwarded'); };
+  for (const phone of [...invalidPhones, 'call me', '081-234-5678 ext 2', '<script>']) {
+    assert.equal((await invoke({ ...lead, phone })).status, 400, `${JSON.stringify(phone)} must be rejected`);
+  }
+  const forwarded = [];
+  global.fetch = async (url, options) => {
+    forwarded.push(JSON.parse(options.body).phone);
+    return { ok: true, json: async () => ({ ok: true }) };
+  };
+  for (const phone of validPhones) {
+    assert.equal((await invoke({ ...lead, phone: ` ${phone} ` })).status, 200, `${phone} must be accepted`);
+  }
+  assert.deepEqual(forwarded, validPhones);
 });
